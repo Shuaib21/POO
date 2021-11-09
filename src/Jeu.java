@@ -1,6 +1,8 @@
 public class Jeu {
     private final Joueur[] j;
-    private Plateau p;
+    private Plateau  p;
+    //test
+
 
     Jeu(Joueur[] j, Plateau p){
         this.j=j ;
