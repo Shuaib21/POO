@@ -5,7 +5,7 @@ public class CaseColonie extends Case {
 
     @Override
     public String toString() {
-        if(estVille){
+        if (estVille) {
             return j.enCouleur(" v ");
         }
         return estVide ? "   " : j.enCouleur(" c ");

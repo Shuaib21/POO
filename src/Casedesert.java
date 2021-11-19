@@ -7,7 +7,7 @@ public class Casedesert extends CasePaysage {
     @Override
     public String toString() {
         if (getContientVoleur()) {
-            return ConsoleColors.RED_BACKGROUND_BRIGHT+ " d " + ConsoleColors.RESET;
+            return ConsoleColors.RED_BACKGROUND_BRIGHT + " d " + ConsoleColors.RESET;
         }
         return " d ";
     }

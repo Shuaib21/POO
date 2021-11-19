@@ -1,12 +1,10 @@
 import java.util.Random;
 
-public class TourNormal {
+public class TourNormal extends Tour {
     private int sommeDés;
-    private Joueur j;
-    private Plateau p;
 
-    TourNormal(Joueur j) {
-        this.j = j;
+    TourNormal(Joueur j, Plateau p) {
+        super(j, p);
         sommeDés = lancerLesDés();
     }
 
@@ -77,12 +75,62 @@ public class TourNormal {
 
     }
 
-    //public void ajouterRoute();
+    public void ajouterRoute() {
+        int[] r = { 0, 0 }; // FORET, PRE, COLLINE, CHAMPS
+        for (CarteRess a : j.getMainRess()) {
+            if (a.getR().equals("FORET")) {
+                r[0]++;
+            }
+            if (a.getR().equals("COLLINE")) {
+                r[2]++;
+            }
+        }
+        for (int a : r) {
+            if (a == 0) {
+                System.out.println("Vous n'avez pas les ressources demandé");
+                return;
+            }
+        }
+        boolean ajouter = false;
+        while (!ajouter) {
+            int x = getCoordonnee('x');
+            int y = getCoordonnee('y');
 
-    //public void ajouterVille();
+            if (p.selctionnerCaseRoute(x, y) != null) {
+                if (p.selctionnerCaseRoute(x, y).getestVide()) {
+                    if (estColleARoute(x, y)) {
+                        p.selctionnerCaseRoute(x, y).mettreRoute(j);
+                        ajouter = true;
+                    }
+                }
+            }
+        }
+    }
 
-    //public void acheterCartDev();
+    private boolean estColleColonie(int x, int y) {
+        if (x + 1 < p.getTaille() && p.selctionnerCaseColonie(x + 1, y) != null
+                && p.selctionnerCaseColonie(x + 1, y).getestVide() && p.selctionnerCaseColonie(x + 1, y).getJ() == j) {
+            return true;
+        }
+        if (x - 1 >= 0 && p.selctionnerCaseColonie(x + 1, y) != null && p.selctionnerCaseColonie(x - 1, y).getestVide()
+                && p.selctionnerCaseColonie(x - 1, y).getJ() == j) {
+            return true;
+        }
+        if (y + 1 < p.getTaille() && p.selctionnerCaseColonie(x + 1, y) != null
+                && p.selctionnerCaseColonie(x, y + 1).getestVide() && p.selctionnerCaseColonie(x, y + 1).getJ() == j) {
+            return true;
+        }
+        if (y - 1 >= 0 && p.selctionnerCaseColonie(x + 1, y) != null && p.selctionnerCaseColonie(x, y - 1).getestVide()
+                && p.selctionnerCaseColonie(x, y - 1).getJ() == j) {
+            return true;
+        }
+        return false;
+    }
 
-    //jouezCarteDev() ;
+    // public void ajouterVille();
+
+    // public void acheterCartDev();
+
+    // jouezCarteDev() ;
 
 }

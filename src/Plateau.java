@@ -2,14 +2,6 @@ import java.util.Random;
 
 public class Plateau {
     private Case[][] plateau;
-    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
     public Case[][] getPlateau() {
         return plateau;
@@ -99,8 +91,8 @@ public class Plateau {
 
     }
 
-    public int getTaille(){
-        return plateau.length ;
+    public int getTaille() {
+        return plateau.length;
     }
 
     public CaseColonie selctionnerCaseColonie(int x, int y) {
@@ -120,7 +112,6 @@ public class Plateau {
     public static void main(String[] args) {
         Plateau p = new Plateau(4);
         p.afficher();
-
 
     }
 

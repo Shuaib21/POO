@@ -40,7 +40,7 @@ public class Joueur {
     public String enCouleur(String a) {
         switch (couleur) {
         case "RED":
-            return ConsoleColors.RED + " + a + "+ConsoleColors.RESET;
+            return ConsoleColors.RED + " + a + " + ConsoleColors.RESET;
         case "GREEN":
             return ConsoleColors.GREEN + a + ConsoleColors.RESET;
         case "YELLOW":
@@ -54,7 +54,7 @@ public class Joueur {
         case "WHITE":
             return ConsoleColors.WHITE + a + ConsoleColors.RESET;
         }
-        return a ;
+        return a;
     }
 
 }

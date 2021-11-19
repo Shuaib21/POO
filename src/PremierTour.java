@@ -1,14 +1,11 @@
 import java.util.Scanner;
 
-public class PremierTour {
-    private Joueur j;
-    private Plateau p;
+public class PremierTour extends Tour {
     private int x;
     private int y;
 
     public PremierTour(Joueur j, Plateau p) {
-        this.j = j;
-        this.p = p;
+        super(j, p);
     }
 
     public void ajouterColonie() {
@@ -37,7 +34,7 @@ public class PremierTour {
                 } else {
                     System.out.println("Case non-vide");
                 }
-            }else{
+            } else {
                 System.out.println("Case non-valide");
             }
         }
@@ -53,15 +50,4 @@ public class PremierTour {
         return false;
     }
 
-    public int getCoordonnee(char c) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Veuillez entrer la coordonée " + c);
-        int coord = sc.nextInt() - 1;
-        while (coord < 0 || coord >= p.getTaille()) {
-            System.out.println("Coordonnée incorrecte:\nVeuillez entrer une coordonnée entre 1 et " + p.getTaille());
-            coord = sc.nextInt();
-        }
-        sc.close();
-        return coord;
-    }
 }

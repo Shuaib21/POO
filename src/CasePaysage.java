@@ -14,8 +14,8 @@ public class CasePaysage extends Case {
         this.contientVoleur = contientVoleur;
     }
 
-    public boolean getContientVoleur(){
-        return contientVoleur ;
+    public boolean getContientVoleur() {
+        return contientVoleur;
     }
 
 }
