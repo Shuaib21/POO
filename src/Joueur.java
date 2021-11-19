@@ -9,6 +9,14 @@ public class Joueur {
     private boolean estHumain;
     private String pseudo;
 
+    public ArrayList<CarteDev> getMainDev() {
+        return mainDev;
+    }
+
+    public ArrayList<CarteRess> getMainRess() {
+        return mainRess;
+    }
+
     Joueur(String couleur) {
         mainDev = new ArrayList<CarteDev>();
         mainRess = new ArrayList<CarteRess>();

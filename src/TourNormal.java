@@ -1,0 +1,88 @@
+import java.util.Random;
+
+public class TourNormal {
+    private int sommeDés;
+    private Joueur j;
+    private Plateau p;
+
+    TourNormal(Joueur j) {
+        this.j = j;
+        sommeDés = lancerLesDés();
+    }
+
+    private static int lancerLesDés() {
+        Random r = new Random();
+        int d1 = 1 + r.nextInt(6);
+        int d2 = 1 + r.nextInt(6);
+        return d1 + d2;
+
+    }
+
+    public void ajouterColonie() {
+        int[] r = { 0, 0, 0, 0 }; // FORET, PRE, COLLINE, CHAMPS
+        for (CarteRess a : j.getMainRess()) {
+            if (a.getR().equals("FORET")) {
+                r[0]++;
+            }
+            if (a.getR().equals("PRE")) {
+                r[1]++;
+            }
+            if (a.getR().equals("COLLINE")) {
+                r[2]++;
+            }
+            if (a.getR().equals("CHAMPS")) {
+                r[3]++;
+            }
+        }
+        for (int a : r) {
+            if (a == 0) {
+                System.out.println("Vous n'avez pas les ressources demandé");
+                return;
+            }
+        }
+        boolean ajouter = false;
+        while (!ajouter) {
+            int x = getCoordonnee('x');
+            int y = getCoordonnee('y');
+
+            if (p.selctionnerCaseColonie(x, y) != null) {
+                if (p.selctionnerCaseColonie(x, y).getestVide()) {
+                    if (estColleARoute(x, y)) {
+                        p.selctionnerCaseColonie(x, y).mettreColonie(j);
+                        ajouter = true;
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean estColleARoute(int x, int y) {
+        if (x + 1 < p.getTaille() && p.selctionnerCaseRoute(x + 1, y).getestVide()
+                && p.selctionnerCaseRoute(x + 1, y).getJ() == j) {
+            return true;
+        }
+        if (x - 1 >= 0 && p.selctionnerCaseRoute(x - 1, y).getestVide()
+                && p.selctionnerCaseRoute(x - 1, y).getJ() == j) {
+            return true;
+        }
+        if (y + 1 < p.getTaille() && p.selctionnerCaseRoute(x, y + 1).getestVide()
+                && p.selctionnerCaseRoute(x, y + 1).getJ() == j) {
+            return true;
+        }
+        if (y - 1 >= 0 && p.selctionnerCaseRoute(x, y - 1).getestVide()
+                && p.selctionnerCaseRoute(x, y - 1).getJ() == j) {
+            return true;
+        }
+        return false;
+
+    }
+
+    //public void ajouterRoute();
+
+    //public void ajouterVille();
+
+    //public void acheterCartDev();
+
+    //jouezCarteDev() ;
+
+}

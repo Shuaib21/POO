@@ -1,9 +1,9 @@
-public class Jeu {
+public abstract class Partie {
     private final Joueur[] j;
     private Plateau  p;
 
 
-    Jeu(Joueur[] j, Plateau p){
+    Partie(Joueur[] j, Plateau p){
         this.j=j ;
         this.p = p ;
     }
@@ -16,6 +16,19 @@ public class Jeu {
         }
         return false;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private void ajouterRoute(Joueur m, int x, int y) {
         if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getestVide()) {

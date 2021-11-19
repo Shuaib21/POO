@@ -99,6 +99,10 @@ public class Plateau {
 
     }
 
+    public int getTaille(){
+        return plateau.length ;
+    }
+
     public CaseColonie selctionnerCaseColonie(int x, int y) {
         if (plateau[x][y] instanceof CaseColonie) {
             return (CaseColonie) plateau[x][y];
