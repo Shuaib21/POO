@@ -1,7 +1,7 @@
 public class CarteRess {
-    private char r;
+    private String r;
 
-    CarteRess(char r) {
+    CarteRess(String r) {
         this.r = r;
     }
 }
