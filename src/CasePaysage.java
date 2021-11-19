@@ -1,12 +1,12 @@
-public class Caseress extends Case {
+public class CasePaysage extends Case {
     private boolean contientVoleur;
 
-    public Caseress(int x, int y, boolean contientVoleur) {
+    public CasePaysage(int x, int y, boolean contientVoleur) {
         super(x, y);
         this.contientVoleur = contientVoleur;
     }
 
-    public Caseress(int x, int y) {
+    public CasePaysage(int x, int y) {
         this(x, y, true);
     }
 

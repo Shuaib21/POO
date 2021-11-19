@@ -4,7 +4,7 @@ public class CaseRoute extends Case {
 
     @Override
     public String toString() {
-        return estVide ? " rv" : "r"+j.getCouleur();
+        return estVide ? "   " : j.enCouleur(" r ");
     }
 
     CaseRoute(int x, int y) {

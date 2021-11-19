@@ -64,7 +64,7 @@ public class Plateau {
                     // break;
                 }
                 if (n != 15) {
-                    // pour 4*3
+                    // pour 4*4
                     good = true;
                     n2 = 0;
                     int jx = 0;
@@ -77,7 +77,7 @@ public class Plateau {
                             good = false;
                         }
                     }
-                    p[i][j] = new Casej(i, j, jx, w);
+                    p[i][j] = new CaseRessource(i, j, jx, w);
                 }
             }
         }
@@ -116,10 +116,7 @@ public class Plateau {
     public static void main(String[] args) {
         Plateau p = new Plateau(4);
         p.afficher();
-        System.out.println(ANSI_GREEN_BACKGROUND + "This text has a green background but default text!" + ANSI_RED_BACKGROUND);
-        System.out.println(ANSI_RED_BACKGROUND + "This text has red text but a default background!" + ANSI_RED_BACKGROUND);
-        System.out.println(
-                ANSI_GREEN_BACKGROUND + ANSI_RED_BACKGROUND + "This text has a green background and red text!" + ANSI_RED_BACKGROUND);
+
 
     }
 
