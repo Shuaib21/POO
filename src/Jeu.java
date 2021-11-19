@@ -1,7 +1,6 @@
 public class Jeu {
     private final Joueur[] j;
     private Plateau  p;
-    //test
 
 
     Jeu(Joueur[] j, Plateau p){

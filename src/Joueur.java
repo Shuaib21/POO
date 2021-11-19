@@ -26,4 +26,8 @@ public class Joueur {
         return pseudo;
     }
 
+    public String enCouleur(String a){
+        
+    }
+
 }

@@ -7,8 +7,8 @@ public class Casedesert extends Caseress {
     @Override
     public String toString() {
         if(getContientVoleur()){
-            return "dX" ;
+            return " dX" ;
         }
-        return "d " ;
+        return " d " ;
     }
 }

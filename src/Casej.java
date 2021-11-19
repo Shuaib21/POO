@@ -10,11 +10,10 @@ public class Casej extends Caseress {
 
     @Override
     public String toString() {
-        if(super.getContientVoleur()){
-            return ""+num+ressource ;
-        }
-        else{
-            return "X"+num+ressource ;
+        if (super.getContientVoleur()) {
+            return "X" + ((num > 9) ? "" : " ") + num + ressource;
+        } else {
+            return "" + num + ressource;
         }
     }
 }

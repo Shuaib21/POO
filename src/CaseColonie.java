@@ -6,9 +6,9 @@ public class CaseColonie extends Case {
     @Override
     public String toString() {
         if(estVille){
-            return "v"+j.getCouleur() ;
+            return "  v"+j.getCouleur() ;
         }
-        return estVide ? "cv" : "c"+j.getCouleur();
+        return estVide ? " cv" : "c"+j.getCouleur();
     }
 
     CaseColonie(int x, int y) {
