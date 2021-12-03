@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 public class PremierTour extends Tour {
     private int x;
     private int y;

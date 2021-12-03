@@ -2,10 +2,38 @@ import java.util.Random;
 
 public class TourNormal extends Tour {
     private int sommeDés;
+    private Joueur[] tabJ;
 
-    TourNormal(Joueur j, Plateau p) {
+    TourNormal(Joueur j, Plateau p, Joueur[] tabJ) {
         super(j, p);
         sommeDés = lancerLesDés();
+        this.tabJ = tabJ;
+        toucherRessource();
+
+    }
+
+    private void toucherRessource() {
+        for (int i = 1; i < p.getTaille(); i += 2) {
+            for (int j = 1; j < p.getTaille(); j += 2) {
+                toucheRessAux(i-1, j-1);
+                toucheRessAux(i-1, j+1);
+                toucheRessAux(i+1, j-1);
+                toucheRessAux(i+1, j+1);
+            }
+        }
+    }
+
+    private void toucheRessAux(int x, int y){
+        CaseRessource cr;
+        CaseColonie cc ;
+        cr = p.selctionnerCaseRess(x, y);
+        if (!cr.getContientVoleur() && cr.getNum() == sommeDés) {
+            cc = p.selctionnerCaseColonie(x,y) ;
+            if (!cc.getestVide()) {
+                // SI VILLE PIOCHER DEUX CARTES 
+                cc.getJ().ajouterCarteRessource(cr.getRessource());
+            }
+        }
     }
 
     private static int lancerLesDés() {

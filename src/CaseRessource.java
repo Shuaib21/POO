@@ -1,19 +1,27 @@
 public class CaseRessource extends CasePaysage {
     public final int num;
-    public final char ressource;
+    public final String ressource;
 
-    CaseRessource(int x, int y, int num, char ressource) {
+    CaseRessource(int x, int y, int num, String ressource) {
         super(x, y, false);
         this.num = num;
         this.ressource = ressource;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    public String getRessource() {
+        return ressource;
+    }
+
     @Override
     public String toString() {
         if (super.getContientVoleur()) {
-            return ConsoleColors.RED_BACKGROUND_BRIGHT + ((num > 9) ? "" : " ") + num + ressource + ConsoleColors.RESET;
+            return ConsoleColors.RED_BACKGROUND_BRIGHT + ((num > 9) ? "" : " ") + num + ressource.charAt(0) + ConsoleColors.RESET;
         } else {
-            return ((num > 9) ? "" : " ") + num + ressource;
+            return ((num > 9) ? "" : " ") + num + ressource.charAt(0);
         }
     }
 }

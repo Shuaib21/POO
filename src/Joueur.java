@@ -17,6 +17,10 @@ public class Joueur {
         return mainRess;
     }
 
+    public void ajouterCarteRessource(String nomressource){
+        mainRess.add(new CarteRess(nomressource)) ;
+    }
+
     Joueur(String couleur) {
         mainDev = new ArrayList<CarteDev>();
         mainRess = new ArrayList<CarteRess>();

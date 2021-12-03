@@ -1,9 +1,9 @@
 public class CarteRess {
-    // FORET
-    // PRE
-    // COLLINE
+    // BOIS
+    // ARGILE
+    // MOUTON
+    // PIERRE
     // CHAMPS
-    // MONTAGNE
     private String r;
 
 

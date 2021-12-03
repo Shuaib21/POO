@@ -25,7 +25,7 @@ public class Plateau {
         int[] a = new int[z * z];
         // {b,f,c,p,m}
         boolean good = true;
-        char w = 'b';
+        String w = "";
         int n;
         int n2;
         int[] b = { 2, 3, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 12 };
@@ -42,15 +42,15 @@ public class Plateau {
                     }
                 }
                 if (n < 3) { // pour 4*4
-                    w = 'b';
+                    w = "BOIS";
                 } else if (n < 6) {
-                    w = 'f';
+                    w = "ARGILE";
                 } else if (n < 9) {
-                    w = 'c';
+                    w = "MOUTON";
                 } else if (n < 12) {
-                    w = 'p';
+                    w = "PIERRE";
                 } else if (n < 15) {
-                    w = 'm';
+                    w = "CHAMPS";
                 } else {
                     p[i][j] = new Casedesert(i, j);
                     // break;
@@ -105,6 +105,13 @@ public class Plateau {
     public CaseRoute selctionnerCaseRoute(int x, int y) {
         if (plateau[x][y] instanceof CaseRoute) {
             return (CaseRoute) plateau[x][y];
+        }
+        return null;
+    }
+
+    public CaseRessource selctionnerCaseRess(int x, int y) {
+        if (plateau[x][y] instanceof CaseRessource) {
+            return (CaseRessource) plateau[x][y];
         }
         return null;
     }
