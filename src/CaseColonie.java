@@ -3,6 +3,8 @@ public class CaseColonie extends Case {
     private Joueur j;
     private boolean estVille;
 
+    
+
     @Override
     public String toString() {
         if (estVille) {
@@ -29,6 +31,10 @@ public class CaseColonie extends Case {
 
     public boolean getestVide() {
         return estVide;
+    }
+
+    public boolean getestVille(){
+        return estVille ;
     }
 
     public void transformerenVille() {

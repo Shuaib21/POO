@@ -30,7 +30,9 @@ public class TourNormal extends Tour {
         if (!cr.getContientVoleur() && cr.getNum() == sommeDés) {
             cc = p.selctionnerCaseColonie(x,y) ;
             if (!cc.getestVide()) {
-                // SI VILLE PIOCHER DEUX CARTES 
+                if(cc.getestVille()){
+                    cc.getJ().ajouterCarteRessource(cr.getRessource());
+                }
                 cc.getJ().ajouterCarteRessource(cr.getRessource());
             }
         }

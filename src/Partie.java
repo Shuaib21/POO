@@ -11,7 +11,7 @@ public class Partie {
         init();
         while (!partiefini()) {
             for (Joueur j : tabJ) {
-                TourNormal t = new TourNormal(j, p);
+                TourNormal t = new TourNormal(j, p, tabJ);
                 t.ajouterColonie();
                 t.ajouterRoute();
             }
