@@ -48,4 +48,35 @@ public class PremierTour extends Tour {
         return false;
     }
 
+    public void toucherRessource() {
+        MAJNordEst();
+        MAJNordOuest();
+        MAJSudEst();
+        MAJSudOuest();
+    }
+
+    private void MAJNordOuest() {
+        if (x - 1 >= 0 && y - 1 >= 0) {
+            j.getMainRess().add(new CarteRess(p.selctionnerCaseRess(x-1, y-1).ressource));
+        }
+    }
+
+    private void MAJNordEst() {
+        if (x + 1 < p.getTaille() && y - 1 >= 0) {
+            j.getMainRess().add(new CarteRess(p.selctionnerCaseRess(x+1, y-1).ressource));
+        }
+    }
+
+    private void MAJSudOuest() {
+        if (x - 1 >= 0 && y + 1 < p.getTaille()) {
+            j.getMainRess().add(new CarteRess(p.selctionnerCaseRess(x-1, y+1).ressource));
+        }
+    }
+
+    private void MAJSudEst() {
+        if (x + 1 < p.getTaille() && y + 1 < p.getTaille()) {
+            j.getMainRess().add(new CarteRess(p.selctionnerCaseRess(x, y).ressource));
+        }
+    }
+
 }

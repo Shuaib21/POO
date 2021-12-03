@@ -1,43 +1,44 @@
-public abstract class Partie {
-    private final Joueur[] j;
+public class Partie {
+    private final Joueur[] tabJ;
     private Plateau p;
 
     Partie(Joueur[] j, Plateau p) {
-        this.j = j;
+        tabJ = j;
         this.p = p;
     }
 
+    public void jouerPartie() {
+        init();
+        while (!partiefini()) {
+            for (Joueur j : tabJ) {
+                TourNormal t = new TourNormal(j, p);
+                t.ajouterColonie();
+                t.ajouterRoute();
+            }
+        }
+    }
+
+    private void init() {
+        for (Joueur j : tabJ) {
+            PremierTour t = new PremierTour(j, p);
+            t.ajouterColonie();
+            t.ajouterRoute();
+            t.toucherRessource();
+        }
+        for (int i = tabJ.length - 1; i >= 0; i--) {
+            Joueur j = tabJ[i];
+            PremierTour t = new PremierTour(j, p);
+            t.ajouterColonie();
+            t.ajouterRoute();
+        }
+    }
+
     private boolean partiefini() {
-        for (Joueur a : j) {
+        for (Joueur a : tabJ) {
             if (a.getPoint() >= 10) {
                 return true;
             }
         }
         return false;
     }
-
-    private void ajouterRoute(Joueur m, int x, int y) {
-        if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getestVide()) {
-            p.selctionnerCaseRoute(x, y).mettreRoute(m);
-        } else {
-            System.out.println("erreur de selection ");
-        }
-    }
-
-    private void ajouterColonie(Joueur m, int x, int y) {
-        if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getestVide()) {
-            p.selctionnerCaseColonie(x, y).mettreColonie(m);
-        } else {
-            System.out.println("erreur de selection ");
-        }
-    }
-
-    private void jouerRoute() {
-
-    }
-
-    private void jouerColonier() {
-
-    }
-
 }
