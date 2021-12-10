@@ -75,7 +75,7 @@ public class PremierTour extends Tour {
 
     private void MAJSudEst() {
         if (x + 1 < p.getTaille() && y + 1 < p.getTaille()) {
-            j.getMainRess().add(new CarteRess(p.selctionnerCaseRess(x, y).ressource));
+            j.getMainRess().add(new CarteRess(p.selctionnerCaseRess(x+1, y+1).ressource));
         }
     }
 
