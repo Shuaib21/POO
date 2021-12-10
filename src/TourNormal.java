@@ -27,13 +27,13 @@ public class TourNormal extends Tour {
         CaseRessource cr;
         CaseColonie cc ;
         cr = p.selctionnerCaseRess(x, y);
-        if (!cr.getContientVoleur() && cr.getNum() == sommeDés) {
+        if (!cr.getContientVoleur() && cr.num == sommeDés) {
             cc = p.selctionnerCaseColonie(x,y) ;
             if (!cc.getestVide()) {
                 if(cc.getestVille()){
-                    cc.getJ().ajouterCarteRessource(cr.getRessource());
+                    cc.getJ().ajouterCarteRessource(cr.ressource);
                 }
-                cc.getJ().ajouterCarteRessource(cr.getRessource());
+                cc.getJ().ajouterCarteRessource(cr.ressource);
             }
         }
     }

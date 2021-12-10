@@ -8,14 +8,6 @@ public class CaseRessource extends CasePaysage {
         this.ressource = ressource;
     }
 
-    public int getNum() {
-        return num;
-    }
-
-    public String getRessource() {
-        return ressource;
-    }
-
     @Override
     public String toString() {
         if (super.getContientVoleur()) {

@@ -8,9 +8,7 @@ public class CarteRess {
 
 
     CarteRess(String r) {
-
         this.r = r;
-
     }
 
 

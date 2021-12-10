@@ -2,8 +2,23 @@ public class CaseColonie extends Case {
     private boolean estVide;
     private Joueur j;
     private boolean estVille;
+    private String port ;
 
-    
+    //3
+    //2B
+    //2A
+    //2M
+    //2P
+    //2C
+
+    public void setPort(String p){
+        port=p ;
+    }
+
+
+    public boolean estPort(){
+        return(!port.equals("")) ;
+    }
 
     @Override
     public String toString() {
@@ -18,6 +33,7 @@ public class CaseColonie extends Case {
         estVide = true;
         j = null;
         estVille = false;
+        port = "" ;
     }
 
     public void mettreColonie(Joueur j) {

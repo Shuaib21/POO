@@ -28,7 +28,7 @@ public class Plateau {
         String w = "";
         int n;
         int n2;
-        int[] b = { 2, 3, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 12 };
+        int[] b = { 2, 3, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 12 }; // si 4*4
         for (int i = 1; i < p.length - 1; i = i + 2) {
             for (int j = 1; j < p[i].length - 1; j = j + 2) {
                 good = true;
@@ -88,6 +88,10 @@ public class Plateau {
                 p[i][j] = new CaseRoute(i, j);
             }
         }
+
+        
+
+
 
     }
 
