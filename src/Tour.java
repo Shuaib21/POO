@@ -1,13 +1,27 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public abstract class Tour {
 
   protected Joueur j;
   protected Plateau p;
+  protected static ArrayList<CarteDev> cartes = new ArrayList<CarteDev>();
 
   public Tour(Joueur j, Plateau p) {
     this.j = j;
     this.p = p;
+  }
+
+  protected static void genereCartes() {
+    for (int i = 0; i < 5; i++) {
+      cartes.add(new CarteDev("Point de victoire"));
+    }
+    for (int i = 0; i < 6; i++) {
+      cartes.add(new CarteDev("Progrès"));
+    }
+    for (int i = 0; i < 14; i++) {
+      cartes.add(new CarteDev("Chevalier"));
+    }
   }
 
   public int getCoordonnee(char c) {

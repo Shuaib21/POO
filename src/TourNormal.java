@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -225,6 +226,24 @@ public class TourNormal extends Tour {
         }
     }
 
+    public void acheterCartDev() {
+        if (
+          j.combienRessource("CHAMPS") == 0 ||
+          j.combienRessource("PIERRE") == 0 ||
+          j.combienRessource("MOUTON") == 0
+        ) {
+          System.out.println(
+            "Vous n'avez pas les ressources demandées pour acheter une carte développement"
+          );
+          return;
+        }
+        j.enleverRessource("CHAMPS");
+        j.enleverRessource("PIERRE");
+        j.enleverRessource("MOUTON");
+    
+        Collections.shuffle(Tour.cartes);
+        
+      }
     // if num = 7 jouez carte chevalier
 
     // public void acheterCartDev();

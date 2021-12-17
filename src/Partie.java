@@ -66,6 +66,7 @@ public class Partie {
       t.ajouterRoute();
       p.afficher();
     }
+    Tour.genereCartes();
   }
 
   private boolean partiefini() {
