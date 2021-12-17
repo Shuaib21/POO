@@ -5,6 +5,7 @@ public class Joueur {
 
   private ArrayList<CarteDev> mainDev;
   private ArrayList<CarteRess> mainRess;
+  private ArrayList<String> mesPorts;
   private String couleur;
   private int point;
   private boolean estHumain;
@@ -18,13 +19,22 @@ public class Joueur {
     return mainRess;
   }
 
-  public void ajouterCarteRessource(String nomressource) {
-    mainRess.add(new CarteRess(nomressource));
+  public ArrayList<String> getMesPorts() {
+    return mesPorts;
+  }
+
+  public void ajouterCarteRessource(String nomRessource) {
+    mainRess.add(new CarteRess(nomRessource));
+  }
+
+  public void enleverCarteRessource(CarteRess c) {
+    mainRess.remove(c);
   }
 
   Joueur(String couleur) {
     mainDev = new ArrayList<CarteDev>();
     mainRess = new ArrayList<CarteRess>();
+    mesPorts = new ArrayList<String>();
     this.couleur = couleur;
     point = 0;
     estHumain = true;

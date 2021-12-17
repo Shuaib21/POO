@@ -11,6 +11,10 @@ public class CaseColonie extends Case {
     //2P
     //2C
 
+    public String getPort() {
+        return port;
+    }
+    
     public void setPort(String p){
         port=p ;
     }

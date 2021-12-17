@@ -71,7 +71,7 @@ public class TourNormal extends Tour {
         }
         for (int a : r) {
             if (a == 0) {
-                System.out.println("Vous n'avez pas les ressources demandé pour créer une colonie");
+                System.out.println("Vous n'avez pas les ressources demandées pour créer une colonie");
                 return;
             }
         }
@@ -146,7 +146,7 @@ public class TourNormal extends Tour {
         }
         for (int a : r) {
             if (a == 0) {
-                System.out.println("Vous n'avez pas les ressources demandé");
+                System.out.println("Vous n'avez pas les ressources demandées pour créer une route");
                 return;
             }
         }
@@ -195,14 +195,7 @@ public class TourNormal extends Tour {
         }
         return false;
     }
-    // if num = 7 jouez carte chevalier
-
-    // public void ajouterVille();
-
-    // public void acheterCartDev();
-
-    // jouezCarteDev() ;
-
+   
     public void echangerAvecPort() {
         if (j.getMesPorts().size() == 0) {
             System.out.println("Vous ne possedé pas de port");
@@ -210,5 +203,52 @@ public class TourNormal extends Tour {
             System.out.println("Vous possedez ces ports");
         }
     }
+
+
+  public void ajouterVille() {
+    int[] r = { 0, 0 }; // CHAMPS, PIERRE
+    CarteRess cc = null;
+    CarteRess cp = null;
+    for (CarteRess a : j.getMainRess()) {
+      if (a.getR().equals("CHAMPS")) {
+        r[0]++;
+      }
+      if (a.getR().equals("PIERRE")) {
+        r[2]++;
+      }
+    }
+    if (r[0] < 2 || r[1] < 3) {
+      System.out.println(
+        "Vous n'avez pas les ressources demandées pour construire une ville"
+      );
+      return;
+    }
+
+    boolean ajouter = false;
+    while (!ajouter) {
+      int x = getCoordonnee('x');
+      int y = getCoordonnee('y');
+      if (
+        p.selctionnerCaseColonie(x, y) != null &&
+        !p.selctionnerCaseColonie(x, y).getestVide() &&
+        p.selctionnerCaseColonie(x, y).getJ().equals(j)
+      ) {
+        if (p.selctionnerCaseColonie(x, y).getestVille()) {
+          System.out.println("C'est déjà une ville");
+        } else {
+          j.enleverCarteRessource(cc);
+          j.enleverCarteRessource(cp);
+          p.selctionnerCaseColonie(x, y).transformerenVille();
+          ajouter = true;
+        }
+      }
+    }
+  }
+
+ // if num = 7 jouez carte chevalier
+
+    // public void acheterCartDev();
+
+    // jouezCarteDev() ;
 
 }

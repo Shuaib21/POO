@@ -18,12 +18,13 @@ public class Partie {
 
         Scanner sc = new Scanner(System.in);
         String choix;
-        
+
         do {
           System.out.println("Choix:");
           System.out.println("A: Ajouter une colonie");
           System.out.println("B: Ajouter une route");
-          System.out.println("C: Terminer tour");
+          System.out.println("C: Ajouter une ville");
+          System.out.println("D: Terminer tour");
           choix = sc.next();
 
           switch (choix) {
@@ -36,6 +37,10 @@ public class Partie {
               p.afficher();
               break;
             case "C":
+              t.ajouterVille();
+              p.afficher();
+              break;
+            case "D":
               break;
             default:
               System.out.println("Choix incorrect");
