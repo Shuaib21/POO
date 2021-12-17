@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class TourNormal extends Tour {
 
@@ -31,9 +32,9 @@ public class TourNormal extends Tour {
             cc = p.selctionnerCaseColonie(x, y);
             if (!cc.getestVide()) {
                 if (cc.getestVille()) {
-                    cc.getJ().ajouterCarteRessource(cr.ressource);
+                    cc.getJ().ajouterRessource(cr.ressource);
                 }
-                cc.getJ().ajouterCarteRessource(cr.ressource);
+                cc.getJ().ajouterRessource(cr.ressource);
             }
         }
     }
@@ -46,39 +47,11 @@ public class TourNormal extends Tour {
     }
 
     public void ajouterColonie() {
-        int[] r = { 0, 0, 0, 0 }; // FORET, PRE, COLLINE, CHAMPS
-        CarteRess cb = null ;
-        CarteRess cm = null ;
-        CarteRess ca = null ;
-        CarteRess cc = null ;
-        for (CarteRess a : j.getMainRess()) {
-            if (a.getR().equals("BOIS")) {
-                cb = a ;
-                r[0]++;
-            }
-            if (a.getR().equals("MOUTON")) {
-                cm = a ;
-                r[1]++;
-            }
-            if (a.getR().equals("ARGILE")) {
-                ca = a ;
-                r[2]++;
-            }
-            if (a.getR().equals("CHAMPS")) {
-                cc = a ;
-                r[3]++;
-            }
+        if (j.combienRessource("ARGILE") == 0 || j.combienRessource("BOIS") == 0 || j.combienRessource("CHAMPS") == 0
+                || j.combienRessource("MOUTON") == 0) {
+            System.out.println("Vous ne posseder pas assez de ressource pour construire votre colonie");
+            return;
         }
-        for (int a : r) {
-            if (a == 0) {
-                System.out.println("Vous n'avez pas les ressources demandées pour créer une colonie");
-                return;
-            }
-        }
-        j.enleverCarteRessource(cb);
-        j.enleverCarteRessource(cb);
-        j.enleverCarteRessource(cb);
-        j.enleverCarteRessource(cb);
         boolean ajouter = false;
         while (!ajouter) {
             int x = getCoordonnee('x');
@@ -89,6 +62,11 @@ public class TourNormal extends Tour {
                     if (estColleARoute(x, y)) {
                         p.selctionnerCaseColonie(x, y).mettreColonie(j);
                         ajouter = true;
+                        j.enleverRessource("ARGILE");
+                        j.enleverRessource("BOIS");
+                        j.enleverRessource("CHAMPS");
+                        j.enleverRessource("MOUTON");
+                        j.ajouterPoint();
                         if (p.selctionnerCaseColonie(x, y).estPort()) {
                             boolean possede = false;
                             for (String a : j.getMesPorts()) {
@@ -131,36 +109,20 @@ public class TourNormal extends Tour {
     }
 
     public void ajouterRoute() {
-        int[] r = { 0, 0 }; // FORET, PRE, COLLINE, CHAMPS
-        CarteRess cb = null ;
-        CarteRess ca = null ;
-        for (CarteRess a : j.getMainRess()) {
-            if (a.getR().equals("BOIS")) {
-                cb = a ;
-                r[0]++;
-            }
-            if (a.getR().equals("ARGILE")) {
-                ca = a ;
-                r[2]++;
-            }
+        if (j.combienRessource("BOIS") == 0 || j.combienRessource("ARGILE") == 0) {
+            System.out.println("Vous n'avez pas assez de ressource pour construire une route");
+            return;
         }
-        for (int a : r) {
-            if (a == 0) {
-                System.out.println("Vous n'avez pas les ressources demandées pour créer une route");
-                return;
-            }
-        }
-        j.enleverCarteRessource(cb);
-        j.enleverCarteRessource(ca) ;
         boolean ajouter = false;
         while (!ajouter) {
             int x = getCoordonnee('x');
             int y = getCoordonnee('y');
-
             if (p.selctionnerCaseRoute(x, y) != null) {
                 if (p.selctionnerCaseRoute(x, y).getestVide()) {
                     if (estColleARoute(x, y)) {
                         p.selctionnerCaseRoute(x, y).mettreRoute(j);
+                        j.enleverRessource("BOIS");
+                        j.enleverRessource("ARGILE");
                         ajouter = true;
                     }
                 }
@@ -195,57 +157,75 @@ public class TourNormal extends Tour {
         }
         return false;
     }
-   
+
     public void echangerAvecPort() {
         if (j.getMesPorts().size() == 0) {
             System.out.println("Vous ne possedé pas de port");
         } else {
-            System.out.println("Vous possedez ces ports");
+            System.out.println("Vous possedez ces ports :");
+            for (String a : j.getMesPorts()) {
+                System.out.println("- " + a);
+            }
+            System.out.println("- ANNULER");
+            Scanner sci = new Scanner(System.in);
+            System.out.println("Vous voulez jouer qu'elle port");
+            String choix = sci.next();
+            if (choix.equals("ANNULER")) {
+                return;
+            }
+            int nb = 0;
+            if (choix.equals("3:1")) {
+                jouerPort3_1();
+            } else if (choix.equals("2M:1")) {
+
+            } else if (choix.equals("2B:1")) {
+
+            } else if (choix.equals("2C:1")) {
+
+            } else if (choix.equals("2A:1")) {
+
+            } else if (choix.equals("2P:1")) {
+
+            } else {
+                System.out.println("Nous n'avons pas compris votre choix veuillez reessayer\n");
+                echangerAvecPort();
+            }
+        }
+
+    }
+
+    private void jouerPort3_1() {
+    }
+
+    public void ajouterVille() {
+        if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 2) {
+            System.out.print("Vous ne possedez pas assez de ressource pour construire une ville");
+            return ;
+        }
+        boolean ajouter = false;
+        while (!ajouter) {
+            int x = getCoordonnee('x');
+            int y = getCoordonnee('y');
+            if (p.selctionnerCaseColonie(x, y) != null &&
+                    !p.selctionnerCaseColonie(x, y).getestVide() &&
+                    p.selctionnerCaseColonie(x, y).getJ().equals(j)) {
+                if (p.selctionnerCaseColonie(x, y).getestVille()) {
+                    System.out.println("C'est déjà une ville");
+                } else {
+                    p.selctionnerCaseColonie(x, y).transformerenVille();
+                    j.enleverRessource("PIERRE");
+                    j.enleverRessource("PIERRE");
+                    j.enleverRessource("PIERRE");
+                    j.enleverRessource("CHAMPS");
+                    j.enleverRessource("CHAMPS");
+                    ajouter = true;
+                    j.ajouterPoint();
+                }
+            }
         }
     }
 
-
-  public void ajouterVille() {
-    int[] r = { 0, 0 }; // CHAMPS, PIERRE
-    CarteRess cc = null;
-    CarteRess cp = null;
-    for (CarteRess a : j.getMainRess()) {
-      if (a.getR().equals("CHAMPS")) {
-        r[0]++;
-      }
-      if (a.getR().equals("PIERRE")) {
-        r[2]++;
-      }
-    }
-    if (r[0] < 2 || r[1] < 3) {
-      System.out.println(
-        "Vous n'avez pas les ressources demandées pour construire une ville"
-      );
-      return;
-    }
-
-    boolean ajouter = false;
-    while (!ajouter) {
-      int x = getCoordonnee('x');
-      int y = getCoordonnee('y');
-      if (
-        p.selctionnerCaseColonie(x, y) != null &&
-        !p.selctionnerCaseColonie(x, y).getestVide() &&
-        p.selctionnerCaseColonie(x, y).getJ().equals(j)
-      ) {
-        if (p.selctionnerCaseColonie(x, y).getestVille()) {
-          System.out.println("C'est déjà une ville");
-        } else {
-          j.enleverCarteRessource(cc);
-          j.enleverCarteRessource(cp);
-          p.selctionnerCaseColonie(x, y).transformerenVille();
-          ajouter = true;
-        }
-      }
-    }
-  }
-
- // if num = 7 jouez carte chevalier
+    // if num = 7 jouez carte chevalier
 
     // public void acheterCartDev();
 

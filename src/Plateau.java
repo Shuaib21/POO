@@ -109,14 +109,14 @@ public class Plateau {
         }
         // ajout des ports
         if (z == 4) { // pour 4*4
-            this.selctionnerCaseColonie(0, 0).setPort("B");
-            this.selctionnerCaseColonie(0, 4).setPort("3");
-            this.selctionnerCaseColonie(0, 8).setPort("M");
-            this.selctionnerCaseColonie(4, 0).setPort("C");
-            this.selctionnerCaseColonie(4, 8).setPort("3");
-            this.selctionnerCaseColonie(8, 0).setPort("A");
-            this.selctionnerCaseColonie(8, 4).setPort("P");
-            this.selctionnerCaseColonie(8, 8).setPort("3");
+            this.selctionnerCaseColonie(0, 0).setPort("2B:1");
+            this.selctionnerCaseColonie(0, 4).setPort("3:1");
+            this.selctionnerCaseColonie(0, 8).setPort("2M:1");
+            this.selctionnerCaseColonie(4, 0).setPort("2C:1");
+            this.selctionnerCaseColonie(4, 8).setPort("3:1");
+            this.selctionnerCaseColonie(8, 0).setPort("2A:1");
+            this.selctionnerCaseColonie(8, 4).setPort("2P:1");
+            this.selctionnerCaseColonie(8, 8).setPort("3:1");
         }
 
     }

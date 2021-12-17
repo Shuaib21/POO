@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class Joueur {
 
   private ArrayList<CarteDev> mainDev;
-  private ArrayList<CarteRess> mainRess;
+  private int[] mainRess; // [ARGILE,BOIS,CHAMPS,MONTAGNE,PIERRE]
   private ArrayList<String> mesPorts;
   private String couleur;
   private int point;
@@ -15,7 +15,7 @@ public class Joueur {
     return mainDev;
   }
 
-  public ArrayList<CarteRess> getMainRess() {
+  public int[] getMainRess() {
     return mainRess;
   }
 
@@ -23,17 +23,69 @@ public class Joueur {
     return mesPorts;
   }
 
-  public void ajouterCarteRessource(String nomRessource) {
-    mainRess.add(new CarteRess(nomRessource));
+  public void ajouterPoint(){
+    point ++ ;
   }
 
-  public void enleverCarteRessource(CarteRess c) {
-    mainRess.remove(c);
+  public int combienRessource(String nomRessource){
+    switch (nomRessource) {
+      case "ARGILE":
+        return mainRess[0];
+      case "BOIS":
+        return mainRess[1];
+      case "CHAMPS":
+        return mainRess[2];
+      case "MOUTON":
+        return mainRess[3];
+      case "PIERRE":
+        return mainRess[4];
+    }
+    return 0 ;
+  }
+
+  public void ajouterRessource(String nomRessource) {
+    switch (nomRessource) {
+      case "ARGILE":
+        mainRess[0]++;
+        break;
+      case "BOIS":
+        mainRess[1]++;
+        break;
+      case "CHAMPS":
+        mainRess[2]++;
+        break;
+      case "MOUTON":
+        mainRess[3]++;
+        break;
+      case "PIERRE":
+        mainRess[4]++;
+        break;
+    }
+  }
+
+  public void enleverRessource(String nomRessource) {
+    switch (nomRessource) {
+      case "ARGILE":
+        mainRess[0]--;
+        break;
+      case "BOIS":
+        mainRess[1]--;
+        break;
+      case "CHAMPS":
+        mainRess[2]--;
+        break;
+      case "MOUTON":
+        mainRess[3]--;
+        break;
+      case "PIERRE":
+        mainRess[4]--;
+        break;
+    }
   }
 
   Joueur(String couleur) {
     mainDev = new ArrayList<CarteDev>();
-    mainRess = new ArrayList<CarteRess>();
+    mainRess = new int[5];
     mesPorts = new ArrayList<String>();
     this.couleur = couleur;
     point = 0;
