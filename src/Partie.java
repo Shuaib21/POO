@@ -29,6 +29,7 @@ public class Partie {
 
           switch (choix) {
             case "A":
+            t.jouezCarteDev();
               t.ajouterColonie();
               p.afficher();
               break;
@@ -46,6 +47,7 @@ public class Partie {
               System.out.println("Choix incorrect");
               break;
           }
+          // Afficher les cartes Point de victoire
         } while (!choix.equals("C"));
       }
     }

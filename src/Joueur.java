@@ -10,6 +10,7 @@ public class Joueur {
   private int point;
   private boolean estHumain;
   private String pseudo;
+  private int nbrChevaliers = 0;
 
   public ArrayList<CarteDev> getMainDev() {
     return mainDev;
@@ -23,11 +24,11 @@ public class Joueur {
     return mesPorts;
   }
 
-  public void ajouterPoint(){
-    point ++ ;
+  public void ajouterPoint() {
+    point++;
   }
 
-  public int combienRessource(String nomRessource){
+  public int combienRessource(String nomRessource) {
     switch (nomRessource) {
       case "ARGILE":
         return mainRess[0];
@@ -40,7 +41,7 @@ public class Joueur {
       case "PIERRE":
         return mainRess[4];
     }
-    return 0 ;
+    return 0;
   }
 
   public void ajouterRessource(String nomRessource) {
@@ -80,6 +81,20 @@ public class Joueur {
       case "PIERRE":
         mainRess[4]--;
         break;
+    }
+  }
+
+  public void ajouterCarteDev(CarteDev c) {
+    mainDev.add(c);
+    if (c.pouvoir.equals("Chevalier")) {
+      nbrChevaliers++;
+      if (nbrChevaliers > Tour.nbrChevalierMax) {
+        Tour.contientChevalierPuissant = this;
+        Tour.nbrChevalierMax = nbrChevaliers;
+      }
+    }
+    if (c.pouvoir.equals("Point de victoire")) {
+      ajouterPoint();
     }
   }
 

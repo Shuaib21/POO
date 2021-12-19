@@ -1,5 +1,5 @@
 public class CarteDev {
-    private String pouvoir;
+    public final String pouvoir;
 
     CarteDev(String p) {
         pouvoir = p;
