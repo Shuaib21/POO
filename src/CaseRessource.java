@@ -11,7 +11,8 @@ public class CaseRessource extends CasePaysage {
     @Override
     public String toString() {
         if (super.getContientVoleur()) {
-            return ConsoleColors.RED_BACKGROUND_BRIGHT + ((num > 9) ? "" : " ") + num + ressource.charAt(0) + ConsoleColors.RESET;
+            return ConsoleColors.RED_BACKGROUND_BRIGHT + ((num > 9) ? "" : " ") + num + ressource.charAt(0)
+                    + ConsoleColors.RESET;
         } else {
             return ((num > 9) ? "" : " ") + num + ressource.charAt(0);
         }

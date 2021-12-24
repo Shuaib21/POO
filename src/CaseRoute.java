@@ -22,7 +22,7 @@ public class CaseRoute extends Case {
         return j;
     }
 
-    public boolean getestVide() {
+    public boolean getEstVide() {
         return estVide;
     }
 

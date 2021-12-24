@@ -20,7 +20,7 @@ public class Plateau {
             if (plateau.length == 9) {
                 if (i == 4) {
                     System.out.print("3:1 ");
-                } else { 
+                } else {
                     System.out.print("    ");
                 }
             }
@@ -142,6 +142,13 @@ public class Plateau {
     public CaseRessource selctionnerCaseRess(int x, int y) {
         if (plateau[x][y] instanceof CaseRessource) {
             return (CaseRessource) plateau[x][y];
+        }
+        return null;
+    }
+
+    public CasePaysage selctionnerCasePaysage(int x, int y) {
+        if (plateau[x][y] instanceof CasePaysage) {
+            return (CasePaysage) plateau[x][y];
         }
         return null;
     }

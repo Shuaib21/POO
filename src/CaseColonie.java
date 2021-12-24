@@ -2,26 +2,25 @@ public class CaseColonie extends Case {
     private boolean estVide;
     private Joueur j;
     private boolean estVille;
-    private String port ;
+    private String port;
 
-    //3
-    //2B
-    //2A
-    //2M
-    //2P
-    //2C
+    // 3
+    // 2B
+    // 2A
+    // 2M
+    // 2P
+    // 2C
 
     public String getPort() {
         return port;
     }
-    
-    public void setPort(String p){
-        port=p ;
+
+    public void setPort(String p) {
+        port = p;
     }
 
-
-    public boolean estPort(){
-        return(!port.equals("")) ;
+    public boolean estPort() {
+        return (!port.equals(""));
     }
 
     @Override
@@ -37,7 +36,7 @@ public class CaseColonie extends Case {
         estVide = true;
         j = null;
         estVille = false;
-        port = "" ;
+        port = "";
     }
 
     public void mettreColonie(Joueur j) {
@@ -49,15 +48,15 @@ public class CaseColonie extends Case {
         return j;
     }
 
-    public boolean getestVide() {
+    public boolean getEstVide() {
         return estVide;
     }
 
-    public boolean getestVille(){
-        return estVille ;
+    public boolean getEstVille() {
+        return estVille;
     }
 
-    public void transformerenVille() {
+    public void transformerEnVille() {
         if (estVide) {
             System.out.println("Il n'y a pas de colonie");
         } else {

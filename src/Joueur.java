@@ -4,13 +4,38 @@ import java.util.ArrayList;
 public class Joueur {
 
   private ArrayList<CarteDev> mainDev;
-  private int[] mainRess; // [ARGILE,BOIS,CHAMPS,MONTAGNE,PIERRE]
+  private int[] mainRess; // [ARGILE, BOIS, CHAMPS, MOUTON, PIERRE]
   private ArrayList<String> mesPorts;
   private String couleur;
   private int point;
-  private boolean estHumain;
+  protected final boolean estHumain;
   private String pseudo;
   private int nbrChevaliers = 0;
+  private static int nbr = 0;
+  protected final int numJoueur;
+
+  Joueur(String couleur) {
+    mainDev = new ArrayList<CarteDev>();
+    mainRess = new int[5];
+    mesPorts = new ArrayList<String>();
+    this.couleur = couleur;
+    point = 0;
+    estHumain = true;
+    nbr++;
+    numJoueur = nbr;
+  }
+
+  public String getCouleur() {
+    return couleur;
+  }
+
+  public int getPoint() {
+    return point;
+  }
+
+  public String getPseudo() {
+    return pseudo;
+  }
 
   public ArrayList<CarteDev> getMainDev() {
     return mainDev;
@@ -98,25 +123,14 @@ public class Joueur {
     }
   }
 
-  Joueur(String couleur) {
-    mainDev = new ArrayList<CarteDev>();
-    mainRess = new int[5];
-    mesPorts = new ArrayList<String>();
-    this.couleur = couleur;
-    point = 0;
-    estHumain = true;
-  }
-
-  public String getCouleur() {
-    return couleur;
-  }
-
-  public int getPoint() {
-    return point;
-  }
-
-  public String getPseudo() {
-    return pseudo;
+  public boolean enleverCarteDev(String pouvoir) {
+    for (CarteDev c : mainDev) {
+      if (c.pouvoir.equals(pouvoir)) {
+        mainDev.remove(c);
+        return true;
+      }
+    }
+    return false;
   }
 
   public String enCouleur(String a) {

@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class PremierTour extends Tour {
     private int x;
     private int y;
@@ -9,12 +11,18 @@ public class PremierTour extends Tour {
     public void ajouterColonie() {
         boolean ajouter = false;
         while (!ajouter) {
-            x = getCoordonnee('x');
-            y = getCoordonnee('y');
-            if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getestVide()) {
+            if (j.estHumain) {
+                x = getCoordonnee('x');
+                y = getCoordonnee('y');
+            } else {
+                Random rand = new Random();
+                x = rand.nextInt(p.getTaille());
+                y = rand.nextInt(p.getTaille());
+            }
+            if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
                 p.selctionnerCaseColonie(x, y).mettreColonie(j);
                 ajouter = true;
-            } else {
+            } else if (j.estHumain) {
                 System.out.println("Case non-vide");
             }
         }
@@ -23,16 +31,24 @@ public class PremierTour extends Tour {
     public void ajouterRoute() {
         boolean ajouter = false;
         while (!ajouter) {
-            int x = getCoordonnee('x');
-            int y = getCoordonnee('y');
+            int x;
+            int y;
+            if (j.estHumain) {
+                x = getCoordonnee('x');
+                y = getCoordonnee('y');
+            } else {
+                Random rand = new Random();
+                x = rand.nextInt(p.getTaille());
+                y = rand.nextInt(p.getTaille());
+            }
             if (correcte(x, y)) {
-                if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getestVide()) {
+                if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getEstVide()) {
                     p.selctionnerCaseRoute(x, y).mettreRoute(j);
                     ajouter = true;
-                } else {
+                } else if (j.estHumain) {
                     System.out.println("Case non-vide");
                 }
-            } else {
+            } else if (j.estHumain) {
                 System.out.println("Case non-valide");
             }
         }
@@ -57,25 +73,25 @@ public class PremierTour extends Tour {
 
     private void MAJNordOuest() {
         if (x - 1 >= 0 && y - 1 >= 0) {
-            j.ajouterRessource(p.selctionnerCaseRess(x-1, y-1).ressource);
+            j.ajouterRessource(p.selctionnerCaseRess(x - 1, y - 1).ressource);
         }
     }
 
     private void MAJNordEst() {
         if (x + 1 < p.getTaille() && y - 1 >= 0) {
-            j.ajouterRessource(p.selctionnerCaseRess(x+1, y-1).ressource);
+            j.ajouterRessource(p.selctionnerCaseRess(x + 1, y - 1).ressource);
         }
     }
 
     private void MAJSudOuest() {
         if (x - 1 >= 0 && y + 1 < p.getTaille()) {
-            j.ajouterRessource(p.selctionnerCaseRess(x-1, y+1).ressource);
+            j.ajouterRessource(p.selctionnerCaseRess(x - 1, y + 1).ressource);
         }
     }
 
     private void MAJSudEst() {
         if (x + 1 < p.getTaille() && y + 1 < p.getTaille()) {
-            j.ajouterRessource(p.selctionnerCaseRess(x+1, y+1).ressource);
+            j.ajouterRessource(p.selctionnerCaseRess(x + 1, y + 1).ressource);
         }
     }
 
