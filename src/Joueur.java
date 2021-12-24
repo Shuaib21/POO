@@ -15,12 +15,16 @@ public class Joueur {
   protected final int numJoueur;
 
   Joueur(String couleur) {
+    this(couleur, true);
+  }
+
+  Joueur(String couleur, boolean estHumain){
     mainDev = new ArrayList<CarteDev>();
     mainRess = new int[5];
     mesPorts = new ArrayList<String>();
     this.couleur = couleur;
     point = 0;
-    estHumain = true;
+    this.estHumain = estHumain;
     nbr++;
     numJoueur = nbr;
   }

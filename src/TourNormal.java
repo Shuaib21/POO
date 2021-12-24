@@ -169,19 +169,19 @@ public class TourNormal extends Tour {
       return true;
     }
     if (x - 1 >= 0 &&
-        p.selctionnerCaseColonie(x + 1, y) != null &&
+        p.selctionnerCaseColonie(x - 1, y) != null &&
         !p.selctionnerCaseColonie(x - 1, y).getEstVide() &&
         p.selctionnerCaseColonie(x - 1, y).getJ() == j) {
       return true;
     }
     if (y + 1 < p.getTaille() &&
-        p.selctionnerCaseColonie(x + 1, y) != null &&
+        p.selctionnerCaseColonie(x, y + 1) != null &&
         !p.selctionnerCaseColonie(x, y + 1).getEstVide() &&
         p.selctionnerCaseColonie(x, y + 1).getJ() == j) {
       return true;
     }
     if (y - 1 >= 0 &&
-        p.selctionnerCaseColonie(x + 1, y) != null &&
+        p.selctionnerCaseColonie(x, y - 1) != null &&
         !p.selctionnerCaseColonie(x, y - 1).getEstVide() &&
         p.selctionnerCaseColonie(x, y - 1).getJ() == j) {
       return true;
@@ -200,7 +200,7 @@ public class TourNormal extends Tour {
         p.selctionnerCaseRoute(x - 1, y + 1).getJ() == j) {
       return true;
     }
-    if (x + 1 < p.getTaille() && y - 1 < p.getTaille() &&
+    if (x + 1 < p.getTaille() && y - 1 >= 0 &&
         !p.selctionnerCaseRoute(x + 1, y - 1).getEstVide() &&
         p.selctionnerCaseRoute(x + 1, y - 1).getJ() == j) {
       return true;
