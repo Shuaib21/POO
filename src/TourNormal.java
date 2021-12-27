@@ -75,6 +75,7 @@ public class TourNormal extends Tour {
         if (p.selctionnerCaseColonie(x, y).getEstVide()) {
           if (estColleARoute(x, y)) {
             p.selctionnerCaseColonie(x, y).mettreColonie(j);
+            j.ajouterUneColonie();
             ajouter = true;
             j.enleverRessource("ARGILE");
             j.enleverRessource("BOIS");
@@ -248,39 +249,44 @@ public class TourNormal extends Tour {
   }
 
   public void ajouterVille(Scanner sc) {
-    if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 2) {
-      System.out.println(
-          "Vous ne possedez pas assez de ressource pour construire une ville");
-      return;
-    }
-    boolean ajouter = false;
-    while (!ajouter) {
-      int x;
-      int y;
-      if (j.estHumain) {
-        x = getCoordonnee('x', sc);
-        y = getCoordonnee('y', sc);
-      } else {
-        Random rand = new Random();
-        x = rand.nextInt(p.getTaille());
-        y = rand.nextInt(p.getTaille());
+    if (j.getNbrVilles() < j.getNbrColonies()) {
+      if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 2) {
+        System.out.println(
+            "Vous ne possedez pas assez de ressource pour construire une ville");
+        return;
       }
-      if (p.selctionnerCaseColonie(x, y) != null &&
-          !p.selctionnerCaseColonie(x, y).getEstVide() &&
-          p.selctionnerCaseColonie(x, y).getJ().equals(j)) {
-        if (p.selctionnerCaseColonie(x, y).getEstVille()) {
-          System.out.println("C'est déjà une ville");
+      boolean ajouter = false;
+      while (!ajouter) {
+        int x;
+        int y;
+        if (j.estHumain) {
+          x = getCoordonnee('x', sc);
+          y = getCoordonnee('y', sc);
         } else {
-          p.selctionnerCaseColonie(x, y).transformerEnVille();
-          j.enleverRessource("PIERRE");
-          j.enleverRessource("PIERRE");
-          j.enleverRessource("PIERRE");
-          j.enleverRessource("CHAMPS");
-          j.enleverRessource("CHAMPS");
-          ajouter = true;
-          j.ajouterPoint();
+          Random rand = new Random();
+          x = rand.nextInt(p.getTaille());
+          y = rand.nextInt(p.getTaille());
+        }
+        if (p.selctionnerCaseColonie(x, y) != null &&
+            !p.selctionnerCaseColonie(x, y).getEstVide() &&
+            p.selctionnerCaseColonie(x, y).getJ().equals(j)) {
+          if (p.selctionnerCaseColonie(x, y).getEstVille()) {
+            System.out.println("C'est déjà une ville");
+          } else {
+            p.selctionnerCaseColonie(x, y).transformerEnVille();
+            j.enleverRessource("PIERRE");
+            j.enleverRessource("PIERRE");
+            j.enleverRessource("PIERRE");
+            j.enleverRessource("CHAMPS");
+            j.enleverRessource("CHAMPS");
+            j.ajouterUneVille();
+            ajouter = true;
+            j.ajouterPoint();
+          }
         }
       }
+    } else {
+      System.out.println("Toutes vos colonies ont déjà été tranformées en villes.");
     }
   }
 
@@ -374,8 +380,8 @@ public class TourNormal extends Tour {
       int x;
       int y;
       if (j.estHumain) {
-        x = getCoordonnee('x',sc);
-        y = getCoordonnee('y',sc);
+        x = getCoordonnee('x', sc);
+        y = getCoordonnee('y', sc);
       } else {
         Random rand = new Random();
         x = rand.nextInt(p.getTaille());

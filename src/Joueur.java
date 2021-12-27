@@ -13,6 +13,8 @@ public class Joueur {
   private int nbrChevaliers = 0;
   private static int nbr = 0;
   protected final int numJoueur;
+  private int nbrColonies;
+  private int nbrVilles;
 
   Joueur(String couleur) {
     this(couleur, true);
@@ -53,6 +55,22 @@ public class Joueur {
     return mesPorts;
   }
 
+  public int getNbrColonies() {
+      return nbrColonies;
+  }
+
+  public int getNbrVilles() {
+      return nbrVilles;
+  }
+
+  public void ajouterUneColonie(){
+    nbrColonies++;
+  }
+
+  public void ajouterUneVille(){
+    nbrVilles++;
+  }
+  
   public void ajouterPoint() {
     point++;
   }
