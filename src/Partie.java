@@ -29,13 +29,14 @@ public class Partie {
           System.out.println("C: Ajouter une ville");
           System.out.println("D: Acheter une carte développement");
           System.out.println("E: Jouer une carte développement");
-          System.out.println("F: Terminer tour");
+          System.out.println("F: Echanger avec les ports");
+          System.out.println("G: Terminer tour");
 
           if (j.estHumain) {
             choix = sc.next();
           } else {
             Random rand = new Random();
-            int n = rand.nextInt(6) + 1;
+            int n = rand.nextInt(7) + 1;
             switch (n) {
               case 1:
                 choix = "A";
@@ -52,8 +53,11 @@ public class Partie {
               case 5:
                 choix = "E";
                 break;
-              default:
+                case 6:
                 choix = "F";
+                break;
+              default:
+                choix = "G";
                 break;
             }
           }
@@ -78,13 +82,16 @@ public class Partie {
               t.jouezCarteDev(sc);
               break;
             case "F":
+              t.echangerAvecPort(sc);;
+              break;
+            case "G":
               break;
             default:
               System.out.println("Choix incorrect");
               break;
           }
           // Afficher les cartes Point de victoire
-        } while (!choix.equals("F"));
+        } while (!choix.equals("G"));
       }
     }
     sc.close();
