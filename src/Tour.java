@@ -7,6 +7,8 @@ public abstract class Tour {
   protected Plateau p;
   protected static ArrayList<CarteDev> cartes = new ArrayList<CarteDev>();
   protected static Joueur contientChevalierPuissant;
+  protected static Joueur contientRouteLaPlusLongue; 
+  protected static ArrayList<CaseRoute> RouteLaPlusLongue ;
   protected static int nbrChevalierMax = 2;
 
   public Tour(Joueur j, Plateau p) {

@@ -84,6 +84,7 @@ public class TourNormal extends Tour {
             j.enleverRessource("CHAMPS");
             j.enleverRessource("MOUTON");
             j.ajouterPoint();
+            actualiserRouteLaPlusLongue();
             if (p.selctionnerCaseColonie(x, y).estPort()) {
               boolean possede = false;
               for (String a : j.getMesPorts()) {
@@ -158,6 +159,7 @@ public class TourNormal extends Tour {
               j.enleverRessource("ARGILE");
             }
             ajouter = true;
+            actualiserRouteLaPlusLongue() ;
           }
         }
       }
@@ -642,44 +644,144 @@ public class TourNormal extends Tour {
     }
   }
 
-  public boolean RouteEstColleA2Route(int x, int y){
-    int nbRouteColle = 0 ;
+  private boolean RouteEstColleA2Route(int x, int y) {
+    Joueur jcase = p.selctionnerCaseRoute(x, y).getJ();
+    int nbRouteColle = 0;
     if (x + 1 < p.getTaille() && y + 1 < p.getTaille() &&
         !p.selctionnerCaseRoute(x + 1, y + 1).getEstVide() &&
-        p.selctionnerCaseRoute(x + 1, y + 1).getJ() == j) {
+        p.selctionnerCaseRoute(x + 1, y + 1).getJ() == jcase) {
       nbRouteColle++;
     }
     if (x - 1 >= 0 && y + 1 < p.getTaille() &&
         !p.selctionnerCaseRoute(x - 1, y + 1).getEstVide() &&
-        p.selctionnerCaseRoute(x - 1, y + 1).getJ() == j) {
+        p.selctionnerCaseRoute(x - 1, y + 1).getJ() == jcase) {
       nbRouteColle++;
     }
     if (x + 1 < p.getTaille() && y - 1 >= 0 &&
         !p.selctionnerCaseRoute(x + 1, y - 1).getEstVide() &&
-        p.selctionnerCaseRoute(x + 1, y - 1).getJ() == j) {
+        p.selctionnerCaseRoute(x + 1, y - 1).getJ() == jcase) {
       nbRouteColle++;
     }
     if (x - 1 >= 0 && y - 1 >= 0 &&
         !p.selctionnerCaseRoute(x - 1, y - 1).getEstVide() &&
-        p.selctionnerCaseRoute(x - 1, y - 1).getJ() == j) {
+        p.selctionnerCaseRoute(x - 1, y - 1).getJ() == jcase) {
       nbRouteColle++;
     }
-    if(nbRouteColle<2){
-      return false ;
-    }else{
-      return true ;
+    if (nbRouteColle < 2) {
+      return false;
+    } else {
+      return true;
     }
   }
 
-  public ArrayList<CaseRoute> RoutePlusLongueDuJoueur(){
-    ArrayList<CaseRoute> = new ArrayList<CaseRoute>() ;
+  private Joueur RoutePlusLongue() {
+    ArrayList<CaseRoute> RouteLaPlusLongue = new ArrayList<CaseRoute>();
+    boolean egalite = true;
     for (int i = 0; i < p.getTaille(); i = i + 2) {
       for (int j = 1; j < p.getTaille(); j = j + 2) {
-          if(!RouteEstColleA2Route(i, j)){
-
+        ArrayList<CaseRoute> debut = new ArrayList<CaseRoute>();
+        debut.add(p.selctionnerCaseRoute(i, j));
+        if (RouteEstColleA2Route(i, j)) {
+          if (RouteLaPlusLongueDebut(debut).size() > RouteLaPlusLongue.size()) {
+            RouteLaPlusLongue = RouteLaPlusLongueDebut(debut);
+            egalite = false;
+          } else if (RouteLaPlusLongueDebut(debut).size() == RouteLaPlusLongue.size()) {
+            if (RouteLaPlusLongueDebut(debut).containsAll(Tour.RouteLaPlusLongue)
+                && Tour.RouteLaPlusLongue.containsAll(RouteLaPlusLongueDebut(debut))) {
+              RouteLaPlusLongue = RouteLaPlusLongueDebut(debut);
+            } else if (RouteLaPlusLongue.containsAll(Tour.RouteLaPlusLongue)
+                && Tour.RouteLaPlusLongue.containsAll(RouteLaPlusLongue)) {
+              RouteLaPlusLongue = Tour.RouteLaPlusLongue;
+            } else {
+              egalite = true;
+            }
           }
+        }
       }
     }
-
+    Tour.RouteLaPlusLongue = RouteLaPlusLongue;
+    if (egalite) {
+      return null;
+    } else {
+      return RouteLaPlusLongue.get(0).getJ();
+    }
   }
+
+  private ArrayList<CaseRoute> RouteLaPlusLongueDebut(ArrayList<CaseRoute> contient) {
+    int x = contient.get(contient.size() - 1).getX();
+    int y = contient.get(contient.size() - 1).getY();
+
+    ArrayList<CaseRoute> nvContient = new ArrayList<CaseRoute>();
+    nvContient.addAll(contient);
+
+    Joueur jcase = p.selctionnerCaseRoute(x, y).getJ();
+
+    if (x + 1 < p.getTaille() && y + 1 < p.getTaille() &&
+        !p.selctionnerCaseRoute(x + 1, y + 1).getEstVide() &&
+        p.selctionnerCaseRoute(x + 1, y + 1).getJ() == jcase) {
+      if (!contient.contains(p.selctionnerCaseRoute(x + 1, y + 1))) {
+
+        ArrayList<CaseRoute> nv1Contient = new ArrayList<CaseRoute>();
+        nvContient.addAll(contient);
+        nvContient.add(p.selctionnerCaseRoute(x + 1, y + 1));
+        nvContient = RouteLaPlusLongueDebut(nv1Contient);
+      }
+    }
+    if (x - 1 >= 0 && y + 1 < p.getTaille() &&
+        !p.selctionnerCaseRoute(x - 1, y + 1).getEstVide() &&
+        p.selctionnerCaseRoute(x - 1, y + 1).getJ() == jcase) {
+      if (!contient.contains(p.selctionnerCaseRoute(x + 1, y + 1))) {
+
+        ArrayList<CaseRoute> nv1Contient = new ArrayList<CaseRoute>();
+        nv1Contient.addAll(contient);
+        nv1Contient.add(p.selctionnerCaseRoute(x + 1, y + 1));
+        nv1Contient = RouteLaPlusLongueDebut(nv1Contient);
+        if (nv1Contient.size() > nvContient.size()) {
+          nvContient = nv1Contient;
+        }
+      }
+    }
+    if (x + 1 < p.getTaille() && y - 1 >= 0 &&
+        !p.selctionnerCaseRoute(x + 1, y - 1).getEstVide() &&
+        p.selctionnerCaseRoute(x + 1, y - 1).getJ() == jcase) {
+      if (!contient.contains(p.selctionnerCaseRoute(x + 1, y + 1))) {
+
+        ArrayList<CaseRoute> nv2Contient = new ArrayList<CaseRoute>();
+        nv2Contient.addAll(contient);
+        nv2Contient.add(p.selctionnerCaseRoute(x + 1, y + 1));
+        nv2Contient = RouteLaPlusLongueDebut(nv2Contient);
+        if (nv2Contient.size() > nvContient.size()) {
+          nvContient = nv2Contient;
+        }
+      }
+    }
+    if (x - 1 >= 0 && y - 1 >= 0 &&
+        !p.selctionnerCaseRoute(x - 1, y - 1).getEstVide() &&
+        p.selctionnerCaseRoute(x - 1, y - 1).getJ() == jcase) {
+      if (!contient.contains(p.selctionnerCaseRoute(x + 1, y + 1))) {
+
+        ArrayList<CaseRoute> nv3Contient = new ArrayList<CaseRoute>();
+        nv3Contient.addAll(contient);
+        nv3Contient.add(p.selctionnerCaseRoute(x + 1, y + 1));
+        nv3Contient = RouteLaPlusLongueDebut(nv3Contient);
+        if (nv3Contient.size() > nvContient.size()) {
+          nvContient = nv3Contient;
+        }
+      }
+    }
+    return nvContient;
+  }
+
+  public void actualiserRouteLaPlusLongue() {
+    if (Tour.contientRouteLaPlusLongue != null) {
+      Tour.contientRouteLaPlusLongue.enleverPoint();
+      Tour.contientRouteLaPlusLongue.enleverPoint();
+    }
+    if(RoutePlusLongue()!=null){
+      RoutePlusLongue().ajouterPoint();
+      RoutePlusLongue().ajouterPoint();
+    }
+    Tour.contientRouteLaPlusLongue = RoutePlusLongue() ;
+  }
+
 }
