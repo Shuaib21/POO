@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
@@ -415,6 +417,17 @@ public class TourNormal extends Tour {
       case "A":
         if (j.enleverCarteDev("Chevalier")) {
           deplacerVoleur(sc);
+          j.augmenteNbChev();
+          if (j.getNbrChevaliers() > Tour.nbrChevalierMax) {
+            if (Tour.contientChevalierPuissant != null) {
+              Tour.contientChevalierPuissant.enleverPoint();
+              Tour.contientChevalierPuissant.enleverPoint();
+            }
+            Tour.contientChevalierPuissant = j;
+            j.ajouterPoint();
+            j.ajouterPoint();
+            Tour.nbrChevalierMax = j.getNbrChevaliers();
+          }
         } else {
           System.out.println("Vous ne possédez pas de Carte Chevalier");
         }
@@ -616,5 +629,46 @@ public class TourNormal extends Tour {
     for (int i = 0; i < nbr; i++) {
       j.ajouterRessource(ress);
     }
+  }
+
+  public boolean RouteEstColleA2Route(int x, int y){
+    int nbRouteColle = 0 ;
+    if (x + 1 < p.getTaille() && y + 1 < p.getTaille() &&
+        !p.selctionnerCaseRoute(x + 1, y + 1).getEstVide() &&
+        p.selctionnerCaseRoute(x + 1, y + 1).getJ() == j) {
+      nbRouteColle++;
+    }
+    if (x - 1 >= 0 && y + 1 < p.getTaille() &&
+        !p.selctionnerCaseRoute(x - 1, y + 1).getEstVide() &&
+        p.selctionnerCaseRoute(x - 1, y + 1).getJ() == j) {
+      nbRouteColle++;
+    }
+    if (x + 1 < p.getTaille() && y - 1 >= 0 &&
+        !p.selctionnerCaseRoute(x + 1, y - 1).getEstVide() &&
+        p.selctionnerCaseRoute(x + 1, y - 1).getJ() == j) {
+      nbRouteColle++;
+    }
+    if (x - 1 >= 0 && y - 1 >= 0 &&
+        !p.selctionnerCaseRoute(x - 1, y - 1).getEstVide() &&
+        p.selctionnerCaseRoute(x - 1, y - 1).getJ() == j) {
+      nbRouteColle++;
+    }
+    if(nbRouteColle<2){
+      return false ;
+    }else{
+      return true ;
+    }
+  }
+
+  public ArrayList<CaseRoute> RoutePlusLongueDuJoueur(){
+    ArrayList<CaseRoute> = new ArrayList<CaseRoute>() ;
+    for (int i = 0; i < p.getTaille(); i = i + 2) {
+      for (int j = 1; j < p.getTaille(); j = j + 2) {
+          if(!RouteEstColleA2Route(i, j)){
+
+          }
+      }
+    }
+
   }
 }

@@ -31,6 +31,10 @@ public class Joueur {
     numJoueur = nbr;
   }
 
+  public void augmenteNbChev(){
+    nbrChevaliers++;
+  }
+
   public String getCouleur() {
     return couleur;
   }
@@ -73,6 +77,10 @@ public class Joueur {
   
   public void ajouterPoint() {
     point++;
+  }
+
+  public void enleverPoint(){
+    point-- ;
   }
 
   public int combienRessource(String nomRessource) {
@@ -131,15 +139,12 @@ public class Joueur {
     }
   }
 
+  public int getNbrChevaliers() {
+      return nbrChevaliers;
+  }
+
   public void ajouterCarteDev(CarteDev c) {
     mainDev.add(c);
-    if (c.pouvoir.equals("Chevalier")) {
-      nbrChevaliers++;
-      if (nbrChevaliers > Tour.nbrChevalierMax) {
-        Tour.contientChevalierPuissant = this;
-        Tour.nbrChevalierMax = nbrChevaliers;
-      }
-    }
     if (c.pouvoir.equals("Point de victoire")) {
       ajouterPoint();
     }
