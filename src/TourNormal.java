@@ -225,27 +225,99 @@ public class TourNormal extends Tour {
       System.out.println("- ANNULER");
       Scanner sc = new Scanner(System.in);
       System.out.println("Vous voulez jouer quel port ?");
-      String choix = sc.next();
+      String choix = sc.nextLine();
       if (choix.equals("ANNULER")) {
         return;
       }
       int nb = 0;
       if (choix.equals("3:1")) {
         jouerPort3_1();
+        return ;
       } else if (choix.equals("2M:1")) {
+        jouerport2_1("MOUTON");
+        return ;
       } else if (choix.equals("2B:1")) {
+        jouerport2_1("BOIS");
+        return ;
       } else if (choix.equals("2C:1")) {
+        jouerport2_1("CHAMPS");
+        return ;
       } else if (choix.equals("2A:1")) {
+        jouerport2_1("ARGILE");
+        return ;
       } else if (choix.equals("2P:1")) {
+        jouerport2_1("PIERRE");
+        return ;
       } else {
-        System.out.println(
-            "Nous n'avons pas compris votre choix veuillez reessayer\n");
+        System.out.println("Nous n'avons pas compris votre choix veuillez reessayer\n");
         echangerAvecPort();
+        return ;
+      }
+    }
+  }
+
+  private void jouerport2_1(String ressource) {
+    if(j.combienRessource(ressource)<2){
+      System.out.println("Vous n'avez pas assez de "+ressource) ;
+      return ;
+    }
+    j.enleverRessource(ressource);
+    j.enleverRessource(ressource);
+    Scanner scRess = new Scanner(System.in);
+    System.out.println("Vous voulez echanger avec quelles ressources ?");
+    String nvchoix = scRess.nextLine();
+    boolean ressExistPas = true ;
+    while(ressExistPas){
+      if(!nvchoix.equals("MOUTON") && !nvchoix.equals("PIERRE") && !nvchoix.equals("BOIS") && !nvchoix.equals("ARGILE") && !nvchoix.equals("CHAMPS")){
+        System.out.println("Nous n'avons pas compris votre demande, veuillez selectionner la ressource avec la quelles vous voulez echanger ?");
+        nvchoix = scRess.nextLine();
+      }else{
+        ressExistPas = false ;
+        j.ajouterRessource(nvchoix);
       }
     }
   }
 
   private void jouerPort3_1() {
+    if(j.combienRessource("PIERRE")<3 && j.combienRessource("ARGILE")<3 && j.combienRessource("BOIS")<3 && j.combienRessource("CHAMPS")<3 && j.combienRessource("MOUTON")<3){
+      System.out.println("Vous n'avez pas les ressources demandé pour faire l'ecahnge 3 en 1.") ;
+      return ;
+    }
+    Scanner scRessEchan = new Scanner(System.in);
+    System.out.println("Vous voulez echanger quelles ressources ?");
+    String choix = scRessEchan.nextLine();
+    boolean PeuxPas = true ;
+    while(PeuxPas){
+      if(!choix.equals("MOUTON") && !choix.equals("PIERRE") && !choix.equals("BOIS") && !choix.equals("ARGILE") && !choix.equals("CHAMPS")){
+        System.out.println("Nous n'avons pas compris votre demande, veuillez selectionner la ressource avec la quelles vous voulez echanger ?");
+        choix = scRessEchan.nextLine();
+      }else{
+        if(j.combienRessource(choix)<3){
+          System.out.println("Veuillez selectionner une ressource que vous possedez trois fois :");
+          choix = scRessEchan.nextLine();
+        }else{
+          PeuxPas = false ;
+        }
+        
+      }
+    }
+
+    j.enleverRessource(choix);
+    j.enleverRessource(choix);
+    j.enleverRessource(choix);
+    Scanner scRess = new Scanner(System.in);
+    System.out.println("Vous voulez echanger avec quelles ressources ?");
+    String nvchoix = scRess.nextLine();
+    boolean ressExistPas = true ;
+    while(ressExistPas){
+      if(!nvchoix.equals("MOUTON") && !nvchoix.equals("PIERRE") && !nvchoix.equals("BOIS") && !nvchoix.equals("ARGILE") && !nvchoix.equals("CHAMPS")){
+        System.out.println("Nous n'avons pas compris votre demande, veuillez selectionner la ressource avec la quelles vous voulez echanger ?");
+        nvchoix = scRess.nextLine();
+      }else{
+        ressExistPas = false ;
+        j.ajouterRessource(nvchoix);
+      }
+    }
   }
 
   public void ajouterVille(Scanner sc) {
