@@ -720,21 +720,19 @@ public class TourNormal extends Tour {
         !p.selctionnerCaseRoute(x + 1, y + 1).getEstVide() &&
         p.selctionnerCaseRoute(x + 1, y + 1).getJ() == jcase) {
       if (!contient.contains(p.selctionnerCaseRoute(x + 1, y + 1))) {
-
-        ArrayList<CaseRoute> nv1Contient = new ArrayList<CaseRoute>();
         nvContient.addAll(contient);
         nvContient.add(p.selctionnerCaseRoute(x + 1, y + 1));
-        nvContient = RouteLaPlusLongueDebut(nv1Contient);
+        nvContient = RouteLaPlusLongueDebut(nvContient);
       }
     }
     if (x - 1 >= 0 && y + 1 < p.getTaille() &&
         !p.selctionnerCaseRoute(x - 1, y + 1).getEstVide() &&
         p.selctionnerCaseRoute(x - 1, y + 1).getJ() == jcase) {
-      if (!contient.contains(p.selctionnerCaseRoute(x + 1, y + 1))) {
+      if (!contient.contains(p.selctionnerCaseRoute(x - 1, y + 1))) {
 
         ArrayList<CaseRoute> nv1Contient = new ArrayList<CaseRoute>();
         nv1Contient.addAll(contient);
-        nv1Contient.add(p.selctionnerCaseRoute(x + 1, y + 1));
+        nv1Contient.add(p.selctionnerCaseRoute(x - 1, y + 1));
         nv1Contient = RouteLaPlusLongueDebut(nv1Contient);
         if (nv1Contient.size() > nvContient.size()) {
           nvContient = nv1Contient;
@@ -744,11 +742,11 @@ public class TourNormal extends Tour {
     if (x + 1 < p.getTaille() && y - 1 >= 0 &&
         !p.selctionnerCaseRoute(x + 1, y - 1).getEstVide() &&
         p.selctionnerCaseRoute(x + 1, y - 1).getJ() == jcase) {
-      if (!contient.contains(p.selctionnerCaseRoute(x + 1, y + 1))) {
+      if (!contient.contains(p.selctionnerCaseRoute(x + 1, y - 1))) {
 
         ArrayList<CaseRoute> nv2Contient = new ArrayList<CaseRoute>();
         nv2Contient.addAll(contient);
-        nv2Contient.add(p.selctionnerCaseRoute(x + 1, y + 1));
+        nv2Contient.add(p.selctionnerCaseRoute(x + 1, y - 1));
         nv2Contient = RouteLaPlusLongueDebut(nv2Contient);
         if (nv2Contient.size() > nvContient.size()) {
           nvContient = nv2Contient;
@@ -758,11 +756,11 @@ public class TourNormal extends Tour {
     if (x - 1 >= 0 && y - 1 >= 0 &&
         !p.selctionnerCaseRoute(x - 1, y - 1).getEstVide() &&
         p.selctionnerCaseRoute(x - 1, y - 1).getJ() == jcase) {
-      if (!contient.contains(p.selctionnerCaseRoute(x + 1, y + 1))) {
+      if (!contient.contains(p.selctionnerCaseRoute(x - 1, y - 1))) {
 
         ArrayList<CaseRoute> nv3Contient = new ArrayList<CaseRoute>();
         nv3Contient.addAll(contient);
-        nv3Contient.add(p.selctionnerCaseRoute(x + 1, y + 1));
+        nv3Contient.add(p.selctionnerCaseRoute(x - 1, y - 1));
         nv3Contient = RouteLaPlusLongueDebut(nv3Contient);
         if (nv3Contient.size() > nvContient.size()) {
           nvContient = nv3Contient;
