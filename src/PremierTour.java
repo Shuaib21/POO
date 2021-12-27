@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Scanner;
 
 public class PremierTour extends Tour {
     private int x;
@@ -8,12 +9,12 @@ public class PremierTour extends Tour {
         super(j, p);
     }
 
-    public void ajouterColonie() {
+    public void ajouterColonie(Scanner sc) {
         boolean ajouter = false;
         while (!ajouter) {
             if (j.estHumain) {
-                x = getCoordonnee('x');
-                y = getCoordonnee('y');
+                x = getCoordonnee('x', sc);
+                y = getCoordonnee('y', sc);
             } else {
                 Random rand = new Random();
                 x = rand.nextInt(p.getTaille());
@@ -28,14 +29,14 @@ public class PremierTour extends Tour {
         }
     }
 
-    public void ajouterRoute() {
+    public void ajouterRoute(Scanner sc) {
         boolean ajouter = false;
         while (!ajouter) {
             int x;
             int y;
             if (j.estHumain) {
-                x = getCoordonnee('x');
-                y = getCoordonnee('y');
+                x = getCoordonnee('x', sc);
+                y = getCoordonnee('y', sc);
             } else {
                 Random rand = new Random();
                 x = rand.nextInt(p.getTaille());

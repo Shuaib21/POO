@@ -32,8 +32,7 @@ public abstract class Tour {
     }
   }
 
-  public int getCoordonnee(char c) {
-    Scanner sc = new Scanner(System.in);
+  public int getCoordonnee(char c, Scanner sc) {
     System.out.println("Veuillez entrer la coordonée " + c);
     int coord = sc.nextInt() - 1;
     while (coord < 0 || coord >= p.getTaille()) {
@@ -42,11 +41,10 @@ public abstract class Tour {
               p.getTaille());
       coord = sc.nextInt() - 1;
     }
-    // sc.close();
     return coord;
   }
 
-  public abstract void ajouterRoute();
+  public abstract void ajouterRoute(Scanner sc);
 
-  public abstract void ajouterColonie();
+  public abstract void ajouterColonie(Scanner sc);
 }

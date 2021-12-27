@@ -7,13 +7,13 @@ public class TourNormal extends Tour {
   private int sommeDés;
   private Joueur[] tabJ;
 
-  TourNormal(Joueur j, Plateau p, Joueur[] tabJ) {
+  TourNormal(Joueur j, Plateau p, Joueur[] tabJ, Scanner sc) {
     super(j, p);
     sommeDés = lancerLesDés();
     this.tabJ = tabJ;
     toucherRessource();
     if (sommeDés == 7) {
-      deplacerVoleur();
+      deplacerVoleur(sc);
     }
   }
 
@@ -49,7 +49,7 @@ public class TourNormal extends Tour {
     return d1 + d2;
   }
 
-  public void ajouterColonie() {
+  public void ajouterColonie(Scanner sc) {
     if (j.combienRessource("ARGILE") == 0 ||
         j.combienRessource("BOIS") == 0 ||
         j.combienRessource("CHAMPS") == 0 ||
@@ -63,8 +63,8 @@ public class TourNormal extends Tour {
       int x;
       int y;
       if (j.estHumain) {
-        x = getCoordonnee('x');
-        y = getCoordonnee('y');
+        x = getCoordonnee('x', sc);
+        y = getCoordonnee('y', sc);
       } else {
         Random rand = new Random();
         x = rand.nextInt(p.getTaille());
@@ -122,11 +122,11 @@ public class TourNormal extends Tour {
     return false;
   }
 
-  public void ajouterRoute() {
-    ajouterRoute(false);
+  public void ajouterRoute(Scanner sc) {
+    ajouterRoute(false, sc);
   }
 
-  private void ajouterRoute(boolean utiliseChevalier) {
+  private void ajouterRoute(boolean utiliseChevalier, Scanner sc) {
     if (!utiliseChevalier) {
       if (j.combienRessource("BOIS") == 0 || j.combienRessource("ARGILE") == 0) {
         System.out.println(
@@ -139,8 +139,8 @@ public class TourNormal extends Tour {
       int x;
       int y;
       if (j.estHumain) {
-        x = getCoordonnee('x');
-        y = getCoordonnee('y');
+        x = getCoordonnee('x', sc);
+        y = getCoordonnee('y', sc);
       } else {
         Random rand = new Random();
         x = rand.nextInt(p.getTaille());
@@ -247,7 +247,7 @@ public class TourNormal extends Tour {
   private void jouerPort3_1() {
   }
 
-  public void ajouterVille() {
+  public void ajouterVille(Scanner sc) {
     if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 2) {
       System.out.println(
           "Vous ne possedez pas assez de ressource pour construire une ville");
@@ -258,8 +258,8 @@ public class TourNormal extends Tour {
       int x;
       int y;
       if (j.estHumain) {
-        x = getCoordonnee('x');
-        y = getCoordonnee('y');
+        x = getCoordonnee('x', sc);
+        y = getCoordonnee('y', sc);
       } else {
         Random rand = new Random();
         x = rand.nextInt(p.getTaille());
@@ -303,7 +303,7 @@ public class TourNormal extends Tour {
     }
   }
 
-  public void jouezCarteDev() {
+  public void jouezCarteDev(Scanner sc) {
     System.out.println("Choix:");
     System.out.println("A: Jouer Carte Chevalier");
     System.out.println("B: Jouer Carte Progrès Construction de routes");
@@ -313,7 +313,6 @@ public class TourNormal extends Tour {
     String choix;
 
     if (j.estHumain) {
-      Scanner sc = new Scanner(System.in);
       choix = sc.next();
     } else {
       Random rand = new Random();
@@ -337,28 +336,28 @@ public class TourNormal extends Tour {
     switch (choix) {
       case "A":
         if (j.enleverCarteDev("Chevalier")) {
-          deplacerVoleur();
+          deplacerVoleur(sc);
         } else {
           System.out.println("Vous ne possédez pas de Carte Chevalier");
         }
         break;
       case "B":
         if (j.enleverCarteDev("Progrès Construction de routes")) {
-          ajouterRoute(true);
+          ajouterRoute(true, sc);
         } else {
           System.out.println("Vous ne possédez pas de Carte Progrès Construction de routes");
         }
         break;
       case "C":
         if (j.enleverCarteDev("Progrès Découverte")) {
-          progresDecouverte();
+          progresDecouverte(sc);
         } else {
           System.out.println("Vous ne possédez pas de Carte Progrès Découverte");
         }
         break;
       case "D":
         if (j.enleverCarteDev("Progrès Monopole")) {
-          progresMonopole();
+          progresMonopole(sc);
         } else {
           System.out.println("Vous ne possédez pas de Carte Progrès Monopole");
         }
@@ -369,14 +368,14 @@ public class TourNormal extends Tour {
     }
   }
 
-  public void deplacerVoleur() {
+  public void deplacerVoleur(Scanner sc) {
     boolean deplacer = false;
     while (!deplacer) {
       int x;
       int y;
       if (j.estHumain) {
-        x = getCoordonnee('x');
-        y = getCoordonnee('y');
+        x = getCoordonnee('x',sc);
+        y = getCoordonnee('y',sc);
       } else {
         Random rand = new Random();
         x = rand.nextInt(p.getTaille());
@@ -400,7 +399,7 @@ public class TourNormal extends Tour {
     }
   }
 
-  public void progresDecouverte() {
+  public void progresDecouverte(Scanner sc) {
     int nbr = 0;
     while (nbr != 2) {
       boolean correct = false;
@@ -415,7 +414,6 @@ public class TourNormal extends Tour {
         String choix;
 
         if (j.estHumain) {
-          Scanner sc = new Scanner(System.in);
           choix = sc.next();
         } else {
           Random rand = new Random();
@@ -468,7 +466,7 @@ public class TourNormal extends Tour {
     }
   }
 
-  public void progresMonopole() {
+  public void progresMonopole(Scanner sc) {
     boolean correct = false;
     String ress = "";
     while (!correct) {
@@ -482,7 +480,6 @@ public class TourNormal extends Tour {
       String choix;
 
       if (j.estHumain) {
-        Scanner sc = new Scanner(System.in);
         choix = sc.next();
       } else {
         Random rand = new Random();

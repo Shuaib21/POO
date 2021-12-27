@@ -12,14 +12,14 @@ public class Partie {
   }
 
   public void jouerPartie() {
-    init();
+    Scanner sc = new Scanner(System.in);
+    init(sc);
     while (!partiefini()) {
       for (Joueur j : tabJ) {
         System.out.println("Tour du joueur numéro " + j.numJoueur);
 
-        TourNormal t = new TourNormal(j, p, tabJ);
+        TourNormal t = new TourNormal(j, p, tabJ, sc);
 
-        Scanner sc = new Scanner(System.in);
         String choix;
 
         do {
@@ -60,22 +60,22 @@ public class Partie {
 
           switch (choix) {
             case "A":
-              t.ajouterColonie();
+              t.ajouterColonie(sc);
               p.afficher();
               break;
             case "B":
-              t.ajouterRoute();
+              t.ajouterRoute(sc);
               p.afficher();
               break;
             case "C":
-              t.ajouterVille();
+              t.ajouterVille(sc);
               p.afficher();
               break;
             case "D":
               t.acheterCartDev();
               break;
             case "E":
-              t.jouezCarteDev();
+              t.jouezCarteDev(sc);
               break;
             case "F":
               break;
@@ -87,14 +87,15 @@ public class Partie {
         } while (!choix.equals("F"));
       }
     }
+    sc.close();
   }
 
-  private void init() {
+  private void init(Scanner sc) {
     for (Joueur j : tabJ) {
       System.out.println("Tour du joueur numéro " + j.numJoueur);
       PremierTour t = new PremierTour(j, p);
-      t.ajouterColonie();
-      t.ajouterRoute();
+      t.ajouterColonie(sc);
+      t.ajouterRoute(sc);
       t.toucherRessource();
       p.afficher();
     }
@@ -102,8 +103,8 @@ public class Partie {
       Joueur j = tabJ[i];
       System.out.println("Tour du joueur numéro " + j.numJoueur);
       PremierTour t = new PremierTour(j, p);
-      t.ajouterColonie();
-      t.ajouterRoute();
+      t.ajouterColonie(sc);
+      t.ajouterRoute(sc);
       p.afficher();
     }
     Tour.genereCartes();
