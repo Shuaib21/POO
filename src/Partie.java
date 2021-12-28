@@ -6,9 +6,13 @@ public class Partie {
   private final Joueur[] tabJ;
   private Plateau p;
 
-  Partie(Joueur[] j, Plateau p) {
+  Partie(Joueur[] j) {
     tabJ = j;
-    this.p = p;
+    p = new Plateau(4);
+  }
+
+  public Plateau getP() {
+      return p;
   }
 
   public void jouerPartie() {
@@ -53,7 +57,7 @@ public class Partie {
               case 5:
                 choix = "E";
                 break;
-                case 6:
+              case 6:
                 choix = "F";
                 break;
               default:
@@ -82,7 +86,8 @@ public class Partie {
               t.jouezCarteDev(sc);
               break;
             case "F":
-              t.echangerAvecPort(sc);;
+              t.echangerAvecPort(sc);
+              ;
               break;
             case "G":
               break;

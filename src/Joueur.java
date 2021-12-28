@@ -8,7 +8,7 @@ public class Joueur {
   private ArrayList<String> mesPorts;
   private String couleur;
   private int point;
-  protected final boolean estHumain;
+  protected boolean estHumain;
   private String pseudo;
   private int nbrChevaliers = 0;
   private static int nbr = 0;
@@ -16,11 +16,11 @@ public class Joueur {
   private int nbrColonies;
   private int nbrVilles;
 
-  Joueur(String couleur) {
-    this(couleur, true);
+  Joueur(String couleur, String pseudo) {
+    this(couleur, pseudo, true);
   }
 
-  Joueur(String couleur, boolean estHumain){
+  Joueur(String couleur, String pseudo, boolean estHumain) {
     mainDev = new ArrayList<CarteDev>();
     mainRess = new int[5];
     mesPorts = new ArrayList<String>();
@@ -31,7 +31,7 @@ public class Joueur {
     numJoueur = nbr;
   }
 
-  public void augmenteNbChev(){
+  public void augmenteNbChev() {
     nbrChevaliers++;
   }
 
@@ -60,27 +60,31 @@ public class Joueur {
   }
 
   public int getNbrColonies() {
-      return nbrColonies;
+    return nbrColonies;
   }
 
   public int getNbrVilles() {
-      return nbrVilles;
+    return nbrVilles;
   }
 
-  public void ajouterUneColonie(){
+  public void setEstHumain(boolean estHumain) {
+    this.estHumain = estHumain;
+  }
+
+  public void ajouterUneColonie() {
     nbrColonies++;
   }
 
-  public void ajouterUneVille(){
+  public void ajouterUneVille() {
     nbrVilles++;
   }
-  
+
   public void ajouterPoint() {
     point++;
   }
 
-  public void enleverPoint(){
-    point-- ;
+  public void enleverPoint() {
+    point--;
   }
 
   public int combienRessource(String nomRessource) {
@@ -140,7 +144,7 @@ public class Joueur {
   }
 
   public int getNbrChevaliers() {
-      return nbrChevaliers;
+    return nbrChevaliers;
   }
 
   public void ajouterCarteDev(CarteDev c) {
