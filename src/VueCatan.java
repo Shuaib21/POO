@@ -4,15 +4,13 @@ import java.awt.*;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.awt.event.*;
 
 public class VueCatan extends JFrame {
     protected ModeleCatan model;
     private ImagePane imagePane;
     private JPanel menu;
-    private CreerJoueur j4;
-    private ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+    private Joueur[] tabJ = new Joueur[4];
 
     public VueCatan() {
         setTitle("Catan");
@@ -29,7 +27,7 @@ public class VueCatan extends JFrame {
         this.setLocationRelativeTo(null);
 
         for (int i = 1; i < 4; i++) {
-            menu.add(new CreerJoueur(i));
+            menu.add(new creerJoueur(i));
         }
 
         JMenuBar menuBar = new JMenuBar();
@@ -45,10 +43,11 @@ public class VueCatan extends JFrame {
 
         menu.add(menuBar);
 
+        creerJoueur j4 = new creerJoueur(4);
+
         plus.addActionListener(
                 (ActionEvent e) -> {
                     menu.remove(menuBar);
-                    j4 = new CreerJoueur(4);
                     menu.add(j4);
                     menu.add(menuBar);
                     plus.setEnabled(false);
@@ -62,31 +61,26 @@ public class VueCatan extends JFrame {
                     menu.remove(menuBar);
                     menu.remove(j4);
                     menu.add(menuBar);
+                    tabJ[3] = null;
                     plus.setEnabled(true);
                     moins.setEnabled(false);
-                    joueurs.remove(3);
                     this.validate();
                     this.repaint();
                 });
 
         start.addActionListener((ActionEvent e) -> {
             // à faire
-            Joueur[] tabJ = arrayListToArray();
+            for (int i = 0; i < 3; i++) {
+                System.out.println(tabJ[i].getPseudo());
+            }
+            
         });
     }
 
-    private Joueur[] arrayListToArray() {
-        Joueur[] tabJ = new Joueur[joueurs.size()];
-        for (int i = 0; i < joueurs.size(); i++) {
-            tabJ[i] = joueurs.get(i);
-        }
-        return tabJ;
-    }
-
-    private class CreerJoueur extends JPanel {
+    private class creerJoueur extends JPanel {
         private boolean humain = true;
 
-        public CreerJoueur(int n) {
+        public creerJoueur(int n) {
             setLayout(new BorderLayout());
             JTextField pseudo; // declare a field
             pseudo = new JTextField(10); // create field approx 10 columns wide.
@@ -102,12 +96,11 @@ public class VueCatan extends JFrame {
             pseudo.addFocusListener(
                     new FocusListener() {
                         public void focusGained(FocusEvent e) {
-                            pseudo.setText("");
                         }
 
                         public void focusLost(FocusEvent e) {
                             String nom = pseudo.getText();
-                            joueurs.add(n - 1, new Joueur(getCouleur(n), nom));
+                            tabJ[n - 1] = new Joueur(getCouleur(n), nom);
                         }
                     });
 
@@ -120,7 +113,7 @@ public class VueCatan extends JFrame {
                             ordi.setText("HUMAIN");
                             humain = true;
                         }
-                        joueurs.get(n - 1).setEstHumain(humain);
+                        tabJ[n - 1].setEstHumain(humain);
                         VueCatan.this.validate();
                         VueCatan.this.repaint();
                     });
