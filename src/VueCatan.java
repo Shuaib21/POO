@@ -37,7 +37,6 @@ public class VueCatan extends JFrame {
             joueurs[i] = new creerJoueur(i);
             menu.add(joueurs[i]);
         }
-        joueurs[3] = new creerJoueur(3);
 
         JMenuBar menuBar = new JMenuBar();
         JButton plus = new JButton("+");
@@ -55,6 +54,7 @@ public class VueCatan extends JFrame {
         plus.addActionListener(
                 (ActionEvent e) -> {
                     menu.remove(menuBar);
+                    joueurs[3] = new creerJoueur(3);
                     menu.add(joueurs[3]);
                     menu.add(menuBar);
                     plus.setEnabled(false);
@@ -80,7 +80,6 @@ public class VueCatan extends JFrame {
         start.setEnabled(false);
 
         start.addActionListener((ActionEvent e) -> {
-            // à faire
             if (joueurs[3] != null) {
                 tabJ = new Joueur[4];
                 tabJ[3] = new Joueur(joueurs[3].couleur, joueurs[3].nom, joueurs[3].humain);
@@ -91,8 +90,12 @@ public class VueCatan extends JFrame {
                 tabJ[i] = new Joueur(joueurs[i].couleur, joueurs[i].nom, joueurs[i].humain);
             }
             p = new Partie(tabJ);
+            for (Joueur j : tabJ) {
+                System.out.println(j.estHumain);
+            }
             // p.jouerPartie();
             this.remove(menu);
+            this.add(new table());
             this.validate();
             this.repaint();
         });
@@ -187,7 +190,7 @@ public class VueCatan extends JFrame {
             pseudo.addFocusListener(
                     new FocusListener() {
                         public void focusGained(FocusEvent e) {
-
+                            ordi.setEnabled(true);
                         }
 
                         public void focusLost(FocusEvent e) {
@@ -270,22 +273,17 @@ public class VueCatan extends JFrame {
 
         private JPanel JoueurHaut;
         private JPanel JoueurBas;
-        private JPanel J1;
-        private JPanel J2;
-        private JPanel J3;
-        private JPanel J4;
+        JPanel[] J = new JPanel[4];
 
-        int X;
-        int Y;
-
-        table() throws IOException {
+        table() {
             this.setLayout(new BorderLayout());
 
             plateau = new JPanel();
+            plateau.setLayout(new GridLayout(9, 9));
             this.add(plateau, BorderLayout.CENTER);
 
             commande = new JPanel();
-            this.add(plateau, BorderLayout.EAST);
+            this.add(commande, BorderLayout.EAST);
 
             commande.setLayout(new GridLayout(7, 1));
 
@@ -297,7 +295,13 @@ public class VueCatan extends JFrame {
             EchangerAvecPort = new JButton();
             TerminerTour = new JButton();
 
-            JPanel[] J = new JPanel[4];
+            commande.add(JouerColonie);
+            commande.add(JouerRoute);
+            commande.add(CreerVille);
+            commande.add(AcheterCarteDev);
+            commande.add(JouerCarteDev);
+            commande.add(EchangerAvecPort);
+            commande.add(TerminerTour);
 
             JoueurBas = new JPanel();
             JoueurHaut = new JPanel();
@@ -305,30 +309,38 @@ public class VueCatan extends JFrame {
             JoueurHaut.setLayout(new GridLayout(1, 2));
             JoueurHaut.setLayout(new GridLayout(1, 2));
 
-            JoueurHaut.add(J1);
-            JoueurHaut.add(J2);
-            JoueurBas.add(J3);
-            JoueurBas.add(J4); // peut etre a enlever si il sont moins de 4 Joueurs
-
-            BufferedImage buche = ImageIO.read(new File("./Image/buche.png"));
-            BufferedImage paille = ImageIO.read(new File("./Image/paille.png"));
-            BufferedImage pierre = ImageIO.read(new File("./Image/pierre.png"));
-            BufferedImage mouton = ImageIO.read(new File("./Image/mouton.png"));
-            BufferedImage argile = ImageIO.read(new File("./Image/argile.png"));
-            JLabel bucheLabel = new JLabel(new ImageIcon(buche));
-            JLabel pailleLabel = new JLabel(new ImageIcon(paille));
-            JLabel pierreLabel = new JLabel(new ImageIcon(pierre));
-            JLabel moutonLabel = new JLabel(new ImageIcon(mouton));
-            JLabel argileLabel = new JLabel(new ImageIcon(argile));
-
             for (int i = 0; i < 4; i++) {
                 J[i] = new JPanel();
                 J[i].setLayout(new GridLayout(2, 5));
-                J[i].add(bucheLabel);
-                J[i].add(pailleLabel);
-                J[i].add(pierreLabel);
-                J[i].add(moutonLabel);
-                J[i].add(argileLabel);
+            }
+
+            JoueurHaut.add(J[0]);
+            JoueurHaut.add(J[1]);
+            JoueurBas.add(J[2]);
+
+            if (tabJ.length == 4) { // S'il y a 4 joueurs
+                JoueurBas.add(J[3]);
+            }
+
+            this.add(JoueurHaut, BorderLayout.NORTH);
+            this.add(JoueurBas, BorderLayout.SOUTH);
+
+            try {
+                BufferedImage buche = ImageIO.read(new File("./Image/buche.png"));
+                BufferedImage paille = ImageIO.read(new File("./Image/paille.png"));
+                BufferedImage pierre = ImageIO.read(new File("./Image/pierre.png"));
+                BufferedImage mouton = ImageIO.read(new File("./Image/mouton.png"));
+                BufferedImage argile = ImageIO.read(new File("./Image/argile.png"));
+
+                for (int i = 0; i < 4; i++) {
+                    J[i].add(new JLabel(new ImageIcon(buche)));
+                    J[i].add(new JLabel(new ImageIcon(paille)));
+                    J[i].add(new JLabel(new ImageIcon(pierre)));
+                    J[i].add(new JLabel(new ImageIcon(mouton)));
+                    J[i].add(new JLabel(new ImageIcon(argile)));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
             ButtonInter[][] tab = new ButtonInter[9][9];
@@ -341,21 +353,23 @@ public class VueCatan extends JFrame {
                     a.setEnabled(false);
                 }
             }
+
             JouerColonie.addActionListener((ActionEvent e) -> {
                 for (int i = 0; i < 9; i = i + 2) {
                     for (int j = 0; j < 9; j = j + 2) {
                         this.setEnabled(true);
                     }
                 }
+                
             });
             JouerRoute.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 1; j < 9; j++) {
+                for (int i = 0; i < 9; i = i + 2) {
+                    for (int j = 1; j < 9; j = j + 2) {
                         this.setEnabled(true);
                     }
                 }
-                for (int i = 1; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
+                for (int i = 1; i < 9; i = i + 2) {
+                    for (int j = 0; j < 9; j = j + 2) {
                         this.setEnabled(true);
                     }
                 }
@@ -396,7 +410,12 @@ public class VueCatan extends JFrame {
                 X = i;
                 Y = j;
             });
-            this.setEnabled(false);
+
+            for (int x = 0; x < 9; x++) {
+                for (int y = 0; y < 9; y++) {
+                    this.setEnabled(false);
+                }
+            }
         }
 
     }

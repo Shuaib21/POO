@@ -12,7 +12,7 @@ public class Partie {
   }
 
   public Plateau getP() {
-      return p;
+    return p;
   }
 
   public void jouerPartie() {
@@ -87,7 +87,6 @@ public class Partie {
               break;
             case "F":
               t.echangerAvecPort(sc);
-              ;
               break;
             case "G":
               break;
@@ -95,10 +94,10 @@ public class Partie {
               System.out.println("Choix incorrect");
               break;
           }
-          // Afficher les cartes Point de victoire
         } while (!choix.equals("G"));
       }
     }
+    // Afficher les cartes Point de victoire
     sc.close();
   }
 
@@ -125,6 +124,7 @@ public class Partie {
   private boolean partiefini() {
     for (Joueur a : tabJ) {
       if (a.getPoint() >= 10) {
+        System.out.println(a.getPseudo() + " a remporté la partie.");
         return true;
       }
     }
