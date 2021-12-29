@@ -8,6 +8,7 @@ public class TourNormal extends Tour {
 
   private int sommeDés;
   private Joueur[] tabJ;
+  private boolean tourPasFini;
 
   TourNormal(Joueur j, Plateau p, Joueur[] tabJ, Scanner sc) {
     super(j, p);
@@ -17,6 +18,15 @@ public class TourNormal extends Tour {
     if (sommeDés == 7) {
       deplacerVoleur(sc);
     }
+    tourPasFini = true ;
+  }
+
+  private void finirMonTour(){
+    tourPasFini = false ;
+  }
+
+  public boolean getTourPasFini(){
+    return tourPasFini ;
   }
 
   private void toucherRessource() {

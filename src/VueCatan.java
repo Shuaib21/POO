@@ -350,33 +350,27 @@ public class VueCatan extends JFrame {
                     ButtonInter a = new ButtonInter(i, j);
                     plateau.add(a);
                     tab[i][j] = a;
-                    a.setEnabled(false);
                 }
             }
 
             JouerColonie.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i = i + 2) {
-                    for (int j = 0; j < 9; j = j + 2) {
+                for (int i = 0; i < 9; i = i++) {
+                    for (int j = 0; j < 9; j = j++) {
                         this.setEnabled(true);
                     }
                 }
                 
             });
             JouerRoute.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i = i + 2) {
-                    for (int j = 1; j < 9; j = j + 2) {
-                        this.setEnabled(true);
-                    }
-                }
-                for (int i = 1; i < 9; i = i + 2) {
-                    for (int j = 0; j < 9; j = j + 2) {
+                for (int i = 0; i < 9; i = i++) {
+                    for (int j = 0; j < 9; j = j++) {
                         this.setEnabled(true);
                     }
                 }
             });
             CreerVille.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i = i + 2) {
-                    for (int j = 0; j < 9; j = j + 2) {
+                for (int i = 0; i < 9; i = i++) {
+                    for (int j = 0; j < 9; j = j++) {
                         this.setEnabled(true);
                     }
                 }
@@ -398,11 +392,8 @@ public class VueCatan extends JFrame {
         ButtonInter(int i, int j) {
             if (i % 2 == 0 && j % 2 == 0) {
                 // colonie
-            } else if (i % 2 == 0 && j % 2 == 1) {
+            } else if ((i % 2 == 0 && j % 2 == 1)||(i % 2 == 1 && j % 2 == 0)) {
                 // route
-            } else if (i % 2 == 1 && j % 2 == 0) {
-                // route
-
             } else if (i % 2 == 1 && j % 2 == 1) {
                 // ressource
             }

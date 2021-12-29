@@ -5,6 +5,7 @@ public class Partie {
 
   private final Joueur[] tabJ;
   private Plateau p;
+  TourNormal t  ;
 
   Partie(Joueur[] j) {
     tabJ = j;
@@ -100,6 +101,21 @@ public class Partie {
     // Afficher les cartes Point de victoire
     sc.close();
   }
+
+  public void jouerPartieInter() {
+    Scanner sc = new Scanner(System.in);
+    init(sc);
+    while (!partiefini()) {
+      for (Joueur j : tabJ) {
+        System.out.println("Tour de : " + j.getPseudo());
+        t = new TourNormal(j, p, tabJ, sc);
+        while(t.getTourFini()){
+        }
+      }
+    }
+    sc.close();
+  }
+
 
   private void init(Scanner sc) {
     for (Joueur j : tabJ) {
