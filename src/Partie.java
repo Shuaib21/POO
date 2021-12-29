@@ -20,7 +20,7 @@ public class Partie {
     init(sc);
     while (!partiefini()) {
       for (Joueur j : tabJ) {
-        System.out.println("Tour du joueur numéro " + j.numJoueur);
+        System.out.println("Tour de : " + j.getPseudo());
 
         TourNormal t = new TourNormal(j, p, tabJ, sc);
 
@@ -104,7 +104,7 @@ public class Partie {
 
   private void init(Scanner sc) {
     for (Joueur j : tabJ) {
-      System.out.println("Tour du joueur numéro " + j.numJoueur);
+      System.out.println("Tour de : " + j.getPseudo());
       PremierTour t = new PremierTour(j, p);
       t.ajouterColonie(sc);
       t.ajouterRoute(sc);
@@ -113,7 +113,7 @@ public class Partie {
     }
     for (int i = tabJ.length - 1; i >= 0; i--) {
       Joueur j = tabJ[i];
-      System.out.println("Tour du joueur numéro " + j.numJoueur);
+      System.out.println("Tour de : " + j.getPseudo());
       PremierTour t = new PremierTour(j, p);
       t.ajouterColonie(sc);
       t.ajouterRoute(sc);

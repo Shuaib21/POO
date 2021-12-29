@@ -18,6 +18,8 @@ public class VueCatan extends JFrame {
     private Joueur[] tabJ;
     private creerJoueur[] joueurs = new creerJoueur[4];
     private Partie p;
+    int X ;
+    int Y ;
 
     public VueCatan() {
         setTitle("Catan");
@@ -91,7 +93,7 @@ public class VueCatan extends JFrame {
                 tabJ[i] = new Joueur(joueurs[i].couleur, joueurs[i].nom, joueurs[i].humain);
             }
             p = new Partie(tabJ);
-            //p.jouerPartie();
+            // p.jouerPartie();
             this.remove(menu);
             this.validate();
             this.repaint();
@@ -349,17 +351,41 @@ public class VueCatan extends JFrame {
             J3.add(argileLabel);
             J4.add(argileLabel);
 
+            ButtonInter[][] tab = new ButtonInter[9][9];
+
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
-                    // plateau.add(new ButtonInter(i, j));
+                    ButtonInter a = new ButtonInter(i, j);
+                    plateau.add(a);
+                    tab[i][j] = a;
+                    a.setEnabled(false);
                 }
             }
             JouerColonie.addActionListener((ActionEvent e) -> {
-
+                for (int i = 0; i < 9; i = i + 2) {
+                    for (int j = 0; j < 9; j = j + 2) {
+                        this.setEnabled(true);
+                    }
+                }
             });
             JouerRoute.addActionListener((ActionEvent e) -> {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 1; j < 9; j++) {
+                        this.setEnabled(true);
+                    }
+                }
+                for (int i = 1; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        this.setEnabled(true);
+                    }
+                }
             });
             CreerVille.addActionListener((ActionEvent e) -> {
+                for (int i = 0; i < 9; i = i + 2) {
+                    for (int j = 0; j < 9; j = j + 2) {
+                        this.setEnabled(true);
+                    }
+                }
             });
             AcheterCarteDev.addActionListener((ActionEvent e) -> {
             });
@@ -373,25 +399,25 @@ public class VueCatan extends JFrame {
         }
     }
 
-    public class ButtonInter extends JButton { // a faire
-        // ButtonInter(int i, int j){
-        // if(i%2==0 && j%2==0){
-        // // colonie
-        // // addActionListener((ActionEvent e) ->
-        // // X = i ;
-        // // Y = j ;
-        // // });
-        // // }else if(i%2==0&&j%2==1)
+    public class ButtonInter extends JButton {
 
-        // {
-        // // route
-        // }else if(i%2==1&&j%2==0)
-        // {
-        // // route
-        // }else if(i%2==1&&j%2==1)
-        // {
-        // // ressource
-        // }
+        ButtonInter(int i, int j) {
+            if (i % 2 == 0 && j % 2 == 0) {
+                // colonie
+            } else if (i % 2 == 0 && j % 2 == 1) {
+                // route
+            } else if (i % 2 == 1 && j % 2 == 0) {
+                // route
+
+            } else if (i % 2 == 1 && j % 2 == 1) {
+                // ressource
+            }
+            addActionListener((ActionEvent e) -> {
+                X = i;
+                Y = j;
+            });
+            this.setEnabled(false);
+        }
 
     }
 

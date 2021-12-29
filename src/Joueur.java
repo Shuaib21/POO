@@ -11,8 +11,6 @@ public class Joueur {
   protected boolean estHumain;
   private String pseudo;
   private int nbrChevaliers = 0;
-  private static int nbr = 0;
-  protected final int numJoueur;
   private int nbrColonies;
   private int nbrVilles;
 
@@ -28,8 +26,6 @@ public class Joueur {
     this.pseudo = pseudo;
     point = 0;
     this.estHumain = estHumain;
-    nbr++;
-    numJoueur = nbr;
   }
 
   public void augmenteNbChev() {
