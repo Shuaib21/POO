@@ -25,6 +25,7 @@ public class Joueur {
     mainRess = new int[5];
     mesPorts = new ArrayList<String>();
     this.couleur = couleur;
+    this.pseudo = pseudo;
     point = 0;
     this.estHumain = estHumain;
     nbr++;

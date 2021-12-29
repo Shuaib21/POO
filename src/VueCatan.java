@@ -1,16 +1,23 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import org.w3c.dom.events.Event;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.*;
+import javax.swing.event.MouseInputListener;
 
 public class VueCatan extends JFrame {
     protected ModeleCatan model;
     private ImagePane imagePane;
     private JPanel menu;
-    private Joueur[] tabJ = new Joueur[4];
+    private JButton start;
+    private Joueur[] tabJ;
+    private creerJoueur[] joueurs = new creerJoueur[4];
+    private Partie p;
 
     public VueCatan() {
         setTitle("Catan");
@@ -26,14 +33,16 @@ public class VueCatan extends JFrame {
         this.add(menu, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
 
-        for (int i = 1; i < 4; i++) {
-            menu.add(new creerJoueur(i));
+        for (int i = 0; i < 3; i++) {
+            joueurs[i] = new creerJoueur(i);
+            menu.add(joueurs[i]);
         }
+        joueurs[3] = new creerJoueur(3);
 
         JMenuBar menuBar = new JMenuBar();
         JButton plus = new JButton("+");
         JButton moins = new JButton("-");
-        JButton start = new JButton("START");
+        start = new JButton("START");
 
         moins.setEnabled(false);
 
@@ -43,12 +52,10 @@ public class VueCatan extends JFrame {
 
         menu.add(menuBar);
 
-        creerJoueur j4 = new creerJoueur(4);
-
         plus.addActionListener(
                 (ActionEvent e) -> {
                     menu.remove(menuBar);
-                    menu.add(j4);
+                    menu.add(joueurs[3]);
                     menu.add(menuBar);
                     plus.setEnabled(false);
                     moins.setEnabled(true);
@@ -59,48 +66,130 @@ public class VueCatan extends JFrame {
         moins.addActionListener(
                 (ActionEvent e) -> {
                     menu.remove(menuBar);
-                    menu.remove(j4);
+                    menu.remove(joueurs[3]);
+                    joueurs[3] = null;
                     menu.add(menuBar);
-                    tabJ[3] = null;
                     plus.setEnabled(true);
                     moins.setEnabled(false);
                     this.validate();
                     this.repaint();
                 });
 
+        menu.addMouseMotionListener(new Selection());
+
+        start.setEnabled(false);
+
         start.addActionListener((ActionEvent e) -> {
             // à faire
-            for (int i = 0; i < 3; i++) {
-                System.out.println(tabJ[i].getPseudo());
+            if (joueurs[3] != null) {
+                tabJ = new Joueur[4];
+                tabJ[3] = new Joueur(joueurs[3].couleur, joueurs[3].nom, joueurs[3].humain);
+            } else {
+                tabJ = new Joueur[3];
             }
-
+            for (int i = 0; i < 3; i++) {
+                tabJ[i] = new Joueur(joueurs[i].couleur, joueurs[i].nom, joueurs[i].humain);
+            }
+            p = new Partie(tabJ);
+            p.jouerPartie();
         });
+    }
+
+    public class Selection implements MouseInputListener {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
+                start.setEnabled(false);
+            } else {
+                start.setEnabled(true);
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
+                start.setEnabled(false);
+            } else {
+                start.setEnabled(true);
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
+                start.setEnabled(false);
+            } else {
+                start.setEnabled(true);
+            }
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
+                start.setEnabled(false);
+            } else {
+                start.setEnabled(true);
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
+                start.setEnabled(false);
+            } else {
+                start.setEnabled(true);
+            }
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
+                start.setEnabled(false);
+            } else {
+                start.setEnabled(true);
+            }
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
+                start.setEnabled(false);
+            } else {
+                start.setEnabled(true);
+            }
+        }
     }
 
     private class creerJoueur extends JPanel {
         private boolean humain = true;
+        private String nom;
+        private String couleur;
 
         public creerJoueur(int n) {
+            couleur = getCouleur(n + 1);
+
             setLayout(new BorderLayout());
             JTextField pseudo; // declare a field
             pseudo = new JTextField(10); // create field approx 10 columns wide.
             add(pseudo, BorderLayout.CENTER); // add it to a JPanel
 
             JLabel l = new JLabel();
-            l.setText("Joueur " + String.valueOf(n) + " : ");
+            l.setText("Joueur " + String.valueOf(n + 1) + " : ");
             add(l, BorderLayout.WEST);
 
             JButton ordi = new JButton("HUMAIN");
             add(ordi, BorderLayout.EAST);
+            ordi.setEnabled(false);
 
             pseudo.addFocusListener(
                     new FocusListener() {
                         public void focusGained(FocusEvent e) {
+
                         }
 
                         public void focusLost(FocusEvent e) {
-                            String nom = pseudo.getText();
-                            tabJ[n - 1] = new Joueur(getCouleur(n), nom);
+                            nom = pseudo.getText().toString();
+                            ordi.setEnabled(true);
                         }
                     });
 
@@ -113,7 +202,6 @@ public class VueCatan extends JFrame {
                             ordi.setText("HUMAIN");
                             humain = true;
                         }
-                        tabJ[n - 1].setEstHumain(humain);
                         VueCatan.this.validate();
                         VueCatan.this.repaint();
                     });
@@ -284,22 +372,22 @@ public class VueCatan extends JFrame {
 
     public class ButtonInter extends JButton { // a faire
         // ButtonInter(int i, int j){
-        //     if(i%2==0 && j%2==0){
-        //         // colonie
-        //     //     addActionListener((ActionEvent e) -> 
-        //     //             X = i ;
-        //     //             Y = j ;
-        //     //         });
-        //     // }else if(i%2==0&&j%2==1)
+        // if(i%2==0 && j%2==0){
+        // // colonie
+        // // addActionListener((ActionEvent e) ->
+        // // X = i ;
+        // // Y = j ;
+        // // });
+        // // }else if(i%2==0&&j%2==1)
 
         // {
-        //     // route
+        // // route
         // }else if(i%2==1&&j%2==0)
         // {
-        //     // route
+        // // route
         // }else if(i%2==1&&j%2==1)
         // {
-        //     // ressource
+        // // ressource
         // }
 
     }
