@@ -1,8 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import org.w3c.dom.events.Event;
-
 import java.awt.*;
 import java.awt.image.*;
 import java.io.File;
@@ -18,8 +16,8 @@ public class VueCatan extends JFrame {
     private Joueur[] tabJ;
     private creerJoueur[] joueurs = new creerJoueur[4];
     private Partie p;
-    int X ;
-    int Y ;
+    int X;
+    int Y;
 
     public VueCatan() {
         setTitle("Catan");
@@ -299,10 +297,7 @@ public class VueCatan extends JFrame {
             EchangerAvecPort = new JButton();
             TerminerTour = new JButton();
 
-            J1 = new JPanel();
-            J2 = new JPanel();
-            J3 = new JPanel();
-            J4 = new JPanel();
+            JPanel[] J = new JPanel[4];
 
             JoueurBas = new JPanel();
             JoueurHaut = new JPanel();
@@ -315,11 +310,6 @@ public class VueCatan extends JFrame {
             JoueurBas.add(J3);
             JoueurBas.add(J4); // peut etre a enlever si il sont moins de 4 Joueurs
 
-            J1.setLayout(new GridLayout(2, 5));
-            J2.setLayout(new GridLayout(2, 5));
-            J3.setLayout(new GridLayout(2, 5));
-            J4.setLayout(new GridLayout(2, 5));
-
             BufferedImage buche = ImageIO.read(new File("./Image/buche.png"));
             BufferedImage paille = ImageIO.read(new File("./Image/paille.png"));
             BufferedImage pierre = ImageIO.read(new File("./Image/pierre.png"));
@@ -330,26 +320,16 @@ public class VueCatan extends JFrame {
             JLabel pierreLabel = new JLabel(new ImageIcon(pierre));
             JLabel moutonLabel = new JLabel(new ImageIcon(mouton));
             JLabel argileLabel = new JLabel(new ImageIcon(argile));
-            J1.add(bucheLabel);
-            J2.add(bucheLabel);
-            J3.add(bucheLabel);
-            J4.add(bucheLabel);
-            J1.add(pailleLabel);
-            J2.add(pailleLabel);
-            J3.add(pailleLabel);
-            J4.add(pailleLabel);
-            J1.add(pierreLabel);
-            J2.add(pierreLabel);
-            J3.add(pierreLabel);
-            J4.add(pierreLabel);
-            J1.add(moutonLabel);
-            J2.add(moutonLabel);
-            J3.add(moutonLabel);
-            J4.add(moutonLabel);
-            J1.add(argileLabel);
-            J2.add(argileLabel);
-            J3.add(argileLabel);
-            J4.add(argileLabel);
+
+            for (int i = 0; i < 4; i++) {
+                J[i] = new JPanel();
+                J[i].setLayout(new GridLayout(2, 5));
+                J[i].add(bucheLabel);
+                J[i].add(pailleLabel);
+                J[i].add(pierreLabel);
+                J[i].add(moutonLabel);
+                J[i].add(argileLabel);
+            }
 
             ButtonInter[][] tab = new ButtonInter[9][9];
 
