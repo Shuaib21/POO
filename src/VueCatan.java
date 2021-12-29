@@ -91,7 +91,10 @@ public class VueCatan extends JFrame {
                 tabJ[i] = new Joueur(joueurs[i].couleur, joueurs[i].nom, joueurs[i].humain);
             }
             p = new Partie(tabJ);
-            p.jouerPartie();
+            //p.jouerPartie();
+            this.remove(menu);
+            this.validate();
+            this.repaint();
         });
     }
 
