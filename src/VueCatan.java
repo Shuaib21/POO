@@ -18,6 +18,8 @@ public class VueCatan extends JFrame {
     private Partie p;
     int X;
     int Y;
+    boolean incorrect = false ;
+    JLabel erreur=new JLabel();
 
     public VueCatan() {
         setTitle("Catan");
@@ -263,16 +265,16 @@ public class VueCatan extends JFrame {
         private JPanel plateau;
         private JPanel commande;
 
-        private JButton JouerColonie;
-        private JButton JouerRoute;
-        private JButton CreerVille;
-        private JButton AcheterCarteDev;
-        private JButton JouerCarteDev;
-        private JButton EchangerAvecPort;
-        private JButton TerminerTour;
+        private JButton jouerColonie;
+        private JButton jouerRoute;
+        private JButton creerVille;
+        private JButton acheterCarteDev;
+        private JButton jouerCarteDev;
+        private JButton echangerAvecPort;
+        private JButton terminerTour;
 
-        private JPanel JoueurHaut;
-        private JPanel JoueurBas;
+        private JPanel joueurHaut;
+        private JPanel joueurBas;
         JPanel[] J = new JPanel[4];
 
         table() {
@@ -287,43 +289,51 @@ public class VueCatan extends JFrame {
 
             commande.setLayout(new GridLayout(7, 1));
 
-            JouerColonie = new JButton();
-            JouerRoute = new JButton();
-            CreerVille = new JButton();
-            AcheterCarteDev = new JButton();
-            JouerCarteDev = new JButton();
-            EchangerAvecPort = new JButton();
-            TerminerTour = new JButton();
+            jouerColonie = new JButton();
+            jouerRoute = new JButton();
+            creerVille = new JButton();
+            acheterCarteDev = new JButton();
+            jouerCarteDev = new JButton();
+            echangerAvecPort = new JButton();
+            terminerTour = new JButton();
 
-            commande.add(JouerColonie);
-            commande.add(JouerRoute);
-            commande.add(CreerVille);
-            commande.add(AcheterCarteDev);
-            commande.add(JouerCarteDev);
-            commande.add(EchangerAvecPort);
-            commande.add(TerminerTour);
+            commande.add(jouerColonie);
+            commande.add(jouerRoute);
+            commande.add(creerVille);
+            commande.add(acheterCarteDev);
+            commande.add(jouerCarteDev);
+            commande.add(echangerAvecPort);
+            commande.add(terminerTour);
 
-            JoueurBas = new JPanel();
-            JoueurHaut = new JPanel();
-            JoueurBas.setLayout(new GridLayout());
-            JoueurHaut.setLayout(new GridLayout(1, 2));
-            JoueurHaut.setLayout(new GridLayout(1, 2));
+            jouerColonie.setEnabled(false);
+            jouerRoute.setEnabled(false);
+            creerVille.setEnabled(false);
+            acheterCarteDev.setEnabled(false);
+            jouerCarteDev.setEnabled(false);
+            echangerAvecPort.setEnabled(false);
+            terminerTour.setEnabled(false);
+
+            joueurBas = new JPanel();
+            joueurHaut = new JPanel();
+            joueurBas.setLayout(new GridLayout());
+            joueurHaut.setLayout(new GridLayout(1, 2));
+            joueurHaut.setLayout(new GridLayout(1, 2));
 
             for (int i = 0; i < 4; i++) {
                 J[i] = new JPanel();
                 J[i].setLayout(new GridLayout(2, 5));
             }
 
-            JoueurHaut.add(J[0]);
-            JoueurHaut.add(J[1]);
-            JoueurBas.add(J[2]);
+            joueurHaut.add(J[0]);
+            joueurHaut.add(J[1]);
+            joueurBas.add(J[2]);
 
             if (tabJ.length == 4) { // S'il y a 4 joueurs
-                JoueurBas.add(J[3]);
+                joueurBas.add(J[3]);
             }
 
-            this.add(JoueurHaut, BorderLayout.NORTH);
-            this.add(JoueurBas, BorderLayout.SOUTH);
+            this.add(joueurHaut, BorderLayout.NORTH);
+            this.add(joueurBas, BorderLayout.SOUTH);
 
             try {
                 BufferedImage buche = ImageIO.read(new File("./Image/buche.png"));
@@ -353,62 +363,67 @@ public class VueCatan extends JFrame {
                 }
             }
 
-            JouerColonie.addActionListener((ActionEvent e) -> {
+            jouerColonie.addActionListener((ActionEvent e) -> {
+                p.mettreColonie(X,Y) ;
+                VueCatan.this.validate() ;
+                VueCatan.this.repaint();
                 for (int i = 0; i < 9; i = i++) {
                     for (int j = 0; j < 9; j = j++) {
                         this.setEnabled(true);
                     }
                 }
-                
+
             });
-            JouerRoute.addActionListener((ActionEvent e) -> {
+            jouerRoute.addActionListener((ActionEvent e) -> {
                 for (int i = 0; i < 9; i = i++) {
                     for (int j = 0; j < 9; j = j++) {
                         this.setEnabled(true);
                     }
                 }
             });
-            CreerVille.addActionListener((ActionEvent e) -> {
+            creerVille.addActionListener((ActionEvent e) -> {
                 for (int i = 0; i < 9; i = i++) {
                     for (int j = 0; j < 9; j = j++) {
                         this.setEnabled(true);
                     }
                 }
             });
-            AcheterCarteDev.addActionListener((ActionEvent e) -> {
+            acheterCarteDev.addActionListener((ActionEvent e) -> {
             });
-            JouerCarteDev.addActionListener((ActionEvent e) -> {
+            jouerCarteDev.addActionListener((ActionEvent e) -> {
             });
-            TerminerTour.addActionListener((ActionEvent e) -> {
+            terminerTour.addActionListener((ActionEvent e) -> {
             });
-            EchangerAvecPort.addActionListener((ActionEvent e) -> {
+            echangerAvecPort.addActionListener((ActionEvent e) -> {
             });
 
         }
-    }
 
-    public class ButtonInter extends JButton {
+        private class ButtonInter extends JButton {
 
-        ButtonInter(int i, int j) {
-            if (i % 2 == 0 && j % 2 == 0) {
-                // colonie
-            } else if ((i % 2 == 0 && j % 2 == 1)||(i % 2 == 1 && j % 2 == 0)) {
-                // route
-            } else if (i % 2 == 1 && j % 2 == 1) {
-                // ressource
-            }
-            addActionListener((ActionEvent e) -> {
-                X = i;
-                Y = j;
-            });
+            ButtonInter(int i, int j) {
+                if (i % 2 == 0 && j % 2 == 0) {
+                    // colonie
+                    jouerColonie.setEnabled(true);
+                } else if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) {
+                    // route
+                    jouerRoute.setEnabled(true);
+                } else if (i % 2 == 1 && j % 2 == 1) {
+                    // ressource
+                }
+                addActionListener((ActionEvent e) -> {
+                    X = i;
+                    Y = j;
+                });
 
-            for (int x = 0; x < 9; x++) {
-                for (int y = 0; y < 9; y++) {
-                    this.setEnabled(false);
+                for (int x = 0; x < 9; x++) {
+                    for (int y = 0; y < 9; y++) {
+                        this.setEnabled(false);
+                    }
                 }
             }
-        }
 
+        }
     }
 
     public static void main(String[] args) {
