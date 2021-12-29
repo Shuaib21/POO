@@ -18,15 +18,26 @@ public class TourNormal extends Tour {
     if (sommeDés == 7) {
       deplacerVoleur(sc);
     }
-    tourPasFini = true ;
+    tourPasFini = true;
   }
 
-  private void finirMonTour(){
-    tourPasFini = false ;
+  TourNormal(Joueur j, Plateau p, Joueur[] tabJ, VueCatan v) {
+    super(j, p, v);
+    sommeDés = lancerLesDés();
+    this.tabJ = tabJ;
+    toucherRessource();
+    if (sommeDés == 7) {
+      // deplacerVoleur(sc);// refaire
+    }
+    tourPasFini = true;
   }
 
-  public boolean getTourPasFini(){
-    return tourPasFini ;
+  private void finirMonTour() {
+    tourPasFini = false;
+  }
+
+  public boolean getTourPasFini() {
+    return tourPasFini;
   }
 
   private void toucherRessource() {
@@ -112,6 +123,47 @@ public class TourNormal extends Tour {
     }
   }
 
+  public void ajouterColonie(int x, int y) {
+    if (j.combienRessource("ARGILE") == 0 ||
+        j.combienRessource("BOIS") == 0 ||
+        j.combienRessource("CHAMPS") == 0 ||
+        j.combienRessource("MOUTON") == 0) {
+      // afficher l'erreur si il n'a pas
+      v.incorrect = true;
+      v.erreur.setText("Vous n'avez pas les ressources demandées");
+      return;
+    }
+    if (p.selctionnerCaseColonie(x, y) != null) {
+      if (p.selctionnerCaseColonie(x, y).getEstVide()) {
+        if (estColleARoute(x, y)) {
+          p.selctionnerCaseColonie(x, y).mettreColonie(j);
+          j.ajouterUneColonie();
+          j.enleverRessource("ARGILE");
+          j.enleverRessource("BOIS");
+          j.enleverRessource("CHAMPS");
+          j.enleverRessource("MOUTON");
+          j.ajouterPoint();
+          actualiserRouteLaPlusLongue();
+          if (p.selctionnerCaseColonie(x, y).estPort()) {
+            boolean possede = false;
+            for (String a : j.getMesPorts()) {
+              if (a.equals(p.selctionnerCaseColonie(x, y).getPort())) {
+                possede = true;
+              }
+            }
+            if (!possede) {
+              j.getMesPorts().add(p.selctionnerCaseColonie(x, y).getPort());
+            }
+          }
+          // AJOUTER L'IMAGE
+          return;
+        }
+      }
+    }
+    v.incorrect = true;
+    v.erreur.setText("Vous ne pouvez pas mettre de colonie ici");
+  }
+
   private boolean estColleARoute(int x, int y) {
     if (x + 1 < p.getTaille() &&
         !p.selctionnerCaseRoute(x + 1, y).getEstVide() &&
@@ -140,8 +192,30 @@ public class TourNormal extends Tour {
     ajouterRoute(false, sc);
   }
 
-  private void ajouterRoute(boolean utiliseChevalier, Scanner sc) {
-    if (!utiliseChevalier) {
+  private void ajouterRoute(int x, int y) {
+    if (j.combienRessource("BOIS") == 0 || j.combienRessource("ARGILE") == 0) {
+      v.incorrect = true;
+      v.erreur.setText("Vous n'avez pas assez de ressource pour construire une route");
+      return;
+    }
+    if (p.selctionnerCaseRoute(x, y) != null) {
+      if (p.selctionnerCaseRoute(x, y).getEstVide()) {
+        if (estColleAColonie(x, y) || routeColleARoute(x, y)) {
+          p.selctionnerCaseRoute(x, y).mettreRoute(j);
+          j.enleverRessource("BOIS");
+          j.enleverRessource("ARGILE");
+          actualiserRouteLaPlusLongue();
+        }
+      }
+    }
+    v.incorrect = true;
+    v.erreur.setText("Vous ne pouvez pas placer de route ici");
+    return;
+
+  }
+
+  private void ajouterRoute(boolean utiliseCarteDev, Scanner sc) {
+    if (!utiliseCarteDev) {
       if (j.combienRessource("BOIS") == 0 || j.combienRessource("ARGILE") == 0) {
         System.out.println(
             "Vous n'avez pas assez de ressource pour construire une route");
@@ -164,12 +238,12 @@ public class TourNormal extends Tour {
         if (p.selctionnerCaseRoute(x, y).getEstVide()) {
           if (estColleAColonie(x, y) || routeColleARoute(x, y)) {
             p.selctionnerCaseRoute(x, y).mettreRoute(j);
-            if (!utiliseChevalier) {
+            if (!utiliseCarteDev) {
               j.enleverRessource("BOIS");
               j.enleverRessource("ARGILE");
             }
             ajouter = true;
-            actualiserRouteLaPlusLongue() ;
+            actualiserRouteLaPlusLongue();
           }
         }
       }
@@ -467,7 +541,7 @@ public class TourNormal extends Tour {
   public void jouezCarteDev(Scanner sc) {
     System.out.println("Choix:");
     System.out.println("A: Jouer Carte Chevalier");
-    System.out.println("B: Jouer Carte Progrès Construction de routes");
+    System.out.println("B: Jouer Carte Progrès Construction de deux routes");
     System.out.println("C: Jouer Carte Progrès Découverte");
     System.out.println("D: Jouer Carte Progrès Monopole");
 
@@ -515,6 +589,7 @@ public class TourNormal extends Tour {
         break;
       case "B":
         if (j.enleverCarteDev("Progrès Construction de routes")) {
+          ajouterRoute(true, sc);
           ajouterRoute(true, sc);
         } else {
           System.out.println("Vous ne possédez pas de Carte Progrès Construction de routes");
@@ -785,11 +860,11 @@ public class TourNormal extends Tour {
       Tour.contientRouteLaPlusLongue.enleverPoint();
       Tour.contientRouteLaPlusLongue.enleverPoint();
     }
-    if(RoutePlusLongue()!=null){
+    if (RoutePlusLongue() != null) {
       RoutePlusLongue().ajouterPoint();
       RoutePlusLongue().ajouterPoint();
     }
-    Tour.contientRouteLaPlusLongue = RoutePlusLongue() ;
+    Tour.contientRouteLaPlusLongue = RoutePlusLongue();
   }
 
 }
