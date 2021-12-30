@@ -107,7 +107,7 @@ public class VueCatan extends JFrame {
             for (int i = 0; i < 3; i++) {
                 tabJ[i] = new Joueur(joueurs[i].couleur, joueurs[i].nom, joueurs[i].humain);
             }
-            p = new Partie(tabJ);
+            p = new Partie(tabJ, this);
             this.remove(menu);
             t = new Table();
             this.add(t);
@@ -567,8 +567,10 @@ public class VueCatan extends JFrame {
                                     if (p.getP().selctionnerCasePaysage(i, j) == null) {
                                         tab[x][y].setEnabled(false);
                                     }
+                                    System.out.println("x :" + x + " y :" + y + p.pt.correcte(x, y) + " ");
                                     if ((x % 2 == 0 && y % 2 == 1) || (x % 2 == 1 && y % 2 == 0)) {
-                                        if (p.pt.correcte(x, y) && p.getP().selctionnerCaseRoute(x, y).getEstVide()) {
+                                        if (((x == i && Math.abs(j - y) == 1) || (y == j && Math.abs(x - i) == 1))
+                                                && p.getP().selctionnerCaseRoute(x, y).getEstVide()) {
                                             tab[x][y].setEnabled(true);
                                         }
                                     }
@@ -580,7 +582,10 @@ public class VueCatan extends JFrame {
                         }
                     } else if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) { // route
                         if (premierTour) {
+                            System.out.println("selec route");
                             p.pt.ajouterRoute(i, j);
+                            System.out.println("route ajt");
+                            p.pTourFini();
                         } else {
                             jouerRoute.setEnabled(true);
                         }
