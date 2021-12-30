@@ -5,7 +5,7 @@ public class Partie {
 
   private final Joueur[] tabJ;
   private Plateau p;
-  TourNormal t  ;
+  TourNormal t;
 
   Partie(Joueur[] j) {
     tabJ = j;
@@ -102,20 +102,19 @@ public class Partie {
     sc.close();
   }
 
-  public void jouerPartieInter() {
+  public void jouerPartieInter(VueCatan v) {
     Scanner sc = new Scanner(System.in);
-    init(sc);
+    initInter(v);
     while (!partiefini()) {
       for (Joueur j : tabJ) {
         System.out.println("Tour de : " + j.getPseudo());
         t = new TourNormal(j, p, tabJ, sc);
-        while(t.getTourFini()){
+        while (t.getTourPasFini()) {
         }
       }
     }
     sc.close();
   }
-
 
   private void init(Scanner sc) {
     for (Joueur j : tabJ) {
@@ -135,6 +134,52 @@ public class Partie {
       p.afficher();
     }
     Tour.genereCartes();
+  }
+
+  private void initInter(VueCatan v) {
+    v.premierTour = true;
+    for (Joueur j : tabJ) {
+      PremierTour t = new PremierTour(j, p, v);
+      while (!t.ajouterColonie()) {
+        v.incorrect = true;
+        v.validate();
+        v.repaint();
+      }
+      v.incorrect = false;
+      v.validate();
+      v.repaint();
+      while (!t.ajouterRoute()) {
+        v.incorrect = true;
+        v.validate();
+        v.repaint();
+      }
+      v.incorrect = false;
+      v.validate();
+      v.repaint();
+      t.toucherRessource();
+    }
+    for (int i = tabJ.length - 1; i >= 0; i--) {
+      Joueur j = tabJ[i];
+      PremierTour t = new PremierTour(j, p, v);
+      while (!t.ajouterColonie()) {
+        v.incorrect = true;
+        v.validate();
+        v.repaint();
+      }
+      v.incorrect = false;
+      v.validate();
+      v.repaint();
+      while (!t.ajouterRoute()) {
+        v.incorrect = true;
+        v.validate();
+        v.repaint();
+      }
+      v.incorrect = false;
+      v.validate();
+      v.repaint();
+    }
+    Tour.genereCartes();
+    v.premierTour = false;
   }
 
   private boolean partiefini() {

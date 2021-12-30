@@ -5,6 +5,7 @@ public abstract class Tour {
 
   protected Joueur j;
   protected Plateau p;
+  protected VueCatan v;
   protected static ArrayList<CarteDev> cartes = new ArrayList<CarteDev>();
   protected static Joueur contientChevalierPuissant;
   protected static Joueur contientRouteLaPlusLongue; 
@@ -14,6 +15,12 @@ public abstract class Tour {
   public Tour(Joueur j, Plateau p) {
     this.j = j;
     this.p = p;
+  }
+
+  public Tour(Joueur j, Plateau p, VueCatan v) {
+    this.j = j;
+    this.p = p;
+    this.v=v;
   }
 
   protected static void genereCartes() {
