@@ -27,7 +27,26 @@ public class TourNormal extends Tour {
     this.tabJ = tabJ;
     toucherRessource();
     if (sommeDés == 7) {
-      // deplacerVoleur(sc);// refaire
+      v.getT().getJouerRoute().setEnabled(false);
+      v.getT().getJouerColonie().setEnabled(false);
+      v.getT().getCreerVille().setEnabled(false);
+      v.getT().getAcheterCarteDev().setEnabled(false);
+      v.getT().getJouerCarteDev().setEnabled(false);
+      v.getT().getEchangerAvecPort().setEnabled(false);
+      v.getT().getTerminerTour().setEnabled(false);
+      for (int i = 0; i < 9; i++) {
+        for (int a = 0; a < 9; a++) {
+          v.getT().getTab(i, a).setEnabled(false);
+        }
+      }
+      for (int i = 1; i < 9; i = i + 2) {
+        for (int a = 1; a < 9; a = a + 2) {
+          if (!p.selctionnerCaseRess(i, a).getContientVoleur())
+            v.getT().getTab(i, a).setEnabled(true);
+        }
+      }
+      v.incorrect = true;
+      v.erreur.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
     }
     tourPasFini = true;
   }
@@ -562,7 +581,7 @@ public class TourNormal extends Tour {
       if (estInterface) {
         v.incorrect = true;
         v.erreur.setText("Vous n'avez pas les ressources demandées pour acheter une carte développement");
-        return ;
+        return;
       } else {
         System.out.println(
             "Vous n'avez pas les ressources demandées pour acheter une carte développement");
@@ -681,10 +700,27 @@ public class TourNormal extends Tour {
         }
         p.selctionnerCasePaysage(x, y).setContientVoleur(true);
         deplacer = true;
+        // voler une carte a une personne sur la ressource
       } else if (j.estHumain) {
         System.out.println("Le voleur ne peut pas être déplacé dans cette case");
       }
 
+    }
+  }
+
+  public void deplacerVoleur(int x, int y) {
+    if (p.selctionnerCasePaysage(x, y) != null && !p.selctionnerCasePaysage(x, y).getContientVoleur()) {
+      for (int i = 0; i < p.getTaille(); i++) {
+        for (int j = 0; j < p.getTaille(); j++) { // Le Plateau est toujours de taille n x n
+          if (p.selctionnerCasePaysage(i, j) != null && p.selctionnerCasePaysage(i, j).getContientVoleur()) {
+            p.selctionnerCasePaysage(i, j).setContientVoleur(false);
+          }
+        }
+      }
+      p.selctionnerCasePaysage(x, y).setContientVoleur(true);
+    } else if (j.estHumain) {
+      v.incorrect = true;
+      v.erreur.setText("Le voleur ne peut pas être déplacé dans cette case");
     }
   }
 

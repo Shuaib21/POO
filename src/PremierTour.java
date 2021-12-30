@@ -11,6 +11,27 @@ public class PremierTour extends Tour {
 
     public PremierTour(Joueur j, Plateau p, VueCatan v) {
         super(j, p, v);
+        v.getT().getJouerRoute().setEnabled(false);
+        v.getT().getJouerColonie().setEnabled(false);
+        v.getT().getCreerVille().setEnabled(false);
+        v.getT().getAcheterCarteDev().setEnabled(false);
+        v.getT().getJouerCarteDev().setEnabled(false);
+        v.getT().getEchangerAvecPort().setEnabled(false);
+        v.getT().getTerminerTour().setEnabled(false);
+        for (int i = 0; i < 9; i++) {
+            for (int a = 0; a < 9; a++) {
+                v.getT().getTab(i, a).setEnabled(false);
+            }
+        }
+        for (int i = 0; i < 9; i = i + 2) {
+            for (int a = 0; a < 9; a = a + 2) {
+                if (p.selctionnerCaseColonie(i, a).getEstVide()) {
+                    v.getT().getTab(i, a).setEnabled(true);
+                }
+            }
+        }
+        v.incorrect = true;
+        v.erreur.setText("Veuillez selectionner la case ou vous voulez mettre votre colonie");
     }
 
     public void ajouterColonie(Scanner sc) {
@@ -33,23 +54,14 @@ public class PremierTour extends Tour {
         }
     }
 
-    public boolean ajouterColonie() {
-        boolean ajouter = false;
-        if (j.estHumain) {
-            x = v.X;
-            y = v.Y;
-        } else {
-            Random rand = new Random();
-            x = rand.nextInt(p.getTaille());
-            y = rand.nextInt(p.getTaille());
-        }
+    public void ajouterColonie(int X, int Y) {
+        int x = X;
+        int y = Y;
         if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
             p.selctionnerCaseColonie(x, y).mettreColonie(j);
-            ajouter = true;
-        }else{
+        } else {
             v.erreur.setText("Votre colonie ne peut pas être ajoutée ici.");
         }
-        return ajouter;
     }
 
     public void ajouterRoute(Scanner sc) {
@@ -78,34 +90,15 @@ public class PremierTour extends Tour {
         }
     }
 
-    public boolean ajouterRoute() {
-        boolean ajouter = false;
-        while (!ajouter) {
-            int x;
-            int y;
-            if (j.estHumain) {
-                x = v.X;
-                y = v.Y;
-            } else {
-                Random rand = new Random();
-                x = rand.nextInt(p.getTaille());
-                y = rand.nextInt(p.getTaille());
-            }
-            if (correcte(x, y)) {
-                if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getEstVide()) {
-                    p.selctionnerCaseRoute(x, y).mettreRoute(j);
-                    ajouter = true;
-                } else if (j.estHumain) {
-                    v.erreur.setText("Votre route ne peut pas être ajoutée ici.");
-                }
-            } else if (j.estHumain) {
-                v.erreur.setText("Votre route ne peut pas être ajoutée ici.");
+    public void ajouterRoute(int x, int y) {
+        if (correcte(x, y)) {
+            if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getEstVide()) {
+                p.selctionnerCaseRoute(x, y).mettreRoute(j);
             }
         }
-        return ajouter;
     }
 
-    private boolean correcte(int x, int y) {
+    public boolean correcte(int x, int y) {
         if (x == this.x && Math.abs(y - this.y) == 1) {
             return true;
         }

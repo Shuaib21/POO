@@ -21,9 +21,21 @@ public class VueCatan extends JFrame {
     int Y;
     boolean incorrect = false;
     JLabel erreur = new JLabel();
-    boolean premierTour = true;
+    boolean premierTour;
     boolean ajouterColonie;
     boolean ajouterRoute;
+
+    public Table getT() {
+        return t;
+    }
+
+    public void setX(int x) {
+        X = x;
+    }
+
+    public void setY(int y) {
+        Y = y;
+    }
 
     public VueCatan() {
         setTitle("Catan");
@@ -103,6 +115,7 @@ public class VueCatan extends JFrame {
             this.repaint();
             p.jouerPartieInter(this);
         });
+
     }
 
     public class Selection implements MouseInputListener {
@@ -263,7 +276,7 @@ public class VueCatan extends JFrame {
 
     }
 
-    private class Table extends JPanel {
+    class Table extends JPanel { // **************************************************************************************
         private JPanel plateau;
         private JPanel commande;
 
@@ -378,61 +391,19 @@ public class VueCatan extends JFrame {
             }
 
             jouerColonie.addActionListener((ActionEvent e) -> {
-                if (premierTour) {
-                    if (ajouterColonie) {
-                        for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
-                            for (int j = 1; j < p.getP().getTaille(); j = j + 2) {
-                                tab[i][j].setEnabled(true);
-                            }
-                        }
-                        for (int i = 1; i < p.getP().getTaille(); i = i + 2) {
-                            for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
-                                tab[i][j].setEnabled(true);
-                            }
-                        }
-                    } else {
-                        for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
-                            for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
-                                tab[i][j].setEnabled(true);
-                            }
-                        }
-                    }
-                } else {
-                    p.t.ajouterColonie(X, Y);
-                    for (int i = 0; i < 9; i = i++) {
-                        for (int j = 0; j < 9; j = j++) {
-                            tab[i][j].setEnabled(true);
-                        }
+                p.t.ajouterColonie(X, Y);
+                for (int i = 0; i < 9; i = i++) {
+                    for (int j = 0; j < 9; j = j++) {
+                        tab[i][j].setEnabled(true);
                     }
                 }
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
             });
             jouerRoute.addActionListener((ActionEvent e) -> {
-                if (premierTour) {
-                    if (ajouterRoute) {
-                        for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
-                            for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
-                                tab[i][j].setEnabled(true);
-                            }
-                        }
-                    } else {
-                        for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
-                            for (int j = 1; j < p.getP().getTaille(); j = j + 2) {
-                                tab[i][j].setEnabled(true);
-                            }
-                        }
-                        for (int i = 1; i < p.getP().getTaille(); i = i + 2) {
-                            for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
-                                tab[i][j].setEnabled(true);
-                            }
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < 9; i = i++) {
-                        for (int j = 0; j < 9; j = j++) {
-                            tab[i][j].setEnabled(true);
-                        }
+                for (int i = 0; i < 9; i = i++) {
+                    for (int j = 0; j < 9; j = j++) {
+                        tab[i][j].setEnabled(true);
                     }
                 }
             });
@@ -451,37 +422,82 @@ public class VueCatan extends JFrame {
             });
             echangerAvecPort.addActionListener((ActionEvent e) -> {
             });
-
         }
 
-        private class ButtonInter extends JButton {
+        public JButton getJouerColonie() {
+            return jouerColonie;
+        }
 
+        public JButton getJouerRoute() {
+            return jouerRoute;
+        }
+
+        public JButton getJouerCarteDev() {
+            return jouerCarteDev;
+        }
+
+        public JButton getCreerVille() {
+            return creerVille;
+        }
+
+        public JButton getAcheterCarteDev() {
+            return acheterCarteDev;
+        }
+
+        public JButton getEchangerAvecPort() {
+            return echangerAvecPort;
+        }
+
+        public JButton getTerminerTour() {
+            return terminerTour;
+        }
+
+        public ButtonInter getTab(int i, int j) {
+            return tab[i][j];
+        }
+
+        class ButtonInter extends JButton {
             ButtonInter(int i, int j) {
                 addActionListener((ActionEvent e) -> {
-                    if (i % 2 == 0 && j % 2 == 0) {
-                        // colonie ou ville
+                    if (i % 2 == 0 && j % 2 == 0) { // colonie ou ville
+                        System.out.println(premierTour);
                         if (premierTour) {
-                            jouerColonie.setEnabled(true);
-                        } else {
-                            jouerColonie.setEnabled(true);
-                            creerVille.setEnabled(true);
+                            p.pt.ajouterColonie(i, j);
+                            System.out.println("Colo placé");
+                            for (int x = 0; x < 9; x++) {
+                                for (int y = 0; y < 9; y++) {
+                                    tab[x][y].setEnabled(false);
+                                    if ((x % 2 == 0 && y % 2 == 1) || (x % 2 == 1 && y % 2 == 0)) {
+                                        if (p.pt.correcte(x, y) && p.getP().selctionnerCaseRoute(x, y).getEstVide()) {
+                                            tab[x][y].setEnabled(true);
+                                        }
+                                    }
+                                }
+                            }
+                            System.out.println("errror");
+                            incorrect = true;
+                            erreur.setText("Veuillez selectionner la case ou vous voulez mettre votre route");
                         }
-                    } else if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) {
-                        // route
-                        jouerRoute.setEnabled(true);
+                    } else if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) { // route
+                        if (premierTour) {
+                            p.pt.ajouterRoute(i, j);
+                        } else {
+                            jouerRoute.setEnabled(true);
+                        }
                     } else if (i % 2 == 1 && j % 2 == 1) {
-                        // ressource
+                        p.t.deplacerVoleur(i, j);
                     }
                     X = i;
                     Y = j;
-                    for (int x = 0; x < 9; x++) {
-                        for (int y = 0; y < 9; y++) {
-                            tab[x][y].setEnabled(false);
+                    if (!premierTour) {
+                        for (int x = 0; x < 9; x++) {
+                            for (int y = 0; y < 9; y++) {
+                                tab[x][y].setEnabled(false);
+                            }
                         }
                     }
                 });
             }
-
         }
     }
 
