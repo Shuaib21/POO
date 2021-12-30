@@ -16,12 +16,14 @@ public class VueCatan extends JFrame {
     private Joueur[] tabJ;
     private creerJoueur[] joueurs = new creerJoueur[4];
     private Partie p;
+    private Table t;
     int X;
     int Y;
     boolean incorrect = false;
     JLabel erreur = new JLabel();
-    boolean premierTour;
+    boolean premierTour = true;
     boolean ajouterColonie;
+    boolean ajouterRoute;
 
     public VueCatan() {
         setTitle("Catan");
@@ -94,14 +96,12 @@ public class VueCatan extends JFrame {
                 tabJ[i] = new Joueur(joueurs[i].couleur, joueurs[i].nom, joueurs[i].humain);
             }
             p = new Partie(tabJ);
-            for (Joueur j : tabJ) {
-                System.out.println(j.estHumain);
-            }
-            // p.jouerPartie();
             this.remove(menu);
-            this.add(new table());
+            t = new Table();
+            this.add(t);
             this.validate();
             this.repaint();
+            p.jouerPartieInter(this);
         });
     }
 
@@ -263,7 +263,7 @@ public class VueCatan extends JFrame {
 
     }
 
-    private class table extends JPanel {
+    private class Table extends JPanel {
         private JPanel plateau;
         private JPanel commande;
 
@@ -280,7 +280,7 @@ public class VueCatan extends JFrame {
         private JPanel[] J = new JPanel[4];
         ButtonInter[][] tab;
 
-        table() {
+        Table() {
             this.setLayout(new BorderLayout());
 
             plateau = new JPanel();
@@ -366,20 +366,73 @@ public class VueCatan extends JFrame {
                 }
             }
 
+            for (int x = 0; x < 9; x++) {
+                for (int y = 0; y < 9; y++) {
+                    tab[x][y].setEnabled(false);
+                }
+            }
+            for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
+                for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
+                    tab[i][j].setEnabled(true);
+                }
+            }
+
             jouerColonie.addActionListener((ActionEvent e) -> {
-                p.t.ajouterColonie(X, Y);
-                for (int i = 0; i < 9; i = i++) {
-                    for (int j = 0; j < 9; j = j++) {
-                        tab[i][j].setEnabled(true);
+                if (premierTour) {
+                    if (ajouterColonie) {
+                        for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
+                            for (int j = 1; j < p.getP().getTaille(); j = j + 2) {
+                                tab[i][j].setEnabled(true);
+                            }
+                        }
+                        for (int i = 1; i < p.getP().getTaille(); i = i + 2) {
+                            for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
+                                tab[i][j].setEnabled(true);
+                            }
+                        }
+                    } else {
+                        for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
+                            for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
+                                tab[i][j].setEnabled(true);
+                            }
+                        }
+                    }
+                } else {
+                    p.t.ajouterColonie(X, Y);
+                    for (int i = 0; i < 9; i = i++) {
+                        for (int j = 0; j < 9; j = j++) {
+                            tab[i][j].setEnabled(true);
+                        }
                     }
                 }
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
             });
             jouerRoute.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i = i++) {
-                    for (int j = 0; j < 9; j = j++) {
-                        tab[i][j].setEnabled(true);
+                if (premierTour) {
+                    if (ajouterRoute) {
+                        for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
+                            for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
+                                tab[i][j].setEnabled(true);
+                            }
+                        }
+                    } else {
+                        for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
+                            for (int j = 1; j < p.getP().getTaille(); j = j + 2) {
+                                tab[i][j].setEnabled(true);
+                            }
+                        }
+                        for (int i = 1; i < p.getP().getTaille(); i = i + 2) {
+                            for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
+                                tab[i][j].setEnabled(true);
+                            }
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < 9; i = i++) {
+                        for (int j = 0; j < 9; j = j++) {
+                            tab[i][j].setEnabled(true);
+                        }
                     }
                 }
             });
@@ -407,8 +460,12 @@ public class VueCatan extends JFrame {
                 addActionListener((ActionEvent e) -> {
                     if (i % 2 == 0 && j % 2 == 0) {
                         // colonie ou ville
-                        jouerColonie.setEnabled(true);
-                        creerVille.setEnabled(true);
+                        if (premierTour) {
+                            jouerColonie.setEnabled(true);
+                        } else {
+                            jouerColonie.setEnabled(true);
+                            creerVille.setEnabled(true);
+                        }
                     } else if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) {
                         // route
                         jouerRoute.setEnabled(true);
@@ -419,7 +476,7 @@ public class VueCatan extends JFrame {
                     Y = j;
                     for (int x = 0; x < 9; x++) {
                         for (int y = 0; y < 9; y++) {
-                            tab[i][j].setEnabled(false);
+                            tab[x][y].setEnabled(false);
                         }
                     }
                 });

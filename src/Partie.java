@@ -81,7 +81,7 @@ public class Partie {
               p.afficher();
               break;
             case "D":
-              t.acheterCartDev();
+              t.acheterCartDev(false);
               break;
             case "E":
               t.jouezCarteDev(sc);
@@ -103,17 +103,15 @@ public class Partie {
   }
 
   public void jouerPartieInter(VueCatan v) {
-    Scanner sc = new Scanner(System.in);
     initInter(v);
-    while (!partiefini()) {
+    /*while (!partiefini()) {
       for (Joueur j : tabJ) {
         System.out.println("Tour de : " + j.getPseudo());
         t = new TourNormal(j, p, tabJ, sc);
         while (t.getTourPasFini()) {
         }
       }
-    }
-    sc.close();
+    }*/
   }
 
   private void init(Scanner sc) {
@@ -137,7 +135,6 @@ public class Partie {
   }
 
   private void initInter(VueCatan v) {
-    v.premierTour = true;
     for (Joueur j : tabJ) {
       PremierTour t = new PremierTour(j, p, v);
       while (!t.ajouterColonie()) {
@@ -161,11 +158,14 @@ public class Partie {
     for (int i = tabJ.length - 1; i >= 0; i--) {
       Joueur j = tabJ[i];
       PremierTour t = new PremierTour(j, p, v);
+      v.ajouterColonie = true;
       while (!t.ajouterColonie()) {
         v.incorrect = true;
         v.validate();
         v.repaint();
       }
+      v.ajouterColonie = false;
+      v.ajouterRoute = true;
       v.incorrect = false;
       v.validate();
       v.repaint();
@@ -174,6 +174,7 @@ public class Partie {
         v.validate();
         v.repaint();
       }
+      v.ajouterRoute = false;
       v.incorrect = false;
       v.validate();
       v.repaint();
