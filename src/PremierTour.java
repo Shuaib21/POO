@@ -20,7 +20,9 @@ public class PremierTour extends Tour {
         v.getT().getTerminerTour().setEnabled(false);
         for (int i = 0; i < 9; i++) {
             for (int a = 0; a < 9; a++) {
+                if (p.selctionnerCasePaysage(i, a) == null) {
                 v.getT().getTab(i, a).setEnabled(false);
+                }
             }
         }
         for (int i = 0; i < 9; i = i + 2) {
@@ -31,7 +33,7 @@ public class PremierTour extends Tour {
             }
         }
         v.incorrect = true;
-        v.erreur.setText("Veuillez selectionner la case ou vous voulez mettre votre colonie");
+        v.aide.setText("Veuillez selectionner la case ou vous voulez mettre votre colonie");
     }
 
     public void ajouterColonie(Scanner sc) {
@@ -60,7 +62,7 @@ public class PremierTour extends Tour {
         if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
             p.selctionnerCaseColonie(x, y).mettreColonie(j);
         } else {
-            v.erreur.setText("Votre colonie ne peut pas être ajoutée ici.");
+            v.aide.setText("Votre colonie ne peut pas être ajoutée ici.");
         }
     }
 

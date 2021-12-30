@@ -46,7 +46,7 @@ public class TourNormal extends Tour {
         }
       }
       v.incorrect = true;
-      v.erreur.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
+      v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
     }
     tourPasFini = true;
   }
@@ -149,7 +149,7 @@ public class TourNormal extends Tour {
         j.combienRessource("MOUTON") == 0) {
       // afficher l'erreur si il n'a pas
       v.incorrect = true;
-      v.erreur.setText("Vous n'avez pas les ressources demandées");
+      v.aide.setText("Vous n'avez pas les ressources demandées");
       return;
     }
     if (p.selctionnerCaseColonie(x, y) != null) {
@@ -180,7 +180,7 @@ public class TourNormal extends Tour {
       }
     }
     v.incorrect = true;
-    v.erreur.setText("Vous ne pouvez pas mettre de colonie ici");
+    v.aide.setText("Vous ne pouvez pas mettre de colonie ici");
   }
 
   private boolean estColleARoute(int x, int y) {
@@ -214,7 +214,7 @@ public class TourNormal extends Tour {
   private void ajouterRoute(int x, int y) {
     if (j.combienRessource("BOIS") == 0 || j.combienRessource("ARGILE") == 0) {
       v.incorrect = true;
-      v.erreur.setText("Vous n'avez pas assez de ressource pour construire une route");
+      v.aide.setText("Vous n'avez pas assez de ressource pour construire une route");
       return;
     }
     if (p.selctionnerCaseRoute(x, y) != null) {
@@ -228,7 +228,7 @@ public class TourNormal extends Tour {
       }
     }
     v.incorrect = true;
-    v.erreur.setText("Vous ne pouvez pas placer de route ici");
+    v.aide.setText("Vous ne pouvez pas placer de route ici");
     return;
 
   }
@@ -542,7 +542,7 @@ public class TourNormal extends Tour {
     if (j.getNbrVilles() < j.getNbrColonies()) {
       if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 3) {
         v.incorrect = true;
-        v.erreur.setText("Vous ne possedez pas assez de ressource pour construire une ville");
+        v.aide.setText("Vous ne possedez pas assez de ressource pour construire une ville");
         return;
       }
       if (p.selctionnerCaseColonie(x, y) != null &&
@@ -550,7 +550,7 @@ public class TourNormal extends Tour {
           p.selctionnerCaseColonie(x, y).getJ().equals(j)) {
         if (p.selctionnerCaseColonie(x, y).getEstVille()) {
           v.incorrect = true;
-          v.erreur.setText("C'est déjà une ville");
+          v.aide.setText("C'est déjà une ville");
           return;
         } else {
           p.selctionnerCaseColonie(x, y).transformerEnVille();
@@ -566,11 +566,11 @@ public class TourNormal extends Tour {
         }
       } else {
         v.incorrect = true;
-        v.erreur.setText("Vous ne pouvez pas placer de ville ici");
+        v.aide.setText("Vous ne pouvez pas placer de ville ici");
       }
     } else {
       v.incorrect = true;
-      v.erreur.setText("Toutes vos colonies ont déjà été tranformées en villes.");
+      v.aide.setText("Toutes vos colonies ont déjà été tranformées en villes.");
     }
   }
 
@@ -580,7 +580,7 @@ public class TourNormal extends Tour {
         j.combienRessource("MOUTON") == 0) {
       if (estInterface) {
         v.incorrect = true;
-        v.erreur.setText("Vous n'avez pas les ressources demandées pour acheter une carte développement");
+        v.aide.setText("Vous n'avez pas les ressources demandées pour acheter une carte développement");
         return;
       } else {
         System.out.println(
@@ -720,7 +720,7 @@ public class TourNormal extends Tour {
       p.selctionnerCasePaysage(x, y).setContientVoleur(true);
     } else if (j.estHumain) {
       v.incorrect = true;
-      v.erreur.setText("Le voleur ne peut pas être déplacé dans cette case");
+      v.aide.setText("Le voleur ne peut pas être déplacé dans cette case");
     }
   }
 

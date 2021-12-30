@@ -20,7 +20,7 @@ public class VueCatan extends JFrame {
     int X;
     int Y;
     boolean incorrect = false;
-    JLabel erreur = new JLabel();
+    JLabel aide = new JLabel();
     boolean premierTour;
     boolean ajouterColonie;
     boolean ajouterRoute;
@@ -293,25 +293,30 @@ public class VueCatan extends JFrame {
         private JPanel[] J = new JPanel[4];
         ButtonInter[][] tab;
 
+        private JPanel info;
+
         Table() {
             this.setLayout(new BorderLayout());
 
             plateau = new JPanel();
-            plateau.setLayout(new GridLayout(9, 9));
+            plateau.setLayout(new GridLayout(11, 11));
             this.add(plateau, BorderLayout.CENTER);
 
             commande = new JPanel();
             this.add(commande, BorderLayout.EAST);
 
+            info = new JPanel();
+            this.add(info, BorderLayout.WEST);
+
             commande.setLayout(new GridLayout(7, 1));
 
-            jouerColonie = new JButton();
-            jouerRoute = new JButton();
-            creerVille = new JButton();
-            acheterCarteDev = new JButton();
-            jouerCarteDev = new JButton();
-            echangerAvecPort = new JButton();
-            terminerTour = new JButton();
+            jouerColonie = new JButton("Ajouter une colonie");
+            jouerRoute = new JButton("Ajouter une route");
+            creerVille = new JButton("Ajouter une ville");
+            acheterCarteDev = new JButton("Acheter une carte développement");
+            jouerCarteDev = new JButton("Jouer une carte développement");
+            echangerAvecPort = new JButton("Echanger avec les ports");
+            terminerTour = new JButton("Terminer tour");
 
             commande.add(jouerColonie);
             commande.add(jouerRoute);
@@ -343,10 +348,7 @@ public class VueCatan extends JFrame {
             joueurHaut.add(J[0]);
             joueurHaut.add(J[1]);
             joueurBas.add(J[2]);
-
-            if (tabJ.length == 4) { // S'il y a 4 joueurs
-                joueurBas.add(J[3]);
-            }
+            joueurBas.add(J[3]);
 
             this.add(joueurHaut, BorderLayout.NORTH);
             this.add(joueurBas, BorderLayout.SOUTH);
@@ -358,7 +360,7 @@ public class VueCatan extends JFrame {
                 BufferedImage mouton = ImageIO.read(new File("./Image/mouton.png"));
                 BufferedImage argile = ImageIO.read(new File("./Image/argile.png"));
 
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < tabJ.length; i++) {
                     J[i].add(new JLabel(new ImageIcon(buche)));
                     J[i].add(new JLabel(new ImageIcon(paille)));
                     J[i].add(new JLabel(new ImageIcon(pierre)));
@@ -369,21 +371,117 @@ public class VueCatan extends JFrame {
                 e.printStackTrace();
             }
 
+            if (tabJ.length == 3) { // On rajoute des champs vides à J[3]
+                J[3].add(new JLabel());
+                J[3].add(new JLabel());
+                J[3].add(new JLabel());
+                J[3].add(new JLabel());
+                J[3].add(new JLabel());
+            }
+
             tab = new ButtonInter[9][9];
 
+            ImageIcon portBois = new ImageIcon("./Image/PortBuche.jpeg");
+            ImageIcon portChamps = new ImageIcon("./Image/PortPaille.jpeg");
+            ImageIcon portPierre = new ImageIcon("./Image/PortPierre.jpeg");
+            ImageIcon portMouton = new ImageIcon("./Image/PortMouton.jpeg");
+            ImageIcon portArgile = new ImageIcon("./Image/PortArgile.jpeg");
+            ImageIcon port3_1 = new ImageIcon("./Image/Port3-1.jpeg");
+
+            for (int i = 0; i < 11; i++) {
+                if (i == 1) {
+                    JButton a = new JButton(portBois);
+                    a.setEnabled(true);
+                    plateau.add(a);
+                } else if (i == 5) {
+                    JButton a = new JButton(port3_1);
+                    a.setEnabled(true);
+                    plateau.add(a);
+                } else if (i == 9) {
+                    JButton a = new JButton(portMouton);
+                    a.setEnabled(true);
+                    plateau.add(a);
+                } else {
+                    plateau.add(new JLabel());
+                }
+            }
+
             for (int i = 0; i < 9; i++) {
+                if (i == 4) {
+                    JButton a = new JButton(portChamps);
+                    a.setEnabled(true);
+                    plateau.add(a);
+                } else {
+                    plateau.add(new JLabel());
+                }
                 for (int j = 0; j < 9; j++) {
                     ButtonInter a = new ButtonInter(i, j);
                     plateau.add(a);
                     tab[i][j] = a;
                 }
-            }
-
-            for (int x = 0; x < 9; x++) {
-                for (int y = 0; y < 9; y++) {
-                    tab[x][y].setEnabled(false);
+                if (i == 8) {
+                    JButton a = new JButton(port3_1);
+                    a.setEnabled(true);
+                    plateau.add(a);
+                } else {
+                    plateau.add(new JLabel());
                 }
             }
+
+            for (int i = 0; i < 11; i++) {
+                if (i == 1) {
+                    JButton a = new JButton(portArgile);
+                    a.setEnabled(true);
+                    plateau.add(a);
+                } else if (i == 5) {
+                    JButton a = new JButton(portPierre);
+                    a.setEnabled(true);
+                    plateau.add(a);
+                } else if (i == 9) {
+                    JButton a = new JButton(port3_1);
+                    a.setEnabled(true);
+                    plateau.add(a);
+                } else {
+                    plateau.add(new JLabel());
+                }
+            }
+
+            ImageIcon bois = new ImageIcon("./Image/Bois.jpeg");
+            ImageIcon champs = new ImageIcon("./Image/Champs.jpg");
+            ImageIcon montagne = new ImageIcon("./Image/Montagne.jpeg");
+            ImageIcon moutons = new ImageIcon("./Image/Moutons.jpeg");
+            ImageIcon mine = new ImageIcon("./Image/Mine.jpeg");
+            ImageIcon desert = new ImageIcon("./Image/Desert.jpeg");
+
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (p.getP().selctionnerCasePaysage(i, j) != null) {
+                        tab[i][j].setEnabled(true);
+                        if (p.getP().selctionnerCaseRess(i, j) != null) {
+                            switch (p.getP().selctionnerCaseRess(i, j).ressource) {
+                                case "BOIS":
+                                    tab[i][j].setIcon(bois);
+                                    break;
+                                case "PIERRE":
+                                    tab[i][j].setIcon(montagne);
+                                    break;
+                                case "CHAMPS":
+                                    tab[i][j].setIcon(champs);
+                                    break;
+                                case "ARGILE":
+                                    tab[i][j].setIcon(mine);
+                                    break;
+                                case "MOUTON":
+                                    tab[i][j].setIcon(moutons);
+                                    break;
+                            }
+                        } else {
+                            tab[i][j].setIcon(desert);
+                        }
+                    }
+                }
+            }
+
             for (int i = 0; i < p.getP().getTaille(); i = i + 2) {
                 for (int j = 0; j < p.getP().getTaille(); j = j + 2) {
                     tab[i][j].setEnabled(true);
@@ -466,7 +564,9 @@ public class VueCatan extends JFrame {
                             System.out.println("Colo placé");
                             for (int x = 0; x < 9; x++) {
                                 for (int y = 0; y < 9; y++) {
-                                    tab[x][y].setEnabled(false);
+                                    if (p.getP().selctionnerCasePaysage(i, j) == null) {
+                                        tab[x][y].setEnabled(false);
+                                    }
                                     if ((x % 2 == 0 && y % 2 == 1) || (x % 2 == 1 && y % 2 == 0)) {
                                         if (p.pt.correcte(x, y) && p.getP().selctionnerCaseRoute(x, y).getEstVide()) {
                                             tab[x][y].setEnabled(true);
@@ -476,7 +576,7 @@ public class VueCatan extends JFrame {
                             }
                             System.out.println("errror");
                             incorrect = true;
-                            erreur.setText("Veuillez selectionner la case ou vous voulez mettre votre route");
+                            aide.setText("Veuillez selectionner la case ou vous voulez mettre votre route");
                         }
                     } else if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) { // route
                         if (premierTour) {
@@ -492,7 +592,9 @@ public class VueCatan extends JFrame {
                     if (!premierTour) {
                         for (int x = 0; x < 9; x++) {
                             for (int y = 0; y < 9; y++) {
-                                tab[x][y].setEnabled(false);
+                                if (p.getP().selctionnerCasePaysage(i, j) == null) {
+                                    tab[x][y].setEnabled(false);
+                                }
                             }
                         }
                     }
