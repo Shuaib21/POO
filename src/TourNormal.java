@@ -479,7 +479,7 @@ public class TourNormal extends Tour {
 
   public void ajouterVille(Scanner sc) {
     if (j.getNbrVilles() < j.getNbrColonies()) {
-      if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 2) {
+      if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 3) {
         System.out.println(
             "Vous ne possedez pas assez de ressource pour construire une ville");
         return;
@@ -519,13 +519,55 @@ public class TourNormal extends Tour {
     }
   }
 
-  public void acheterCartDev() {
+  public void ajouterVille(int x, int y) {
+    if (j.getNbrVilles() < j.getNbrColonies()) {
+      if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 3) {
+        v.incorrect = true;
+        v.erreur.setText("Vous ne possedez pas assez de ressource pour construire une ville");
+        return;
+      }
+      if (p.selctionnerCaseColonie(x, y) != null &&
+          !p.selctionnerCaseColonie(x, y).getEstVide() &&
+          p.selctionnerCaseColonie(x, y).getJ().equals(j)) {
+        if (p.selctionnerCaseColonie(x, y).getEstVille()) {
+          v.incorrect = true;
+          v.erreur.setText("C'est déjà une ville");
+          return;
+        } else {
+          p.selctionnerCaseColonie(x, y).transformerEnVille();
+          j.enleverRessource("PIERRE");
+          j.enleverRessource("PIERRE");
+          j.enleverRessource("PIERRE");
+          j.enleverRessource("CHAMPS");
+          j.enleverRessource("CHAMPS");
+          j.ajouterUneVille();
+          j.ajouterPoint();
+          // afficher la ville
+          return;
+        }
+      } else {
+        v.incorrect = true;
+        v.erreur.setText("Vous ne pouvez pas placer de ville ici");
+      }
+    } else {
+      v.incorrect = true;
+      v.erreur.setText("Toutes vos colonies ont déjà été tranformées en villes.");
+    }
+  }
+
+  public void acheterCartDev(boolean estInterface) {
     if (j.combienRessource("CHAMPS") == 0 ||
         j.combienRessource("PIERRE") == 0 ||
         j.combienRessource("MOUTON") == 0) {
-      System.out.println(
-          "Vous n'avez pas les ressources demandées pour acheter une carte développement");
-      return;
+      if (estInterface) {
+        v.incorrect = true;
+        v.erreur.setText("Vous n'avez pas les ressources demandées pour acheter une carte développement");
+        return ;
+      } else {
+        System.out.println(
+            "Vous n'avez pas les ressources demandées pour acheter une carte développement");
+        return;
+      }
     }
     if (!cartes.isEmpty()) {
       j.enleverRessource("CHAMPS");
