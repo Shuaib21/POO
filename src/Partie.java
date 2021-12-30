@@ -6,11 +6,39 @@ public class Partie {
   private final Joueur[] tabJ;
   private Plateau p;
   TourNormal t;
-  PremierTour pt ;
+  PremierTour pt;
+  private int tour;
+  private VueCatan v;
+  private int pTour;
 
   Partie(Joueur[] j) {
     tabJ = j;
     p = new Plateau(4);
+  }
+
+  Partie(Joueur[] j, VueCatan v) {
+    this(j);
+    this.v = v;
+    tour = 0;
+    pTour = 0;
+  }
+
+  public void tourFini() {
+    tour++;
+    jouerPartieInter(v);
+  }
+
+  public void pTourFini(){
+    pTour ++ ;
+    jouerPartieInter(v);
+  }
+
+  public int getTour() {
+    return tour;
+  }
+
+  public int getpTour() {
+    return pTour;
   }
 
   public Plateau getP() {
@@ -104,15 +132,17 @@ public class Partie {
   }
 
   public void jouerPartieInter(VueCatan v) {
-    initInter(v);
-    // while (!partiefini()) {
-    //   for (Joueur j : tabJ) {
-    //     System.out.println("Tour de : " + j.getPseudo());
-    //     t = new TourNormal(j, p, tabJ,v);
-    //     while (t.getTourPasFini()) {
-    //     }
-    //   }
-    // }
+    if (pTour != tabJ.length) {
+      v.premierTour = true ;
+      initInter(v);
+    } else {
+      if (!partiefini()) {
+        System.out.println("Tour de : " + tabJ[tour % tabJ.length].getPseudo()); // afficher le joueur qui joue
+        t = new TourNormal(tabJ[tour % tabJ.length], p, tabJ, v);
+      } else {
+        System.out.println("partie fini");// afficher la fin
+      }
+    }
   }
 
   private void init(Scanner sc) {
@@ -136,22 +166,20 @@ public class Partie {
   }
 
   private void initInter(VueCatan v) {
-    v.premierTour=true ;
-    for (Joueur j : tabJ) {
-      pt = new PremierTour(j, p, v);
-      v.validate();
-      v.repaint();
-      pt.toucherRessource();
+    if (pTour < tabJ.length) {
+      pt = new PremierTour(tabJ[pTour % tabJ.length], p, v);
+    } else {
+      pt = new PremierTour(tabJ[tabJ.length - pTour % tabJ.length - 1], p, v);
     }
-    for (int i = tabJ.length - 1; i >= 0; i--) {
-      Joueur j = tabJ[i];
-      pt = new PremierTour(j, p, v);
-      v.ajouterRoute = false;
-      v.incorrect = false;
-      v.validate();
-      v.repaint();
-    }
-    Tour.genereCartes();
+    v.validate();
+    v.repaint();
+    // if (pTour < tabJ.length) {
+    //   pt.toucherRessource();
+    // }
+    // if (pTour == 2 * tabJ.length) { // peut etre ici
+    //   Tour.genereCartes();
+    //   v.premierTour = false;
+    // }
   }
 
   private boolean partiefini() {

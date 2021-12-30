@@ -565,8 +565,9 @@ public class VueCatan extends JFrame {
                             for (int x = 0; x < 9; x++) {
                                 for (int y = 0; y < 9; y++) {
                                     if (p.getP().selctionnerCasePaysage(i, j) == null) {
-                                        tab[x][y].setEnabled(false);
+                                    tab[x][y].setEnabled(false);
                                     }
+                                    tab[x][y].setEnabled(false);
                                     System.out.println("x :" + x + " y :" + y + p.pt.correcte(x, y) + " ");
                                     if ((x % 2 == 0 && y % 2 == 1) || (x % 2 == 1 && y % 2 == 0)) {
                                         if (((x == i && Math.abs(j - y) == 1) || (y == j && Math.abs(x - i) == 1))
@@ -598,7 +599,7 @@ public class VueCatan extends JFrame {
                         for (int x = 0; x < 9; x++) {
                             for (int y = 0; y < 9; y++) {
                                 if (p.getP().selctionnerCasePaysage(i, j) == null) {
-                                    tab[x][y].setEnabled(false);
+                                tab[x][y].setEnabled(false);
                                 }
                             }
                         }
@@ -606,13 +607,13 @@ public class VueCatan extends JFrame {
                 });
             }
         }
-    }
+        }
 
-    public static void main(String[] args) {
-        EventQueue.invokeLater(() -> {
-            VueCatan view = new VueCatan();
-            view.pack();
-            view.setVisible(true);
-        });
-    }
+        public static void main(String[] args) {
+            EventQueue.invokeLater(() -> {
+                VueCatan view = new VueCatan();
+                view.pack();
+                view.setVisible(true);
+            });
+        }
 }

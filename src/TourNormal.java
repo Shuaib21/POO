@@ -18,7 +18,6 @@ public class TourNormal extends Tour {
     if (sommeDés == 7) {
       deplacerVoleur(sc);
     }
-    tourPasFini = true;
   }
 
   TourNormal(Joueur j, Plateau p, Joueur[] tabJ, VueCatan v) {
@@ -48,11 +47,6 @@ public class TourNormal extends Tour {
       v.incorrect = true;
       v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
     }
-    tourPasFini = true;
-  }
-
-  private void finirMonTour() {
-    tourPasFini = false;
   }
 
   public boolean getTourPasFini() {
