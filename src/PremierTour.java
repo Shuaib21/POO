@@ -21,9 +21,7 @@ public class PremierTour extends Tour {
         v.getT().getTerminerTour().setEnabled(false);
         for (int i = 0; i < 9; i++) {
             for (int a = 0; a < 9; a++) {
-                if (p.selctionnerCasePaysage(i, a) == null) {
-                    v.getT().getTab(i, a).setEnabled(false);
-                }
+                v.getT().getTab(i, a).setEnabled(false);
             }
         }
         for (int i = 0; i < 9; i = i + 2) {
@@ -63,7 +61,7 @@ public class PremierTour extends Tour {
         int y = Y;
         if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
             p.selctionnerCaseColonie(x, y).mettreColonie(j);
-            mettreColonieInter(x,y);
+            mettreColonieInter(x, y);
         } else {
             v.aide.setText("Votre colonie ne peut pas être ajoutée ici.");
         }
@@ -98,7 +96,7 @@ public class PremierTour extends Tour {
     public void ajouterRoute(int x, int y) {
         if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getEstVide()) {
             p.selctionnerCaseRoute(x, y).mettreRoute(j);
-            mettreRouteInter(x,y);
+            mettreRouteInter(x, y);
         }
     }
 

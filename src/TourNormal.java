@@ -27,33 +27,41 @@ public class TourNormal extends Tour {
     toucherRessource();
     for (int i = 0; i < 9; i++) {
       for (int a = 0; a < 9; a++) {
-          v.getT().getTab(i, a).setEnabled(true);
+        v.getT().getTab(i, a).setEnabled(true);
       }
     }
-    System.out.println("fin du setENable + debut du voleur "+sommeDés) ;
+    v.getT().getJouerRoute().setEnabled(false);
+    v.getT().getJouerColonie().setEnabled(false);
+    v.getT().getCreerVille().setEnabled(false);
+    v.getT().getAcheterCarteDev().setEnabled(true);
+    v.getT().getJouerCarteDev().setEnabled(true);
+    v.getT().getEchangerAvecPort().setEnabled(true);
+    v.getT().getTerminerTour().setEnabled(true);
+
+    System.out.println("fin du setENable + debut du voleur " + sommeDés);
     // MARCHE PAS ENCORE
     // if (sommeDés == 7) {
-    //   v.getT().getJouerRoute().setEnabled(false);
-    //   v.getT().getJouerColonie().setEnabled(false);
-    //   v.getT().getCreerVille().setEnabled(false);
-    //   v.getT().getAcheterCarteDev().setEnabled(false);
-    //   v.getT().getJouerCarteDev().setEnabled(false);
-    //   v.getT().getEchangerAvecPort().setEnabled(false);
-    //   v.getT().getTerminerTour().setEnabled(false);
-    //   for (int i = 0; i < 9; i++) {
-    //     for (int a = 0; a < 9; a++) {
-    //       v.getT().getTab(i, a).setEnabled(false);
-    //     }
-    //   }
-    //   for (int i = 1; i < 9; i = i + 2) {
-    //     for (int a = 1; a < 9; a = a + 2) {
-    //       if (!p.selctionnerCaseRess(i, a).getContientVoleur())
-    //         v.getT().getTab(i, a).setEnabled(true);
-    //     }
-    //   }
+    // v.getT().getJouerRoute().setEnabled(false);
+    // v.getT().getJouerColonie().setEnabled(false);
+    // v.getT().getCreerVille().setEnabled(false);
+    // v.getT().getAcheterCarteDev().setEnabled(false);
+    // v.getT().getJouerCarteDev().setEnabled(false);
+    // v.getT().getEchangerAvecPort().setEnabled(false);
+    // v.getT().getTerminerTour().setEnabled(false);
+    // for (int i = 0; i < 9; i++) {
+    // for (int a = 0; a < 9; a++) {
+    // v.getT().getTab(i, a).setEnabled(false);
     // }
-      v.incorrect = true;
-      v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
+    // }
+    // for (int i = 1; i < 9; i = i + 2) {
+    // for (int a = 1; a < 9; a = a + 2) {
+    // if (!p.selctionnerCaseRess(i, a).getContientVoleur())
+    // v.getT().getTab(i, a).setEnabled(true);
+    // }
+    // }
+    // }
+    v.incorrect = true;
+    v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
   }
 
   private void toucherRessource() {

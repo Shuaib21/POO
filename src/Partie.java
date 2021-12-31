@@ -132,7 +132,7 @@ public class Partie {
   }
 
   public void jouerPartieInter(VueCatan v) {
-    if (pTour <= tabJ.length*2+1) {
+    if (pTour <= tabJ.length*2-1) {
       System.out.println(pTour) ;
       v.premierTour = true ;
       initInter(v);
