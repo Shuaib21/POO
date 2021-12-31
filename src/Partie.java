@@ -137,12 +137,14 @@ public class Partie {
       v.premierTour = true ;
       initInter(v);
     } else {
-      pTour = 10 ;
+      if(tour==0){
+        Tour.genereCartes();
+        pTour = 10 ;
       v.premierTour = false ;
+      }
       if (!partiefini()) {
         System.out.println("Tour de : " + tabJ[tour % tabJ.length].getPseudo()); // afficher le joueur qui joue
         t = new TourNormal(tabJ[tour % tabJ.length], p, tabJ, v);
-        System.out.println("tour crée") ;
       } else {
         System.out.println("partie fini");// afficher la fin
       }
@@ -172,18 +174,12 @@ public class Partie {
   private void initInter(VueCatan v) {
     if (pTour < tabJ.length) {
       pt = new PremierTour(tabJ[pTour % tabJ.length], p, v);
+      pt.toucherRessource();
     } else {
       pt = new PremierTour(tabJ[tabJ.length - pTour % tabJ.length - 1], p, v);
     }
     v.validate();
     v.repaint();
-    // if (pTour < tabJ.length) {
-    //   pt.toucherRessource();
-    // }
-    // if (pTour == 2 * tabJ.length) { // peut etre ici
-    //   Tour.genereCartes();
-    //   v.premierTour = false;
-    // }
   }
 
   private boolean partiefini() {

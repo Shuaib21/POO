@@ -295,6 +295,13 @@ public class VueCatan extends JFrame {
 
         private JPanel info;
 
+        final ImageIcon bois = new ImageIcon("./Image/Bois.jpeg");
+        final ImageIcon champs = new ImageIcon("./Image/Champs.jpg");
+        final ImageIcon montagne = new ImageIcon("./Image/Montagne.jpeg");
+        final ImageIcon moutons = new ImageIcon("./Image/Moutons.jpeg");
+        final ImageIcon mine = new ImageIcon("./Image/Mine.jpeg");
+        final ImageIcon desert = new ImageIcon("./Image/Desert.jpeg");
+
         Table() {
             this.setLayout(new BorderLayout());
 
@@ -446,13 +453,6 @@ public class VueCatan extends JFrame {
                 }
             }
 
-            ImageIcon bois = new ImageIcon("./Image/Bois.jpeg");
-            ImageIcon champs = new ImageIcon("./Image/Champs.jpg");
-            ImageIcon montagne = new ImageIcon("./Image/Montagne.jpeg");
-            ImageIcon moutons = new ImageIcon("./Image/Moutons.jpeg");
-            ImageIcon mine = new ImageIcon("./Image/Mine.jpeg");
-            ImageIcon desert = new ImageIcon("./Image/Desert.jpeg");
-
             // Utiliser tab[i][j].setDisabledIcon(null); pour griser l'icône
 
             for (int i = 0; i < 9; i++) {
@@ -497,24 +497,24 @@ public class VueCatan extends JFrame {
 
             jouerColonie.addActionListener((ActionEvent e) -> {
                 p.t.ajouterColonie(X, Y);
-                for (int i = 0; i < 9; i = i++) {
-                    for (int j = 0; j < 9; j = j++) {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
                         tab[i][j].setEnabled(true);
                     }
                 }
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(false);
-                jouerCarteDev.setEnabled(false);
-                echangerAvecPort.setEnabled(false);
-                terminerTour.setEnabled(false);
+                acheterCarteDev.setEnabled(true);
+                jouerCarteDev.setEnabled(true);
+                echangerAvecPort.setEnabled(true);
+                terminerTour.setEnabled(true);
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
             });
             jouerRoute.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i = i++) {
-                    for (int j = 0; j < 9; j = j++) {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
                         tab[i][j].setEnabled(true);
                     }
                 }
@@ -522,6 +522,10 @@ public class VueCatan extends JFrame {
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
+                acheterCarteDev.setEnabled(true);
+                jouerCarteDev.setEnabled(true);
+                echangerAvecPort.setEnabled(true);
+                terminerTour.setEnabled(true);
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
             });
@@ -535,48 +539,41 @@ public class VueCatan extends JFrame {
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(false);
-                jouerCarteDev.setEnabled(false);
-                echangerAvecPort.setEnabled(false);
-                terminerTour.setEnabled(false);
+                acheterCarteDev.setEnabled(true);
+                jouerCarteDev.setEnabled(true);
+                echangerAvecPort.setEnabled(true);
+                terminerTour.setEnabled(true);
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
             });
             acheterCarteDev.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i = i++) {
-                    for (int j = 0; j < 9; j = j++) {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
                         tab[i][j].setEnabled(true);
                     }
                 }
                 p.t.acheterCartDev(true);
             });
-            jouerCarteDev.addActionListener((ActionEvent e) -> {// A FAIRE 
+            jouerCarteDev.addActionListener((ActionEvent e) -> {// A FAIRE
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(false);
-                jouerCarteDev.setEnabled(false);
-                echangerAvecPort.setEnabled(false);
-                terminerTour.setEnabled(false);
+                acheterCarteDev.setEnabled(true);
+                jouerCarteDev.setEnabled(true);
+                echangerAvecPort.setEnabled(true);
+                terminerTour.setEnabled(true);
             });
             terminerTour.addActionListener((ActionEvent e) -> {
-                jouerColonie.setEnabled(false);
-                jouerRoute.setEnabled(false);
-                creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(false);
-                jouerCarteDev.setEnabled(false);
-                echangerAvecPort.setEnabled(false);
-                terminerTour.setEnabled(false);
                 p.tourFini();
             });
-            echangerAvecPort.addActionListener((ActionEvent e) -> { // A FAIRE 
+            echangerAvecPort.addActionListener((ActionEvent e) -> { // A FAIRE
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(false);
-                jouerCarteDev.setEnabled(false);
-                echangerAvecPort.setEnabled(false);
-                terminerTour.setEnabled(false);
+                acheterCarteDev.setEnabled(true);
+                jouerCarteDev.setEnabled(true);
+                echangerAvecPort.setEnabled(true);
+                terminerTour.setEnabled(true);
             });
         }
 
