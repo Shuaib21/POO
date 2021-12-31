@@ -291,7 +291,7 @@ public class VueCatan extends JFrame {
         private JPanel joueurHaut;
         private JPanel joueurBas;
         private JPanel[] J = new JPanel[4];
-        ButtonInter[][] tab;
+        private ButtonInter[][] tab;
 
         private JPanel info;
 
@@ -453,6 +453,8 @@ public class VueCatan extends JFrame {
             ImageIcon mine = new ImageIcon("./Image/Mine.jpeg");
             ImageIcon desert = new ImageIcon("./Image/Desert.jpeg");
 
+            // Utiliser tab[i][j].setDisabledIcon(null); pour griser l'icône
+
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
                     if (p.getP().selctionnerCasePaysage(i, j) != null) {
@@ -461,18 +463,23 @@ public class VueCatan extends JFrame {
                             switch (p.getP().selctionnerCaseRess(i, j).ressource) {
                                 case "BOIS":
                                     tab[i][j].setIcon(bois);
+                                    tab[i][j].setDisabledIcon(bois);
                                     break;
                                 case "PIERRE":
                                     tab[i][j].setIcon(montagne);
+                                    tab[i][j].setDisabledIcon(montagne);
                                     break;
                                 case "CHAMPS":
                                     tab[i][j].setIcon(champs);
+                                    tab[i][j].setDisabledIcon(champs);
                                     break;
                                 case "ARGILE":
                                     tab[i][j].setIcon(mine);
+                                    tab[i][j].setDisabledIcon(mine);
                                     break;
                                 case "MOUTON":
                                     tab[i][j].setIcon(moutons);
+                                    tab[i][j].setDisabledIcon(moutons);
                                     break;
                             }
                         } else {
