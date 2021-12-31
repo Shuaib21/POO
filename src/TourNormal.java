@@ -59,9 +59,11 @@ public class TourNormal extends Tour {
     // v.getT().getTab(i, a).setEnabled(true);
     // }
     // }
+    // v.incorrect = true;
+    // v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le
+    // voleur");
     // }
-    v.incorrect = true;
-    v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
+
   }
 
   private void toucherRessource() {
@@ -719,10 +721,33 @@ public class TourNormal extends Tour {
         for (int j = 0; j < p.getTaille(); j++) { // Le Plateau est toujours de taille n x n
           if (p.selctionnerCasePaysage(i, j) != null && p.selctionnerCasePaysage(i, j).getContientVoleur()) {
             p.selctionnerCasePaysage(i, j).setContientVoleur(false);
+
+            if (p.selctionnerCaseRess(i, j) == null) {
+              v.getT().getTab(i, j).setDisabledIcon( v.getT().desert);
+            } else {
+              switch (p.selctionnerCaseRess(i, j).ressource) {
+                case "BOIS":
+                  v.getT().getTab(i, j).setDisabledIcon(v.getT().bois);
+                  break;
+                case "PIERRE":
+                  v.getT().getTab(i, j).setDisabledIcon(v.getT().montagne);
+                  break;
+                case "CHAMPS":
+                  v.getT().getTab(i, j).setDisabledIcon(v.getT().champs);
+                  break;
+                case "ARGILE":
+                  v.getT().getTab(i, j).setDisabledIcon(v.getT().mine);
+                  break;
+                case "MOUTON":
+                  v.getT().getTab(i, j).setDisabledIcon(v.getT().moutons);
+                  break;
+              }
+            }
           }
         }
       }
       p.selctionnerCasePaysage(x, y).setContientVoleur(true);
+      v.getT().getTab(x, y).setDisabledIcon(null);
     } else if (j.estHumain) {
       v.incorrect = true;
       v.aide.setText("Le voleur ne peut pas être déplacé dans cette case");
