@@ -502,6 +502,10 @@ public class VueCatan extends JFrame {
                                     tab[i][j].setDisabledIcon(moutons);
                                     break;
                             }
+                            tab[i][j].setText(String.valueOf(p.getP().selctionnerCaseRess(i, j).num));
+                            tab[i][j].setVerticalTextPosition(SwingConstants.CENTER);
+                            tab[i][j].setHorizontalTextPosition(SwingConstants.CENTER);
+                            tab[i][j].setForeground(Color.WHITE);
                         } else {
                             tab[i][j].setIcon(desert);
                         }
@@ -531,6 +535,7 @@ public class VueCatan extends JFrame {
                 terminerTour.setEnabled(true);
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
+                actuRess();
             });
             jouerRoute.addActionListener((ActionEvent e) -> {
                 for (int i = 0; i < 9; i++) {
@@ -548,6 +553,7 @@ public class VueCatan extends JFrame {
                 terminerTour.setEnabled(true);
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
+                actuRess();
             });
             creerVille.addActionListener((ActionEvent e) -> {
                 for (int i = 0; i < 9; i = i++) {
@@ -565,6 +571,7 @@ public class VueCatan extends JFrame {
                 terminerTour.setEnabled(true);
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
+                actuRess();
             });
             acheterCarteDev.addActionListener((ActionEvent e) -> {
                 for (int i = 0; i < 9; i++) {
@@ -573,6 +580,7 @@ public class VueCatan extends JFrame {
                     }
                 }
                 p.t.acheterCartDev(true);
+                actuRess();
             });
             jouerCarteDev.addActionListener((ActionEvent e) -> {// A FAIRE
                 jouerColonie.setEnabled(false);
@@ -582,9 +590,11 @@ public class VueCatan extends JFrame {
                 jouerCarteDev.setEnabled(true);
                 echangerAvecPort.setEnabled(true);
                 terminerTour.setEnabled(true);
+                actuRess();
             });
             terminerTour.addActionListener((ActionEvent e) -> {
                 p.tourFini();
+                actuRess();
             });
             echangerAvecPort.addActionListener((ActionEvent e) -> { // A FAIRE
                 jouerColonie.setEnabled(false);
@@ -594,6 +604,7 @@ public class VueCatan extends JFrame {
                 jouerCarteDev.setEnabled(true);
                 echangerAvecPort.setEnabled(true);
                 terminerTour.setEnabled(true);
+                actuRess();
             });
         }
 
@@ -635,6 +646,7 @@ public class VueCatan extends JFrame {
                     if (i % 2 == 0 && j % 2 == 0) { // colonie ou ville
                         if (premierTour) {
                             p.pt.ajouterColonie(i, j);
+                            //p.pt.toucherRessource(i,j);
                             for (int x = 0; x < 9; x++) {
                                 for (int y = 0; y < 9; y++) {
                                     tab[x][y].setEnabled(false);
@@ -688,10 +700,29 @@ public class VueCatan extends JFrame {
                         }
                     } else if (i % 2 == 1 && j % 2 == 1) {
                         p.t.deplacerVoleur(i, j);
+
+                        for (int b = 0; b < 9; b++) {
+                            for (int a = 0; a < 9; a++) {
+                                if (p.getP().selctionnerCasePaysage(b, a) == null) {
+                                    tab[b][a].setEnabled(true);
+                                }
+                            }
+                        }
+
+                        jouerColonie.setEnabled(false);
+                        jouerRoute.setEnabled(false);
+                        creerVille.setEnabled(false);
+                        acheterCarteDev.setEnabled(true);
+                        jouerCarteDev.setEnabled(true);
+                        echangerAvecPort.setEnabled(true);
+                        terminerTour.setEnabled(true);
+
                     }
                     X = i;
                     Y = j;
-                    actuRess();
+                    if (!premierTour) {
+                        actuRess();
+                    }
                 });
             }
         }
