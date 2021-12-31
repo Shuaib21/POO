@@ -328,6 +328,7 @@ public class VueCatan extends JFrame {
             info.setLayout(new GridLayout(3, 1));
             info.add(aide);
             this.add(info, BorderLayout.WEST);
+            commandeJouerCarteDev = new JPanel() ;
             commandeJouerCarteDev.setLayout(new GridLayout(2,2));
 
             commande.setLayout(new GridLayout(7, 1));
