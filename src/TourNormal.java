@@ -27,7 +27,11 @@ public class TourNormal extends Tour {
     toucherRessource();
     for (int i = 0; i < 9; i++) {
       for (int a = 0; a < 9; a++) {
-        v.getT().getTab(i, a).setEnabled(true);
+        if (p.selctionnerCasePaysage(i, a) != null) {
+          v.getT().getTab(i, a).setEnabled(false);
+        }else{
+          v.getT().getTab(i, a).setEnabled(true);
+        }
       }
     }
     v.getT().getJouerRoute().setEnabled(false);
@@ -54,7 +58,7 @@ public class TourNormal extends Tour {
       }
       for (int i = 1; i < 9; i = i + 2) {
         for (int a = 1; a < 9; a = a + 2) {
-          if (!p.selctionnerCasePaysage(i, a).getContientVoleur()){
+          if (!p.selctionnerCasePaysage(i, a).getContientVoleur()) {
             v.getT().getTab(i, a).setEnabled(true);
           }
         }

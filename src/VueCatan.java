@@ -662,7 +662,7 @@ public class VueCatan extends JFrame {
                     if (i % 2 == 0 && j % 2 == 0) { // colonie ou ville
                         if (premierTour) {
                             p.pt.ajouterColonie(i, j);
-                            // p.pt.toucherRessource(i,j);
+                            p.pt.toucherRessource(i,j);
                             for (int x = 0; x < 9; x++) {
                                 for (int y = 0; y < 9; y++) {
                                     tab[x][y].setEnabled(false);
