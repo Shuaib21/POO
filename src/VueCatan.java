@@ -22,8 +22,10 @@ public class VueCatan extends JFrame {
     int X;
     int Y;
     boolean incorrect = false;
-    JTextField tourDeQui=new JTextField();
+    JTextField tourDeQui = new JTextField();
     JTextArea aide = new JTextArea();
+    JLabel de1 = new JLabel();
+    JLabel de2 = new JLabel();
     boolean premierTour;
     boolean ajouterColonie;
     boolean ajouterRoute;
@@ -317,6 +319,13 @@ public class VueCatan extends JFrame {
         final ImageIcon mine = new ImageIcon("./Image/Mine.jpeg");
         final ImageIcon desert = new ImageIcon("./Image/Desert.jpeg");
 
+        final ImageIcon un = new ImageIcon("./Image/1.png");
+        final ImageIcon deux = new ImageIcon("./Image/2.png");
+        final ImageIcon trois = new ImageIcon("./Image/3.png");
+        final ImageIcon quatre = new ImageIcon("./Image/4.png");
+        final ImageIcon cinq = new ImageIcon("./Image/5.png");
+        final ImageIcon six = new ImageIcon("./Image/6.png");
+
         Table() {
             this.setLayout(new BorderLayout());
 
@@ -328,17 +337,22 @@ public class VueCatan extends JFrame {
             this.add(commande, BorderLayout.EAST);
 
             info = new JPanel();
-            info.setLayout(new GridLayout(3,1));
+            info.setLayout(new GridLayout(3, 1));
 
-            JPanel infoJoueur=new JPanel();
+            JPanel infoJoueur = new JPanel();
             infoJoueur.setLayout(new BorderLayout());
             infoJoueur.add(tourDeQui, BorderLayout.NORTH);
             infoJoueur.add(aide, BorderLayout.CENTER);
             info.add(infoJoueur);
+            JPanel de =new JPanel();
+            de.setLayout(new GridLayout(2,1));
+            de.add(de1);
+            de.add(de2);
+            info.add(de);
 
             this.add(info, BorderLayout.WEST);
-            commandeJouerCarteDev = new JPanel() ;
-            commandeJouerCarteDev.setLayout(new GridLayout(2,2));
+            commandeJouerCarteDev = new JPanel();
+            commandeJouerCarteDev.setLayout(new GridLayout(2, 2));
 
             commande.setLayout(new GridLayout(7, 1));
 
@@ -631,7 +645,7 @@ public class VueCatan extends JFrame {
                 p.t.acheterCartDev(true);
                 actuRess();
             });
-            jouerCarteDev.addActionListener((ActionEvent e) -> {// A FAIRE
+            jouerCarteDev.addActionListener((ActionEvent e) -> { // A FAIRE
                 if (p.t.j.getMainDev().size() > 0) {
                     info.add(commandeJouerCarteDev);
                 }

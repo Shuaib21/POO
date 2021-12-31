@@ -1,4 +1,5 @@
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -22,14 +23,59 @@ public class TourNormal extends Tour {
 
   TourNormal(Joueur j, Plateau p, Joueur[] tabJ, VueCatan v) {
     super(j, p, v);
-    sommeDés = lancerLesDés();
+    Random r = new Random();
+    int d1 = 1 + r.nextInt(6);
+    int d2 = 1 + r.nextInt(6);
+    sommeDés = d1+d2;
+    switch (d1) {
+      case 1:
+        v.de1.setIcon(v.getT().un);
+        break;
+      case 2:
+        v.de1.setIcon(v.getT().deux);
+        break;
+      case 3:
+        v.de1.setIcon(v.getT().trois);
+        break;
+      case 4:
+        v.de1.setIcon(v.getT().quatre);
+        break;
+      case 5:
+        v.de1.setIcon(v.getT().cinq);
+        break;
+      case 6:
+        v.de1.setIcon(v.getT().six);
+        break;
+    }
+    switch (d2) {
+      case 1:
+        v.de2.setIcon(v.getT().un);
+        break;
+      case 2:
+        v.de2.setIcon(v.getT().deux);
+        break;
+      case 3:
+        v.de2.setIcon(v.getT().trois);
+        break;
+      case 4:
+        v.de2.setIcon(v.getT().quatre);
+        break;
+      case 5:
+        v.de2.setIcon(v.getT().cinq);
+        break;
+      case 6:
+        v.de2.setIcon(v.getT().six);
+        break;
+    }
+    v.validate();
+    v.repaint();
     this.tabJ = tabJ;
     toucherRessource();
     for (int i = 0; i < 9; i++) {
       for (int a = 0; a < 9; a++) {
         if (p.selctionnerCasePaysage(i, a) != null) {
           v.getT().getTab(i, a).setEnabled(false);
-        }else{
+        } else {
           v.getT().getTab(i, a).setEnabled(true);
         }
       }
@@ -757,6 +803,8 @@ public class TourNormal extends Tour {
       v.incorrect = true;
       v.aide.setText("Le voleur ne peut pas être déplacé dans cette case");
     }
+    v.validate();
+    v.repaint();
   }
 
   public void progresDecouverte(Scanner sc) {
