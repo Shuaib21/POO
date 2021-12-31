@@ -396,18 +396,20 @@ public class VueCatan extends JFrame {
                     J[i].add(nbrRess[i][2]);
                     J[i].add(nbrRess[i][3]);
                     J[i].add(nbrRess[i][4]);
-                    Border border;
-                    switch (tabJ[i].getCouleur()) {
-                        case "RED":
-                            border = new LineBorder(Color.RED, 4, true);
-                        case "GREEN":
-                            border = new LineBorder(Color.GREEN, 4, true);
-                        case "YELLOW":
-                            border = new LineBorder(Color.YELLOW, 4, true);
+                    switch (i) {
+                        case 0:
+                            J[i].setBorder(new LineBorder(Color.RED, 4, true));
+                            break;
+                        case 1:
+                            J[i].setBorder(new LineBorder(Color.GREEN, 4, true));
+                            break;
+                        case 2:
+                            J[i].setBorder(new LineBorder(Color.YELLOW, 4, true));
+                            break;
                         default:
-                            border = new LineBorder(Color.BLUE, 4, true);
+                            J[i].setBorder(new LineBorder(Color.BLUE, 4, true));
+                            break;
                     }
-                    J[i].setBorder(border);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -662,7 +664,7 @@ public class VueCatan extends JFrame {
                     if (i % 2 == 0 && j % 2 == 0) { // colonie ou ville
                         if (premierTour) {
                             p.pt.ajouterColonie(i, j);
-                            p.pt.toucherRessource(i,j);
+                            p.pt.toucherRessource(i, j);
                             for (int x = 0; x < 9; x++) {
                                 for (int y = 0; y < 9; y++) {
                                     tab[x][y].setEnabled(false);
