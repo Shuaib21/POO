@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 
 public abstract class Tour {
 

@@ -20,7 +20,7 @@ public class VueCatan extends JFrame {
     int X;
     int Y;
     boolean incorrect = false;
-    JLabel aide = new JLabel();
+    JTextArea aide = new JTextArea();
     boolean premierTour;
     boolean ajouterColonie;
     boolean ajouterRoute;
@@ -293,6 +293,8 @@ public class VueCatan extends JFrame {
         private JPanel[] J = new JPanel[4];
         private ButtonInter[][] tab;
 
+        private JLabel[][] nbrRess;
+
         private JPanel info;
 
         final ImageIcon bois = new ImageIcon("./Image/Bois.jpeg");
@@ -313,6 +315,7 @@ public class VueCatan extends JFrame {
             this.add(commande, BorderLayout.EAST);
 
             info = new JPanel();
+            info.add(aide);
             this.add(info, BorderLayout.WEST);
 
             commande.setLayout(new GridLayout(7, 1));
@@ -360,6 +363,15 @@ public class VueCatan extends JFrame {
             this.add(joueurHaut, BorderLayout.NORTH);
             this.add(joueurBas, BorderLayout.SOUTH);
 
+            nbrRess = new JLabel[tabJ.length][5];
+            for (int i = 0; i < tabJ.length; i++) {
+                nbrRess[i][0] = new JLabel(String.valueOf(tabJ[i].combienRessource("BOIS")));
+                nbrRess[i][1] = new JLabel(String.valueOf(tabJ[i].combienRessource("CHAMPS")));
+                nbrRess[i][2] = new JLabel(String.valueOf(tabJ[i].combienRessource("PIERRE")));
+                nbrRess[i][3] = new JLabel(String.valueOf(tabJ[i].combienRessource("MOUTON")));
+                nbrRess[i][4] = new JLabel(String.valueOf(tabJ[i].combienRessource("ARGILE")));
+            }
+
             try {
                 BufferedImage buche = ImageIO.read(new File("./Image/buche.png"));
                 BufferedImage paille = ImageIO.read(new File("./Image/paille.png"));
@@ -373,6 +385,14 @@ public class VueCatan extends JFrame {
                     J[i].add(new JLabel(new ImageIcon(pierre)));
                     J[i].add(new JLabel(new ImageIcon(mouton)));
                     J[i].add(new JLabel(new ImageIcon(argile)));
+                    for (int j = 0; j < 5; j++) {
+                        nbrRess[i][j].setHorizontalAlignment(SwingConstants.CENTER);
+                    }
+                    J[i].add(nbrRess[i][0]);
+                    J[i].add(nbrRess[i][1]);
+                    J[i].add(nbrRess[i][2]);
+                    J[i].add(nbrRess[i][3]);
+                    J[i].add(nbrRess[i][4]);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -671,8 +691,21 @@ public class VueCatan extends JFrame {
                     }
                     X = i;
                     Y = j;
+                    actuRess();
                 });
             }
+        }
+
+        public void actuRess() {
+            for (int i = 0; i < tabJ.length; i++) {
+                nbrRess[i][0].setText(String.valueOf(tabJ[i].combienRessource("BOIS")));
+                nbrRess[i][1].setText(String.valueOf(tabJ[i].combienRessource("CHAMPS")));
+                nbrRess[i][2].setText(String.valueOf(tabJ[i].combienRessource("PIERRE")));
+                nbrRess[i][3].setText(String.valueOf(tabJ[i].combienRessource("MOUTON")));
+                nbrRess[i][4].setText(String.valueOf(tabJ[i].combienRessource("ARGILE")));
+            }
+            VueCatan.this.validate();
+            VueCatan.this.repaint();
         }
     }
 

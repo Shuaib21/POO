@@ -33,7 +33,7 @@ public class PremierTour extends Tour {
         }
         System.out.println("selec colo");
         v.incorrect = true;
-        v.aide.setText("Veuillez selectionner la case ou vous voulez mettre votre colonie");
+        v.aide.setText("Veuillez selectionner \nla case ou vous \nvoulez mettre votre \ncolonie");
     }
 
     public void ajouterColonie(Scanner sc) {
