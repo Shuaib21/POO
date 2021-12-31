@@ -132,13 +132,17 @@ public class Partie {
   }
 
   public void jouerPartieInter(VueCatan v) {
-    if (pTour != tabJ.length) {
+    if (pTour <= tabJ.length*2+1) {
+      System.out.println(pTour) ;
       v.premierTour = true ;
       initInter(v);
     } else {
+      pTour = 10 ;
+      v.premierTour = false ;
       if (!partiefini()) {
         System.out.println("Tour de : " + tabJ[tour % tabJ.length].getPseudo()); // afficher le joueur qui joue
         t = new TourNormal(tabJ[tour % tabJ.length], p, tabJ, v);
+        System.out.println("tour crée") ;
       } else {
         System.out.println("partie fini");// afficher la fin
       }

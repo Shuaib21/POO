@@ -11,6 +11,7 @@ public class PremierTour extends Tour {
 
     public PremierTour(Joueur j, Plateau p, VueCatan v) {
         super(j, p, v);
+        System.out.println("Tour de " + j.getPseudo());
         v.getT().getJouerRoute().setEnabled(false);
         v.getT().getJouerColonie().setEnabled(false);
         v.getT().getCreerVille().setEnabled(false);
@@ -21,7 +22,7 @@ public class PremierTour extends Tour {
         for (int i = 0; i < 9; i++) {
             for (int a = 0; a < 9; a++) {
                 if (p.selctionnerCasePaysage(i, a) == null) {
-                v.getT().getTab(i, a).setEnabled(false);
+                    v.getT().getTab(i, a).setEnabled(false);
                 }
             }
         }
@@ -32,7 +33,7 @@ public class PremierTour extends Tour {
                 }
             }
         }
-        System.out.println("selec colo") ;
+        System.out.println("selec colo");
         v.incorrect = true;
         v.aide.setText("Veuillez selectionner la case ou vous voulez mettre votre colonie");
     }
@@ -62,6 +63,7 @@ public class PremierTour extends Tour {
         int y = Y;
         if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
             p.selctionnerCaseColonie(x, y).mettreColonie(j);
+            // mettreColonieInter(x,y);
         } else {
             v.aide.setText("Votre colonie ne peut pas être ajoutée ici.");
         }
@@ -94,10 +96,9 @@ public class PremierTour extends Tour {
     }
 
     public void ajouterRoute(int x, int y) {
-        if (correcte(x, y)) {
-            if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getEstVide()) {
-                p.selctionnerCaseRoute(x, y).mettreRoute(j);
-            }
+        if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getEstVide()) {
+            p.selctionnerCaseRoute(x, y).mettreRoute(j);
+            // mettreRouteInter(x,y);
         }
     }
 

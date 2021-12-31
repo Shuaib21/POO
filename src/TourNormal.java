@@ -1,4 +1,4 @@
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -8,9 +8,9 @@ public class TourNormal extends Tour {
 
   private int sommeDés;
   private Joueur[] tabJ;
-  private boolean tourPasFini;
 
   TourNormal(Joueur j, Plateau p, Joueur[] tabJ, Scanner sc) {
+
     super(j, p);
     sommeDés = lancerLesDés();
     this.tabJ = tabJ;
@@ -25,32 +25,35 @@ public class TourNormal extends Tour {
     sommeDés = lancerLesDés();
     this.tabJ = tabJ;
     toucherRessource();
-    if (sommeDés == 7) {
-      v.getT().getJouerRoute().setEnabled(false);
-      v.getT().getJouerColonie().setEnabled(false);
-      v.getT().getCreerVille().setEnabled(false);
-      v.getT().getAcheterCarteDev().setEnabled(false);
-      v.getT().getJouerCarteDev().setEnabled(false);
-      v.getT().getEchangerAvecPort().setEnabled(false);
-      v.getT().getTerminerTour().setEnabled(false);
-      for (int i = 0; i < 9; i++) {
-        for (int a = 0; a < 9; a++) {
-          v.getT().getTab(i, a).setEnabled(false);
-        }
+    for (int i = 0; i < 9; i++) {
+      for (int a = 0; a < 9; a++) {
+          v.getT().getTab(i, a).setEnabled(true);
       }
-      for (int i = 1; i < 9; i = i + 2) {
-        for (int a = 1; a < 9; a = a + 2) {
-          if (!p.selctionnerCaseRess(i, a).getContientVoleur())
-            v.getT().getTab(i, a).setEnabled(true);
-        }
-      }
+    }
+    System.out.println("fin du setENable + debut du voleur "+sommeDés) ;
+    // MARCHE PAS ENCORE
+    // if (sommeDés == 7) {
+    //   v.getT().getJouerRoute().setEnabled(false);
+    //   v.getT().getJouerColonie().setEnabled(false);
+    //   v.getT().getCreerVille().setEnabled(false);
+    //   v.getT().getAcheterCarteDev().setEnabled(false);
+    //   v.getT().getJouerCarteDev().setEnabled(false);
+    //   v.getT().getEchangerAvecPort().setEnabled(false);
+    //   v.getT().getTerminerTour().setEnabled(false);
+    //   for (int i = 0; i < 9; i++) {
+    //     for (int a = 0; a < 9; a++) {
+    //       v.getT().getTab(i, a).setEnabled(false);
+    //     }
+    //   }
+    //   for (int i = 1; i < 9; i = i + 2) {
+    //     for (int a = 1; a < 9; a = a + 2) {
+    //       if (!p.selctionnerCaseRess(i, a).getContientVoleur())
+    //         v.getT().getTab(i, a).setEnabled(true);
+    //     }
+    //   }
+    // }
       v.incorrect = true;
       v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
-    }
-  }
-
-  public boolean getTourPasFini() {
-    return tourPasFini;
   }
 
   private void toucherRessource() {
@@ -205,7 +208,7 @@ public class TourNormal extends Tour {
     ajouterRoute(false, sc);
   }
 
-  private void ajouterRoute(int x, int y) {
+  public void ajouterRoute(int x, int y) {
     if (j.combienRessource("BOIS") == 0 || j.combienRessource("ARGILE") == 0) {
       v.incorrect = true;
       v.aide.setText("Vous n'avez pas assez de ressource pour construire une route");
