@@ -1,6 +1,5 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
@@ -23,6 +22,7 @@ public class VueCatan extends JFrame {
     int X;
     int Y;
     boolean incorrect = false;
+    JTextField tourDeQui=new JTextField();
     JTextArea aide = new JTextArea();
     boolean premierTour;
     boolean ajouterColonie;
@@ -71,6 +71,9 @@ public class VueCatan extends JFrame {
         menuBar.add(start);
 
         menu.add(menuBar);
+
+        aide.setEditable(false);
+        tourDeQui.setEditable(false);
 
         plus.addActionListener(
                 (ActionEvent e) -> {
@@ -318,7 +321,14 @@ public class VueCatan extends JFrame {
             this.add(commande, BorderLayout.EAST);
 
             info = new JPanel();
-            info.add(aide);
+            info.setLayout(new GridLayout(3,1));
+
+            JPanel infoJoueur=new JPanel();
+            infoJoueur.setLayout(new BorderLayout());
+            infoJoueur.add(tourDeQui, BorderLayout.NORTH);
+            infoJoueur.add(aide, BorderLayout.CENTER);
+            info.add(infoJoueur);
+
             this.add(info, BorderLayout.WEST);
 
             commande.setLayout(new GridLayout(7, 1));

@@ -28,8 +28,8 @@ public class Partie {
     jouerPartieInter(v);
   }
 
-  public void pTourFini(){
-    pTour ++ ;
+  public void pTourFini() {
+    pTour++;
     jouerPartieInter(v);
   }
 
@@ -132,18 +132,21 @@ public class Partie {
   }
 
   public void jouerPartieInter(VueCatan v) {
-    if (pTour <= tabJ.length*2-1) {
-      System.out.println(pTour) ;
-      v.premierTour = true ;
+    if (pTour <= tabJ.length * 2 - 1) {
+      System.out.println(pTour);
+      v.premierTour = true;
       initInter(v);
     } else {
-      if(tour==0){
+      if (tour == 0) {
         v.getT().actuRess();
         Tour.genereCartes();
-        pTour = 10 ;
-      v.premierTour = false ;
+        pTour = 10;
+        v.premierTour = false;
       }
       if (!partiefini()) {
+        v.tourDeQui.setText("Tour de " + tabJ[tour % tabJ.length].getPseudo());
+        v.validate();
+        v.repaint();
         System.out.println("Tour de : " + tabJ[tour % tabJ.length].getPseudo()); // afficher le joueur qui joue
         t = new TourNormal(tabJ[tour % tabJ.length], p, tabJ, v);
       } else {
@@ -174,8 +177,14 @@ public class Partie {
 
   private void initInter(VueCatan v) {
     if (pTour < tabJ.length) {
+      v.tourDeQui.setText("Tour de " + tabJ[pTour % tabJ.length].getPseudo());
+      v.validate();
+      v.repaint();
       pt = new PremierTour(tabJ[pTour % tabJ.length], p, v);
     } else {
+      v.tourDeQui.setText("Tour de " + tabJ[tabJ.length - pTour % tabJ.length - 1].getPseudo());
+      v.validate();
+      v.repaint();
       pt = new PremierTour(tabJ[tabJ.length - pTour % tabJ.length - 1], p, v);
     }
     v.validate();
