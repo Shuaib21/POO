@@ -1,5 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import java.awt.*;
 import java.awt.image.*;
@@ -394,6 +396,18 @@ public class VueCatan extends JFrame {
                     J[i].add(nbrRess[i][2]);
                     J[i].add(nbrRess[i][3]);
                     J[i].add(nbrRess[i][4]);
+                    Border border;
+                    switch (tabJ[i].getCouleur()) {
+                        case "RED":
+                            border = new LineBorder(Color.RED, 4, true);
+                        case "GREEN":
+                            border = new LineBorder(Color.GREEN, 4, true);
+                        case "YELLOW":
+                            border = new LineBorder(Color.YELLOW, 4, true);
+                        default:
+                            border = new LineBorder(Color.BLUE, 4, true);
+                    }
+                    J[i].setBorder(border);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
