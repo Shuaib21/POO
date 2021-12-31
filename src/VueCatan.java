@@ -300,6 +300,13 @@ public class VueCatan extends JFrame {
 
         private JPanel info;
 
+        private JPanel commandeJouerCarteDev;
+
+        private JButton jouerChevalier;
+        private JButton jouerCarteConstru;
+        private JButton jouerCarteDecouverte;
+        private JButton jouerMonopole;
+
         final ImageIcon bois = new ImageIcon("./Image/Bois.jpeg");
         final ImageIcon champs = new ImageIcon("./Image/Champs.jpg");
         final ImageIcon montagne = new ImageIcon("./Image/Montagne.jpeg");
@@ -318,8 +325,10 @@ public class VueCatan extends JFrame {
             this.add(commande, BorderLayout.EAST);
 
             info = new JPanel();
+            info.setLayout(new GridLayout(3, 1));
             info.add(aide);
             this.add(info, BorderLayout.WEST);
+            commandeJouerCarteDev.setLayout(new GridLayout(2,2));
 
             commande.setLayout(new GridLayout(7, 1));
 
@@ -540,8 +549,12 @@ public class VueCatan extends JFrame {
             jouerColonie.addActionListener((ActionEvent e) -> {
                 p.t.ajouterColonie(X, Y);
                 for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-                        tab[i][j].setEnabled(true);
+                    for (int a = 0; a < 9; a++) {
+                        if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                            tab[i][a].setEnabled(false);
+                        } else {
+                            tab[i][a].setEnabled(true);
+                        }
                     }
                 }
                 jouerColonie.setEnabled(false);
@@ -557,8 +570,12 @@ public class VueCatan extends JFrame {
             });
             jouerRoute.addActionListener((ActionEvent e) -> {
                 for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-                        tab[i][j].setEnabled(true);
+                    for (int a = 0; a < 9; a++) {
+                        if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                            tab[i][a].setEnabled(false);
+                        } else {
+                            tab[i][a].setEnabled(true);
+                        }
                     }
                 }
                 p.t.ajouterRoute(X, Y);
@@ -574,9 +591,13 @@ public class VueCatan extends JFrame {
                 actuRess();
             });
             creerVille.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i = i++) {
-                    for (int j = 0; j < 9; j = j++) {
-                        tab[i][j].setEnabled(true);
+                for (int i = 0; i < 9; i++) {
+                    for (int a = 0; a < 9; a++) {
+                        if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                            tab[i][a].setEnabled(false);
+                        } else {
+                            tab[i][a].setEnabled(true);
+                        }
                     }
                 }
                 p.t.ajouterVille(X, Y);
@@ -601,6 +622,18 @@ public class VueCatan extends JFrame {
                 actuRess();
             });
             jouerCarteDev.addActionListener((ActionEvent e) -> {// A FAIRE
+                if (p.t.j.getMainDev().size() > 0) {
+                    info.add(commandeJouerCarteDev);
+                }
+                for (int i = 0; i < 9; i++) {
+                    for (int a = 0; a < 9; a++) {
+                        if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                            tab[i][a].setEnabled(false);
+                        } else {
+                            tab[i][a].setEnabled(true);
+                        }
+                    }
+                }
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
