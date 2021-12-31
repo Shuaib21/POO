@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.event.*;
 import javax.swing.event.MouseInputListener;
+import javax.swing.plaf.ColorUIResource;
 
 public class VueCatan extends JFrame {
     protected ModeleCatan model;
@@ -505,7 +506,8 @@ public class VueCatan extends JFrame {
                             tab[i][j].setText(String.valueOf(p.getP().selctionnerCaseRess(i, j).num));
                             tab[i][j].setVerticalTextPosition(SwingConstants.CENTER);
                             tab[i][j].setHorizontalTextPosition(SwingConstants.CENTER);
-                            tab[i][j].setForeground(Color.WHITE);
+                            tab[i][j].setForeground(Color.LIGHT_GRAY);
+                            tab[i][j].setFont(new Font("Arial", Font.PLAIN, 40));
                         } else {
                             tab[i][j].setIcon(desert);
                         }
@@ -646,7 +648,7 @@ public class VueCatan extends JFrame {
                     if (i % 2 == 0 && j % 2 == 0) { // colonie ou ville
                         if (premierTour) {
                             p.pt.ajouterColonie(i, j);
-                            //p.pt.toucherRessource(i,j);
+                            // p.pt.toucherRessource(i,j);
                             for (int x = 0; x < 9; x++) {
                                 for (int y = 0; y < 9; y++) {
                                     tab[x][y].setEnabled(false);
@@ -659,7 +661,7 @@ public class VueCatan extends JFrame {
                                 }
                             }
                             incorrect = true;
-                            aide.setText("Veuillez selectionner la case ou vous voulez mettre votre route");
+                            aide.setText("Veuillez selectionner \nla case ou vous voulez \nmettre votre route");
                         } else {
                             for (int x = 0; x < 9; x++) {
                                 for (int y = 0; y < 9; y++) {
@@ -741,6 +743,7 @@ public class VueCatan extends JFrame {
     }
 
     public static void main(String[] args) {
+        UIManager.getDefaults().put("Button.disabledText", new ColorUIResource(Color.LIGHT_GRAY));
         EventQueue.invokeLater(() -> {
             VueCatan view = new VueCatan();
             view.pack();
