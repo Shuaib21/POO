@@ -138,6 +138,7 @@ public class Partie {
       initInter(v);
     } else {
       if(tour==0){
+        v.getT().actuRess();
         Tour.genereCartes();
         pTour = 10 ;
       v.premierTour = false ;
@@ -174,7 +175,6 @@ public class Partie {
   private void initInter(VueCatan v) {
     if (pTour < tabJ.length) {
       pt = new PremierTour(tabJ[pTour % tabJ.length], p, v);
-      pt.toucherRessource();
     } else {
       pt = new PremierTour(tabJ[tabJ.length - pTour % tabJ.length - 1], p, v);
     }

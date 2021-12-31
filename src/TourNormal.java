@@ -59,6 +59,8 @@ public class TourNormal extends Tour {
           }
         }
       }
+      v.validate();
+      v.repaint();
       v.incorrect = true;
       v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
     }

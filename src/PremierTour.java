@@ -117,6 +117,22 @@ public class PremierTour extends Tour {
         MAJSudOuest();
     }
 
+    public void toucherRessource(int x, int y) {
+        if (x - 1 >= 0 && y - 1 >= 0 && p.selctionnerCaseRess(x - 1, y - 1) != null) {
+            j.ajouterRessource(p.selctionnerCaseRess(x - 1, y - 1).ressource);
+        }
+        if (x + 1 < p.getTaille() && y - 1 >= 0 && p.selctionnerCaseRess(x + 1, y - 1) != null) {
+            j.ajouterRessource(p.selctionnerCaseRess(x + 1, y - 1).ressource);
+        }
+
+        if (x - 1 >= 0 && y + 1 < p.getTaille() && p.selctionnerCaseRess(x - 1, y + 1) != null) {
+            j.ajouterRessource(p.selctionnerCaseRess(x - 1, y + 1).ressource);
+        }
+        if (x + 1 < p.getTaille() && y + 1 < p.getTaille() && p.selctionnerCaseRess(x + 1, y + 1) != null) {
+            j.ajouterRessource(p.selctionnerCaseRess(x + 1, y + 1).ressource);
+        }
+    }
+
     // p.selctionnerCaseRess(a, b) est null si c'est le désert
 
     private void MAJNordOuest() {
