@@ -1,5 +1,3 @@
-
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -29,42 +27,42 @@ public class TourNormal extends Tour {
     sommeDés = d1+d2;
     switch (d1) {
       case 1:
-        v.de1.setIcon(v.getT().un);
+        v.d1.setIcon(v.getT().un);
         break;
       case 2:
-        v.de1.setIcon(v.getT().deux);
+        v.d1.setIcon(v.getT().deux);
         break;
       case 3:
-        v.de1.setIcon(v.getT().trois);
+        v.d1.setIcon(v.getT().trois);
         break;
       case 4:
-        v.de1.setIcon(v.getT().quatre);
+        v.d1.setIcon(v.getT().quatre);
         break;
       case 5:
-        v.de1.setIcon(v.getT().cinq);
+        v.d1.setIcon(v.getT().cinq);
         break;
       case 6:
-        v.de1.setIcon(v.getT().six);
+        v.d1.setIcon(v.getT().six);
         break;
     }
     switch (d2) {
       case 1:
-        v.de2.setIcon(v.getT().un);
+        v.d2.setIcon(v.getT().un);
         break;
       case 2:
-        v.de2.setIcon(v.getT().deux);
+        v.d2.setIcon(v.getT().deux);
         break;
       case 3:
-        v.de2.setIcon(v.getT().trois);
+        v.d2.setIcon(v.getT().trois);
         break;
       case 4:
-        v.de2.setIcon(v.getT().quatre);
+        v.d2.setIcon(v.getT().quatre);
         break;
       case 5:
-        v.de2.setIcon(v.getT().cinq);
+        v.d2.setIcon(v.getT().cinq);
         break;
       case 6:
-        v.de2.setIcon(v.getT().six);
+        v.d2.setIcon(v.getT().six);
         break;
     }
     v.validate();

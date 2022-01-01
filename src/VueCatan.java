@@ -24,8 +24,8 @@ public class VueCatan extends JFrame {
     boolean incorrect = false;
     JTextField tourDeQui = new JTextField();
     JTextArea aide = new JTextArea();
-    JLabel de1 = new JLabel();
-    JLabel de2 = new JLabel();
+    JLabel d1 = new JLabel();
+    JLabel d2 = new JLabel();
     boolean premierTour;
     boolean ajouterColonie;
     boolean ajouterRoute;
@@ -344,10 +344,10 @@ public class VueCatan extends JFrame {
             infoJoueur.add(tourDeQui, BorderLayout.NORTH);
             infoJoueur.add(aide, BorderLayout.CENTER);
             info.add(infoJoueur);
-            JPanel de =new JPanel();
-            de.setLayout(new GridLayout(2,1));
-            de.add(de1);
-            de.add(de2);
+            JPanel de = new JPanel();
+            de.setLayout(new GridLayout(2, 1));
+            de.add(d1);
+            de.add(d2);
             info.add(de);
 
             this.add(info, BorderLayout.WEST);
@@ -416,11 +416,21 @@ public class VueCatan extends JFrame {
                 BufferedImage argile = ImageIO.read(new File("./Image/argile.png"));
 
                 for (int i = 0; i < tabJ.length; i++) {
-                    J[i].add(new JLabel(new ImageIcon(buche)));
-                    J[i].add(new JLabel(new ImageIcon(paille)));
-                    J[i].add(new JLabel(new ImageIcon(pierre)));
-                    J[i].add(new JLabel(new ImageIcon(mouton)));
-                    J[i].add(new JLabel(new ImageIcon(argile)));
+                    ButtonPort p1 = new ButtonPort(false, new ImageIcon(buche));
+                    J[i].add(p1);
+
+                    ButtonPort p2 = new ButtonPort(false, new ImageIcon(paille));
+                    J[i].add(p2);
+
+                    ButtonPort p3 = new ButtonPort(false, new ImageIcon(pierre));
+                    J[i].add(p3);
+
+                    ButtonPort p4 = new ButtonPort(false, new ImageIcon(mouton));
+                    J[i].add(p4);
+
+                    ButtonPort p5 = new ButtonPort(false, new ImageIcon(argile));
+                    J[i].add(p5);
+
                     for (int j = 0; j < 5; j++) {
                         nbrRess[i][j].setHorizontalAlignment(SwingConstants.CENTER);
                     }
@@ -467,15 +477,15 @@ public class VueCatan extends JFrame {
 
             for (int i = 0; i < 11; i++) {
                 if (i == 1) {
-                    JButton a = new JButton(portBois);
+                    ButtonPort a = new ButtonPort(true, portBois);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 5) {
-                    JButton a = new JButton(port3_1);
+                    ButtonPort a = new ButtonPort(true, port3_1);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 9) {
-                    JButton a = new JButton(portMouton);
+                    ButtonPort a = new ButtonPort(true, portMouton);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -485,7 +495,7 @@ public class VueCatan extends JFrame {
 
             for (int i = 0; i < 9; i++) {
                 if (i == 4) {
-                    JButton a = new JButton(portChamps);
+                    ButtonPort a = new ButtonPort(true, portChamps);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -497,7 +507,7 @@ public class VueCatan extends JFrame {
                     tab[i][j] = a;
                 }
                 if (i == 8) {
-                    JButton a = new JButton(port3_1);
+                    ButtonPort a = new ButtonPort(true, port3_1);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -507,15 +517,15 @@ public class VueCatan extends JFrame {
 
             for (int i = 0; i < 11; i++) {
                 if (i == 1) {
-                    JButton a = new JButton(portArgile);
+                    ButtonPort a = new ButtonPort(true, portArgile);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 5) {
-                    JButton a = new JButton(portPierre);
+                    ButtonPort a = new ButtonPort(true, portPierre);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 9) {
-                    JButton a = new JButton(port3_1);
+                    ButtonPort a = new ButtonPort(true, port3_1);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -797,6 +807,24 @@ public class VueCatan extends JFrame {
                     Y = j;
                     if (!premierTour) {
                         actuRess();
+                    }
+                });
+            }
+        }
+
+        class ButtonPort extends JButton { // A faire
+            private final boolean estPort;
+
+            ButtonPort(boolean estPort, ImageIcon img) {
+                this.estPort = estPort;
+                setIcon(img);
+                setDisabledIcon(img);
+
+                addActionListener((ActionEvent e) -> {
+                    if (estPort) {
+                        // implementer les boutons port
+                    } else {
+                        // implementer les ressources cliquables
                     }
                 });
             }
