@@ -506,7 +506,7 @@ public class VueCatan extends JFrame {
                     plateau.add(a);
                     tab[i][j] = a;
                 }
-                if (i == 8) {
+                if (i == 4) {
                     ButtonPort a = new ButtonPort(true, port3_1);
                     a.setEnabled(true);
                     plateau.add(a);
