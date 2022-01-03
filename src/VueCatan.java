@@ -43,6 +43,7 @@ public class VueCatan extends JFrame {
     }
 
     public VueCatan() {
+        this.setSize(300, 300);
         setTitle("Catan");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -307,10 +308,10 @@ public class VueCatan extends JFrame {
 
         private JPanel commandeJouerCarteDev;
 
-        private JButton jouerChevalier;
-        private JButton jouerCarteConstru;
-        private JButton jouerCarteDecouverte;
-        private JButton jouerMonopole;
+        private JButton jouerChevalier = new JButton("Jouer chevalier");// SI ON A LE TEMPS ON PEUT METTRE DES IMAGES
+        private JButton jouerCarteConstru = new JButton("Jouer deux route");
+        private JButton jouerCarteDecouverte = new JButton("piocher deux cartes");
+        private JButton jouerMonopole = new JButton("Jouer monopole");
 
         final ImageIcon bois = new ImageIcon("./Image/Bois.jpeg");
         final ImageIcon champs = new ImageIcon("./Image/Champs.jpg");
@@ -327,6 +328,7 @@ public class VueCatan extends JFrame {
         final ImageIcon six = new ImageIcon("./Image/6.png");
 
         Table() {
+            this.setSize(100, 100);
             this.setLayout(new BorderLayout());
 
             plateau = new JPanel();
@@ -352,7 +354,12 @@ public class VueCatan extends JFrame {
 
             this.add(info, BorderLayout.WEST);
             commandeJouerCarteDev = new JPanel();
-            commandeJouerCarteDev.setLayout(new GridLayout(2, 2));
+            commandeJouerCarteDev.setLayout(new GridLayout(4, 1));
+
+            commandeJouerCarteDev.add(jouerChevalier);
+            commandeJouerCarteDev.add(jouerCarteConstru);
+            commandeJouerCarteDev.add(jouerCarteDecouverte);
+            commandeJouerCarteDev.add(jouerMonopole);
 
             commande.setLayout(new GridLayout(7, 1));
 
@@ -647,35 +654,56 @@ public class VueCatan extends JFrame {
                 actuRess();
             });
             acheterCarteDev.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-                        tab[i][j].setEnabled(true);
-                    }
-                }
                 p.t.acheterCartDev(true);
                 actuRess();
             });
             jouerCarteDev.addActionListener((ActionEvent e) -> { // A FAIRE
-                if (p.t.j.getMainDev().size() > 0) {
-                    info.add(commandeJouerCarteDev);
-                }
-                for (int i = 0; i < 9; i++) {
-                    for (int a = 0; a < 9; a++) {
-                        if (p.getP().selctionnerCasePaysage(i, a) != null) {
-                            tab[i][a].setEnabled(false);
-                        } else {
-                            tab[i][a].setEnabled(true);
-                        }
+                int nombreCartePoint = 0;
+                for (CarteDev c : p.t.j.getMainDev()) {
+                    if (c.getPouvoir().equals("Point de victoire")) {
+                        nombreCartePoint++;
                     }
                 }
-                jouerColonie.setEnabled(false);
-                jouerRoute.setEnabled(false);
-                creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(true);
-                jouerCarteDev.setEnabled(true);
-                echangerAvecPort.setEnabled(true);
-                terminerTour.setEnabled(true);
-                actuRess();
+                if (p.t.j.getMainDev().size() > 0 && nombreCartePoint != p.t.j.getMainDev().size()) {
+                    for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++) {
+                            tab[i][j].setEnabled(false);
+                        }
+                    }
+                    jouerColonie.setEnabled(false);
+                    jouerRoute.setEnabled(false);
+                    creerVille.setEnabled(false);
+                    acheterCarteDev.setEnabled(false);
+                    jouerCarteDev.setEnabled(false);
+                    echangerAvecPort.setEnabled(false);
+                    terminerTour.setEnabled(false);
+
+                    VueCatan.this.validate();
+                    VueCatan.this.repaint();
+                    info.add(commandeJouerCarteDev);
+                    // afficher le nmobre de carte de chaque dans affiahge
+                    jouerChevalier.setEnabled(false);
+                    jouerMonopole.setEnabled(false);
+                    jouerCarteDecouverte.setEnabled(false);
+                    jouerCarteConstru.setEnabled(false);
+                    for (CarteDev c : p.t.j.getMainDev()) {
+                        if (c.getPouvoir().equals("CHEVALIER")) {
+                            jouerChevalier.setEnabled(true);
+                        }
+                        if (c.getPouvoir().equals("Progrès Construction de routes")) {
+                            jouerCarteConstru.setEnabled(true);
+                        }
+                        if (c.getPouvoir().equals("Progrès Découverte")) {
+                            jouerCarteDecouverte.setEnabled(true);
+                        }
+                        if (c.getPouvoir().equals("Progrès Monopole")) {
+                            jouerMonopole.setEnabled(true);
+                        }
+                    }
+                } else {
+                    aide.setText("Vous n'avez pas de carte developpement");
+                    incorrect = true;
+                }
             });
             terminerTour.addActionListener((ActionEvent e) -> {
                 p.tourFini();
@@ -691,6 +719,73 @@ public class VueCatan extends JFrame {
                 terminerTour.setEnabled(true);
                 actuRess();
             });
+            jouerChevalier.addActionListener((ActionEvent e) -> { // A FAIRE
+                p.t.j.augmenteNbChev();
+                if (p.t.j.getNbrChevaliers() > Tour.nbrChevalierMax) {
+                    if (Tour.contientChevalierPuissant != null) {
+                        Tour.contientChevalierPuissant.enleverPoint();
+                        Tour.contientChevalierPuissant.enleverPoint();
+                    }
+                    Tour.contientChevalierPuissant = p.t.j;
+                    p.t.j.ajouterPoint();
+                    p.t.j.ajouterPoint();
+                    Tour.nbrChevalierMax = p.t.j.getNbrChevaliers();
+                }
+                jouerColonie.setEnabled(false);
+                jouerRoute.setEnabled(false);
+                creerVille.setEnabled(false);
+                acheterCarteDev.setEnabled(false);
+                jouerCarteDev.setEnabled(false);
+                echangerAvecPort.setEnabled(false);
+                terminerTour.setEnabled(false);
+                for (int i = 0; i < 9; i++) {
+                    for (int a = 0; a < 9; a++) {
+                        tab[i][a].setEnabled(false);
+                    }
+                }
+                for (int i = 1; i < 9; i = i + 2) {
+                    for (int a = 1; a < 9; a = a + 2) {
+                        if (!p.getP().selctionnerCasePaysage(i, a).getContientVoleur()) {
+                            tab[i][a].setEnabled(true);
+                        }
+                    }
+                }
+                aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
+                incorrect = true;
+                validate();
+                repaint();
+            });
+            jouerCarteConstru.addActionListener((ActionEvent e) -> { // A FAIRE
+                jouerColonie.setEnabled(false);
+                jouerRoute.setEnabled(false);
+                creerVille.setEnabled(false);
+                acheterCarteDev.setEnabled(true);
+                jouerCarteDev.setEnabled(true);
+                echangerAvecPort.setEnabled(true);
+                terminerTour.setEnabled(true);
+                actuRess();
+            });
+            jouerCarteDecouverte.addActionListener((ActionEvent e) -> { // A FAIRE
+                jouerColonie.setEnabled(false);
+                jouerRoute.setEnabled(false);
+                creerVille.setEnabled(false);
+                acheterCarteDev.setEnabled(true);
+                jouerCarteDev.setEnabled(true);
+                echangerAvecPort.setEnabled(true);
+                terminerTour.setEnabled(true);
+                actuRess();
+            });
+            jouerMonopole.addActionListener((ActionEvent e) -> { // A FAIRE
+                jouerColonie.setEnabled(false);
+                jouerRoute.setEnabled(false);
+                creerVille.setEnabled(false);
+                acheterCarteDev.setEnabled(true);
+                jouerCarteDev.setEnabled(true);
+                echangerAvecPort.setEnabled(true);
+                terminerTour.setEnabled(true);
+                actuRess();
+            });
+
         }
 
         public JButton getJouerColonie() {
@@ -783,12 +878,13 @@ public class VueCatan extends JFrame {
                             terminerTour.setEnabled(false);
 
                         }
-                    } else if (i % 2 == 1 && j % 2 == 1) {
+                    } else if (i % 2 == 1 && j % 2 == 1) { // case ressource
                         p.t.deplacerVoleur(i, j);
-
                         for (int b = 0; b < 9; b++) {
                             for (int a = 0; a < 9; a++) {
-                                if (p.getP().selctionnerCasePaysage(b, a) == null) {
+                                if (p.getP().selctionnerCasePaysage(b, a) != null) {
+                                    tab[b][a].setEnabled(false);
+                                } else {
                                     tab[b][a].setEnabled(true);
                                 }
                             }

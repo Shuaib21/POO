@@ -24,7 +24,7 @@ public class TourNormal extends Tour {
     Random r = new Random();
     int d1 = 1 + r.nextInt(6);
     int d2 = 1 + r.nextInt(6);
-    sommeDés = d1+d2;
+    sommeDés = d1 + d2;
     switch (d1) {
       case 1:
         v.d1.setIcon(v.getT().un);
@@ -65,6 +65,8 @@ public class TourNormal extends Tour {
         v.d2.setIcon(v.getT().six);
         break;
     }
+    v.aide.setText("Vous pouvez jouer");
+    v.incorrect = true;
     v.validate();
     v.repaint();
     this.tabJ = tabJ;
@@ -107,10 +109,10 @@ public class TourNormal extends Tour {
           }
         }
       }
+      v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
+      v.incorrect = true;
       v.validate();
       v.repaint();
-      v.incorrect = true;
-      v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
     }
 
   }
@@ -280,6 +282,9 @@ public class TourNormal extends Tour {
           j.enleverRessource("BOIS");
           j.enleverRessource("ARGILE");
           actualiserRouteLaPlusLongue();
+          v.incorrect = true;
+          v.aide.setText("Route posé");
+          return;
         }
       }
     }
