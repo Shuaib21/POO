@@ -328,7 +328,7 @@ public class TourNormal extends Tour {
     }
   }
 
-  private boolean estColleAColonie(int x, int y) {
+  public boolean estColleAColonie(int x, int y) {
     if (x + 1 < p.getTaille() &&
         p.selctionnerCaseColonie(x + 1, y) != null &&
         !p.selctionnerCaseColonie(x + 1, y).getEstVide() &&
@@ -356,7 +356,7 @@ public class TourNormal extends Tour {
     return false;
   }
 
-  private boolean routeColleARoute(int x, int y) {
+  public boolean routeColleARoute(int x, int y) {
     if (x + 1 < p.getTaille() && y + 1 < p.getTaille() &&
         !p.selctionnerCaseRoute(x + 1, y + 1).getEstVide() &&
         p.selctionnerCaseRoute(x + 1, y + 1).getJ() == j) {

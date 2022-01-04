@@ -22,13 +22,19 @@ public class VueCatan extends JFrame {
     int Y;
     boolean incorrect = false;
     JTextField tourDeQui = new JTextField();
-    JTextArea aide = new JTextArea(10,20);
+    JTextArea aide = new JTextArea(10, 20);
     JScrollPane scrollPane = new JScrollPane(aide);
     JLabel d1 = new JLabel();
     JLabel d2 = new JLabel();
     boolean premierTour;
     boolean ajouterColonie;
     boolean ajouterRoute;
+
+    boolean boutonPortActif = false;
+    boolean boutonActif = false;
+    String faire = "";
+    boolean premiereFois = true;
+    boolean poserRouteFree = false;
 
     public Table getT() {
         return t;
@@ -49,7 +55,7 @@ public class VueCatan extends JFrame {
 
         model = new ModeleCatan("./Image/Ocean.jpeg");
         imagePane = new ImagePane();
-        //setContentPane(imagePane);
+        // setContentPane(imagePane);
 
         menu = new JPanel();
         menu.setLayout(new GridLayout(5, 1));
@@ -256,8 +262,6 @@ public class VueCatan extends JFrame {
         final ImageIcon cinq = new ImageIcon("./Image/5.png");
         final ImageIcon six = new ImageIcon("./Image/6.png");
 
-        boolean premiereCarteDecouverte ;
-
         Table() {
             this.setSize(100, 100);
             this.setLayout(new BorderLayout());
@@ -354,19 +358,19 @@ public class VueCatan extends JFrame {
                 BufferedImage argile = ImageIO.read(new File("./Image/argile.png"));
 
                 for (int i = 0; i < tabJ.length; i++) {
-                    ButtonPort p1 = new ButtonPort(false, new ImageIcon(buche));
+                    ButtonPort p1 = new ButtonPort(new ImageIcon(buche), "BOIS", tabJ[i]);
                     J[i].add(p1);
 
-                    ButtonPort p2 = new ButtonPort(false, new ImageIcon(paille));
+                    ButtonPort p2 = new ButtonPort(new ImageIcon(paille), "CHAMPS", tabJ[i]);
                     J[i].add(p2);
 
-                    ButtonPort p3 = new ButtonPort(false, new ImageIcon(pierre));
+                    ButtonPort p3 = new ButtonPort(new ImageIcon(pierre), "PIERRE", tabJ[i]);
                     J[i].add(p3);
 
-                    ButtonPort p4 = new ButtonPort(false, new ImageIcon(mouton));
+                    ButtonPort p4 = new ButtonPort(new ImageIcon(mouton), "MOUTON", tabJ[i]);
                     J[i].add(p4);
 
-                    ButtonPort p5 = new ButtonPort(false, new ImageIcon(argile));
+                    ButtonPort p5 = new ButtonPort(new ImageIcon(argile), "ARGILE", tabJ[i]);
                     J[i].add(p5);
 
                     for (int j = 0; j < 5; j++) {
@@ -415,15 +419,15 @@ public class VueCatan extends JFrame {
 
             for (int i = 0; i < 11; i++) {
                 if (i == 1) {
-                    ButtonPort a = new ButtonPort(true, portBois);
+                    ButtonPort a = new ButtonPort(portBois);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 5) {
-                    ButtonPort a = new ButtonPort(true, port3_1);
+                    ButtonPort a = new ButtonPort(port3_1);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 9) {
-                    ButtonPort a = new ButtonPort(true, portMouton);
+                    ButtonPort a = new ButtonPort(portMouton);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -433,7 +437,7 @@ public class VueCatan extends JFrame {
 
             for (int i = 0; i < 9; i++) {
                 if (i == 4) {
-                    ButtonPort a = new ButtonPort(true, portChamps);
+                    ButtonPort a = new ButtonPort(portChamps);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -445,7 +449,7 @@ public class VueCatan extends JFrame {
                     tab[i][j] = a;
                 }
                 if (i == 4) {
-                    ButtonPort a = new ButtonPort(true, port3_1);
+                    ButtonPort a = new ButtonPort(port3_1);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -455,15 +459,15 @@ public class VueCatan extends JFrame {
 
             for (int i = 0; i < 11; i++) {
                 if (i == 1) {
-                    ButtonPort a = new ButtonPort(true, portArgile);
+                    ButtonPort a = new ButtonPort(portArgile);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 5) {
-                    ButtonPort a = new ButtonPort(true, portPierre);
+                    ButtonPort a = new ButtonPort(portPierre);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 9) {
-                    ButtonPort a = new ButtonPort(true, port3_1);
+                    ButtonPort a = new ButtonPort(port3_1);
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -563,7 +567,10 @@ public class VueCatan extends JFrame {
                 actuRess();
             });
             creerVille.addActionListener((ActionEvent e) -> {
-                for (int i = 0; i < 9; i++) {
+                p.t.ajouterVille(X, Y); // ajoute la ville
+
+                for (int i = 0; i < 9; i++) { // remet tout les cases en cliquable pour que le joueur puisse a nouveau
+                                              // jouer
                     for (int a = 0; a < 9; a++) {
                         if (p.getP().selctionnerCasePaysage(i, a) != null) {
                             tab[i][a].setEnabled(false);
@@ -572,7 +579,7 @@ public class VueCatan extends JFrame {
                         }
                     }
                 }
-                p.t.ajouterVille(X, Y);
+
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
@@ -609,7 +616,6 @@ public class VueCatan extends JFrame {
                     echangerAvecPort.setEnabled(false);
                     terminerTour.setEnabled(false);
 
-                    
                     info.add(commandeJouerCarteDev);
                     // TO DO : afficher le nombre de carte de chaque dans affichage
                     jouerChevalier.setEnabled(false);
@@ -688,15 +694,36 @@ public class VueCatan extends JFrame {
                 validate();
                 repaint();
             });
-            jouerCarteConstru.addActionListener((ActionEvent e) -> { // A FAIRE
+            jouerCarteConstru.addActionListener((ActionEvent e) -> {
+                p.t.j.enleverCarteDev("Progrès Construction de routes");
+                info.remove(commandeJouerCarteDev);
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(true);
-                jouerCarteDev.setEnabled(true);
-                echangerAvecPort.setEnabled(true);
-                terminerTour.setEnabled(true);
-                actuRess();
+                acheterCarteDev.setEnabled(false);
+                jouerCarteDev.setEnabled(false);
+                echangerAvecPort.setEnabled(false);
+                terminerTour.setEnabled(false);
+                poserRouteFree = true;
+                for (int i = 0; i < 9; i++) {
+                    for (int a = 0; a < 9; a++) {
+                        if ((i % 2 == 0 && a % 2 == 1) || (i % 2 == 1 && a % 2 == 0)) {
+                            if (p.getP().selctionnerCaseRoute(i, a) != null) {
+                                if (p.getP().selctionnerCaseRoute(i, a).getEstVide()) {
+                                    if (p.t.estColleAColonie(i, a) || p.t.routeColleARoute(i, a)) {
+                                        tab[i][a].setEnabled(true);
+                                    }
+                                }
+                            }
+                        } else {
+                            tab[i][a].setEnabled(false);
+                        }
+                    }
+                }
+                premiereFois = true;
+                VueCatan.this.validate();
+                VueCatan.this.repaint();
+                aide.setText("Cliquez sur l'endroit ou vous voulez jouer la route");
             });
             jouerCarteDecouverte.addActionListener((ActionEvent e) -> {
                 p.t.j.enleverCarteDev("Progrès Découverte");
@@ -713,22 +740,34 @@ public class VueCatan extends JFrame {
                         tab[i][a].setEnabled(false);
                     }
                 }
-                premiereCarteDecouverte = true ;
-                
+                premiereFois = true;
+                boutonActif = true;
+                faire = "Progrès Découverte";
+                aide.setText("Cliquez sur une de vos\nressources pour en\navoir une en plus");
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
-                validate();
-                repaint();
             });
-            jouerMonopole.addActionListener((ActionEvent e) -> { // A FAIRE
+            jouerMonopole.addActionListener((ActionEvent e) -> {
+                p.t.j.enleverCarteDev("Progrès Monopole");
+                info.remove(commandeJouerCarteDev);
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(true);
-                jouerCarteDev.setEnabled(true);
-                echangerAvecPort.setEnabled(true);
-                terminerTour.setEnabled(true);
-                actuRess();
+                acheterCarteDev.setEnabled(false);
+                jouerCarteDev.setEnabled(false);
+                echangerAvecPort.setEnabled(false);
+                terminerTour.setEnabled(false);
+                for (int i = 0; i < 9; i++) {
+                    for (int a = 0; a < 9; a++) {
+                        tab[i][a].setEnabled(false);
+                    }
+                }
+
+                boutonActif = true;
+                faire = "Progrès Monopole";
+                aide.setText("Cliquez sur une de vos\nressources pour la voler à\ntout les joueurs");
+                VueCatan.this.validate();
+                VueCatan.this.repaint();
             });
 
         }
@@ -783,7 +822,6 @@ public class VueCatan extends JFrame {
                                     }
                                 }
                             }
-                            incorrect = true;
                             aide.setText("Veuillez selectionner \nla case ou vous voulez \nmettre votre route");
                         } else {
                             for (int x = 0; x < 9; x++) {
@@ -809,18 +847,58 @@ public class VueCatan extends JFrame {
                             p.pt.ajouterRoute(i, j);
                             p.pTourFini();
                         } else {
-                            for (int x = 0; x < 9; x++) {
-                                for (int y = 0; y < 9; y++) {
-                                    tab[x][y].setEnabled(false);
+                            if (poserRouteFree) {
+                                p.getP().selctionnerCaseRoute(i, j).mettreRoute(p.t.j);
+                                p.t.mettreRouteInter(i,j);
+                                VueCatan.this.validate();
+                                VueCatan.this.repaint();
+                                if (premiereFois) {
+                                    for (int a = 0; a < 9; a++) {
+                                        for (int b = 0; b < 9; b++) {
+                                            if ((a % 2 == 0 && b % 2 == 1) || (a % 2 == 1 && b % 2 == 0)) {
+                                                if (p.getP().selctionnerCaseRoute(a, b) != null) {
+                                                    if (p.getP().selctionnerCaseRoute(a, b).getEstVide()) {
+                                                        if (p.t.estColleAColonie(a, b) || p.t.routeColleARoute(a, b)) {
+                                                            tab[a][b].setEnabled(true);
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                tab[i][a].setEnabled(false);
+                                            }
+                                        }
+                                    }
+                                    aide.setText("Selectionnez la case ou vous mettre une route ");
+                                    premiereFois = false;
+                                } else {
+                                    for (int x = 0; x < 9; x++) {
+                                        for (int y = 0; y < 9; y++) {
+                                            tab[x][y].setEnabled(true);
+                                        }
+                                    }
+                                    jouerRoute.setEnabled(false);
+                                    jouerColonie.setEnabled(false);
+                                    creerVille.setEnabled(false);
+                                    acheterCarteDev.setEnabled(true);
+                                    jouerCarteDev.setEnabled(true);
+                                    echangerAvecPort.setEnabled(true);
+                                    terminerTour.setEnabled(true);
+                                    poserRouteFree = false;
                                 }
+                            } else {
+                                for (int x = 0; x < 9; x++) {
+                                    for (int y = 0; y < 9; y++) {
+                                        tab[x][y].setEnabled(false);
+                                    }
+                                }
+                                jouerRoute.setEnabled(true);
+                                jouerColonie.setEnabled(false);
+                                creerVille.setEnabled(false);
+                                acheterCarteDev.setEnabled(false);
+                                jouerCarteDev.setEnabled(false);
+                                echangerAvecPort.setEnabled(false);
+                                terminerTour.setEnabled(false);
                             }
-                            jouerRoute.setEnabled(true);
-                            jouerColonie.setEnabled(false);
-                            creerVille.setEnabled(false);
-                            acheterCarteDev.setEnabled(false);
-                            jouerCarteDev.setEnabled(false);
-                            echangerAvecPort.setEnabled(false);
-                            terminerTour.setEnabled(false);
 
                         }
                     } else if (i % 2 == 1 && j % 2 == 1) { // case ressource
@@ -854,17 +932,100 @@ public class VueCatan extends JFrame {
         }
 
         class ButtonPort extends JButton { // A faire
-            private final boolean estPort;
+            private String ressource;
+            private Joueur pj;
 
-            ButtonPort(boolean estPort, ImageIcon img) {
-                this.estPort = estPort;
+            ButtonPort(ImageIcon img) { // PORT
                 setIcon(img);
                 setDisabledIcon(img);
-
                 addActionListener((ActionEvent e) -> {
-                    if (estPort) {
-                        // implementer les boutons port
-                    } else {
+                    if (boutonPortActif) {
+                        // POUR ECHANGE AVEC PORT
+                    }
+                });
+            }
+
+            ButtonPort(ImageIcon img, String ressource, Joueur pj) { // PAS PORT
+                this.ressource = ressource;
+                this.pj = pj;
+                setIcon(img);
+                setDisabledIcon(img);
+                addActionListener((ActionEvent e) -> {
+                    if (boutonActif) {
+                        if (pj == p.t.j) {
+                            if (faire.equals("Progrès Découverte")) {
+                                if (premiereFois) {
+                                    p.t.j.ajouterRessource(ressource);
+                                    actuRess();
+                                    VueCatan.this.validate();
+                                    VueCatan.this.repaint();
+                                    premiereFois = false;
+                                    aide.setText("veuillez choisir votre deuxieme ressource");
+                                } else {
+                                    faire = "";
+                                    boutonActif = false;
+                                    aide.setText("");
+                                    p.t.j.ajouterRessource(ressource);
+                                    for (int i = 0; i < 9; i++) { // remet tout les cases en cliquable pour que le
+                                                                  // joueur puisse a nouveau jouer
+                                        for (int a = 0; a < 9; a++) {
+                                            if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                                                tab[i][a].setEnabled(false);
+                                            } else {
+                                                tab[i][a].setEnabled(true);
+                                            }
+                                        }
+                                    }
+
+                                    jouerColonie.setEnabled(false);
+                                    jouerRoute.setEnabled(false);
+                                    creerVille.setEnabled(false);
+                                    acheterCarteDev.setEnabled(true);
+                                    jouerCarteDev.setEnabled(true);
+                                    echangerAvecPort.setEnabled(true);
+                                    terminerTour.setEnabled(true);
+                                    VueCatan.this.validate();
+                                    VueCatan.this.repaint();
+                                    actuRess();
+                                }
+                            }
+                            if (faire.equals("Progrès Monopole")) {
+                                faire = "";
+                                boutonActif = false;
+                                aide.setText("");
+
+                                for (Joueur a : tabJ) {
+                                    if (a != p.t.j) {
+                                        while (a.combienRessource(ressource) != 0) {
+                                            p.t.j.ajouterRessource(ressource);
+                                            a.enleverRessource(ressource);
+                                        }
+                                    }
+                                }
+
+                                for (int i = 0; i < 9; i++) { // remet tout les cases en cliquable pour que le
+                                    // joueur puisse a nouveau jouer
+                                    for (int a = 0; a < 9; a++) {
+                                        if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                                            tab[i][a].setEnabled(false);
+                                        } else {
+                                            tab[i][a].setEnabled(true);
+                                        }
+                                    }
+                                }
+
+                                jouerColonie.setEnabled(false);
+                                jouerRoute.setEnabled(false);
+                                creerVille.setEnabled(false);
+                                acheterCarteDev.setEnabled(true);
+                                jouerCarteDev.setEnabled(true);
+                                echangerAvecPort.setEnabled(true);
+                                terminerTour.setEnabled(true);
+                                VueCatan.this.validate();
+                                VueCatan.this.repaint();
+                                actuRess();
+                            }
+                        }
                         // implementer les ressources cliquables
                     }
                 });
