@@ -122,6 +122,7 @@ public class VueCatan extends JFrame {
             this.remove(menu);
             t = new Table();
             this.add(t);
+            this.setExtendedState(JFrame.MAXIMIZED_BOTH);
             this.validate();
             this.repaint();
             p.jouerPartieInter(this);
@@ -282,7 +283,7 @@ public class VueCatan extends JFrame {
             infoJoueur.add(scrollPane, BorderLayout.CENTER);
             info.add(infoJoueur);
             JPanel de = new JPanel();
-            de.setLayout(new GridLayout(2, 1));
+            de.setLayout(new GridLayout(1, 2));
             de.add(d1);
             de.add(d2);
             info.add(de);
@@ -955,65 +956,129 @@ public class VueCatan extends JFrame {
                     if (boutonPortActif) {
                         boolean peux = false;
                         if (ressource.equals("3:1")) {
-                            aide.setText(
-                                    "Veuillez choisir la ressource\nque vous voulez donner en \ntrois exemplaire ");
-                            boutonActif = true;
-                            faire = "echange3_1";
-                            boutonPortActif = false;
+                            if (p.t.j.getMesPorts().contains("3:1")) {
+                                aide.setText(
+                                        "Veuillez choisir la ressource\nque vous voulez donner en \ntrois exemplaire ");
+                                boutonActif = true;
+                                faire = "echange3_1";
+                            } else {
+                                aide.setText("Vous ne possedez pas de port 3 en 1 !");
+                                for (int i = 0; i < 9; i++) {
+                                    for (int a = 0; a < 9; a++) {
+                                        if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                                            tab[i][a].setEnabled(false);
+                                        } else {
+                                            tab[i][a].setEnabled(true);
+                                        }
+                                    }
+                                }
+                                jouerColonie.setEnabled(false);
+                                jouerRoute.setEnabled(false);
+                                creerVille.setEnabled(false);
+                                acheterCarteDev.setEnabled(true);
+                                jouerCarteDev.setEnabled(true);
+                                echangerAvecPort.setEnabled(true);
+                                terminerTour.setEnabled(true);
+                                VueCatan.this.validate();
+                                VueCatan.this.repaint();
+                                actuRess();
+                            }
                         } else {
                             switch (ressource) {
                                 case "2B:1":
-                                    if (p.t.j.combienRessource("BOIS") < 2) {
-                                        aide.setText("Vous n'avez pas assez de bois");
+                                    if (p.t.j.getMesPorts().contains("2B:1")) {
+                                        if (p.t.j.combienRessource("BOIS") < 2) {
+                                            aide.setText("Vous n'avez pas assez de bois");
+                                        } else {
+                                            peux = true;
+                                            p.t.j.enleverRessource("BOIS");
+                                            p.t.j.enleverRessource("BOIS");
+                                        }
                                     } else {
-                                        peux = true;
-                                        p.t.j.enleverRessource("BOIS");
-                                        p.t.j.enleverRessource("BOIS");
+                                        aide.setText("Vous ne possedez pas ce port");
                                     }
                                     break;
                                 case "2M:1":
-                                    if (p.t.j.combienRessource("MOUTON") < 2) {
-                                        aide.setText("Vous n'avez pas assez de mouton");
+                                    if (p.t.j.getMesPorts().contains("2M:1")) {
+                                        if (p.t.j.combienRessource("MOUTON") < 2) {
+                                            aide.setText("Vous n'avez pas assez de mouton");
+                                        } else {
+                                            peux = true;
+                                            p.t.j.enleverRessource("MOUTON");
+                                            p.t.j.enleverRessource("MOUTON");
+                                        }
                                     } else {
-                                        peux = true;
-                                        p.t.j.enleverRessource("MOUTON");
-                                        p.t.j.enleverRessource("MOUTON");
+                                        aide.setText("Vous ne possedez pas ce port");
                                     }
                                     break;
                                 case "2C:1":
-                                    if (p.t.j.combienRessource("CHAMPS") < 2) {
-                                        aide.setText("Vous n'avez pas assez de champs");
+                                    if (p.t.j.getMesPorts().contains("2C:1")) {
+                                        if (p.t.j.combienRessource("CHAMPS") < 2) {
+                                            aide.setText("Vous n'avez pas assez de champs");
+                                        } else {
+                                            peux = true;
+                                            p.t.j.enleverRessource("MOUTON");
+                                            p.t.j.enleverRessource("MOUTON");
+                                        }
                                     } else {
-                                        peux = true;
-                                        p.t.j.enleverRessource("MOUTON");
-                                        p.t.j.enleverRessource("MOUTON");
+                                        aide.setText("Vous ne possedez pas ce port");
                                     }
                                     break;
                                 case "2A:1":
-                                    if (p.t.j.combienRessource("ARGILE") < 2) {
-                                        aide.setText("Vous n'avez pas assez d'argile");
+                                    if (p.t.j.getMesPorts().contains("2A:1")) {
+                                        if (p.t.j.combienRessource("ARGILE") < 2) {
+                                            aide.setText("Vous n'avez pas assez d'argile");
+                                        } else {
+                                            peux = true;
+                                            p.t.j.enleverRessource("ARGILE");
+                                            p.t.j.enleverRessource("ARGILE");
+                                        }
+                                    } else {
+                                        aide.setText("Vous ne possedez pas ce port");
                                     }
-                                    peux = true;
-                                    p.t.j.enleverRessource("ARGILE");
-                                    p.t.j.enleverRessource("ARGILE");
                                     break;
                                 case "2P:1":
-                                    if (p.t.j.combienRessource("PIERRE") < 2) {
-                                        aide.setText("Vous n'avez pas assez de pierre");
+                                    if (p.t.j.getMesPorts().contains("2P:1")) {
+                                        if (p.t.j.combienRessource("PIERRE") < 2) {
+                                            aide.setText("Vous n'avez pas assez de pierre");
+                                        } else {
+                                            peux = true;
+                                            p.t.j.enleverRessource("PIERRE");
+                                            p.t.j.enleverRessource("PIERRE");
+                                        }
+                                    } else {
+                                        aide.setText("Vous ne possedez pas ce port");
                                     }
-                                    peux = true;
-                                    p.t.j.enleverRessource("PIERRE");
-                                    p.t.j.enleverRessource("PIERRE");
                                     break;
                             }
                             if (peux) {
                                 aide.setText("Vous pouvez choisir la ressource que vous voulez");
                                 boutonActif = true;
                                 faire = "echange";
-                                boutonPortActif = false;
+                            } else {
+                                faire = "" ;
+                                for (int i = 0; i < 9; i++) {
+                                    for (int a = 0; a < 9; a++) {
+                                        if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                                            tab[i][a].setEnabled(false);
+                                        } else {
+                                            tab[i][a].setEnabled(true);
+                                        }
+                                    }
+                                }
+                                jouerColonie.setEnabled(false);
+                                jouerRoute.setEnabled(false);
+                                creerVille.setEnabled(false);
+                                acheterCarteDev.setEnabled(true);
+                                jouerCarteDev.setEnabled(true);
+                                echangerAvecPort.setEnabled(true);
+                                terminerTour.setEnabled(true);
+                                VueCatan.this.validate();
+                                VueCatan.this.repaint();
+                                actuRess();
                             }
-
                         }
+                        boutonPortActif = false;
                     }
                 });
             }
@@ -1132,9 +1197,6 @@ public class VueCatan extends JFrame {
                                     aide.setText("Vous n'avez pas trois " + ressource);
                                     faire = "";
                                     boutonActif = false;
-                                    aide.setText("");
-
-                                    p.t.j.ajouterRessource(ressource);
 
                                     for (int i = 0; i < 9; i++) { // remet tout les cases en cliquable pour que le
                                         // joueur puisse a nouveau jouer
@@ -1161,6 +1223,7 @@ public class VueCatan extends JFrame {
                                     p.t.j.enleverRessource(ressource);
                                     p.t.j.enleverRessource(ressource);
                                     p.t.j.enleverRessource(ressource);
+                                    aide.setText("Selectionnez maintenant la\nressource que vous\nshouaitez avoir.");
                                     faire = "echange";
                                 }
                             }
