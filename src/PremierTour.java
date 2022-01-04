@@ -26,7 +26,7 @@ public class PremierTour extends Tour {
         }
         for (int i = 0; i < 9; i = i + 2) {
             for (int a = 0; a < 9; a = a + 2) {
-                if (p.selctionnerCaseColonie(i, a).getEstVide()) {
+                if (p.selctionnerCaseColonie(i, a).getEstVide() && estColleARouteVide(i, a)) {
                     v.getT().getTab(i, a).setEnabled(true);
                 }
             }
@@ -51,6 +51,17 @@ public class PremierTour extends Tour {
                     y = colStrat.getY();
                     ajouter = true;
                     j.ajouterPoint();
+                    if (p.selctionnerCaseColonie(x, y).estPort()) {
+                        boolean possede = false;
+                        for (String a : j.getMesPorts()) {
+                            if (a.equals(p.selctionnerCaseColonie(x, y).getPort())) {
+                                possede = true;
+                            }
+                        }
+                        if (!possede) {
+                            j.getMesPorts().add(p.selctionnerCaseColonie(x, y).getPort());
+                        }
+                    }
                 } else {
                     Random rand = new Random();
                     x = rand.nextInt(p.getTaille());
@@ -64,6 +75,17 @@ public class PremierTour extends Tour {
                     j.ajouterUneColonie();
                     ajouter = true;
                     j.ajouterPoint();
+                    if (p.selctionnerCaseColonie(x, y).estPort()) {
+                        boolean possede = false;
+                        for (String a : j.getMesPorts()) {
+                            if (a.equals(p.selctionnerCaseColonie(x, y).getPort())) {
+                                possede = true;
+                            }
+                        }
+                        if (!possede) {
+                            j.getMesPorts().add(p.selctionnerCaseColonie(x, y).getPort());
+                        }
+                    }
                 } else if (j.estHumain) {
                     System.out.println("Case non-vide");
                 }
@@ -80,6 +102,17 @@ public class PremierTour extends Tour {
             mettreColonieInter(x, y);
             j.ajouterUneColonie();
             j.ajouterPoint();
+            if (p.selctionnerCaseColonie(x, y).estPort()) {
+                boolean possede = false;
+                for (String a : j.getMesPorts()) {
+                    if (a.equals(p.selctionnerCaseColonie(x, y).getPort())) {
+                        possede = true;
+                    }
+                }
+                if (!possede) {
+                    j.getMesPorts().add(p.selctionnerCaseColonie(x, y).getPort());
+                }
+            }
         } else {
             v.aide.setText("Votre colonie ne peut pas être ajoutée ici.");
         }
@@ -97,6 +130,17 @@ public class PremierTour extends Tour {
                 mettreColonieInter(x, y);
                 ajouter = true;
                 j.ajouterPoint();
+                if (p.selctionnerCaseColonie(x, y).estPort()) {
+                    boolean possede = false;
+                    for (String a : j.getMesPorts()) {
+                        if (a.equals(p.selctionnerCaseColonie(x, y).getPort())) {
+                            possede = true;
+                        }
+                    }
+                    if (!possede) {
+                        j.getMesPorts().add(p.selctionnerCaseColonie(x, y).getPort());
+                    }
+                }
             } else {
                 Random rand = new Random();
                 x = rand.nextInt(p.getTaille());
@@ -110,6 +154,17 @@ public class PremierTour extends Tour {
                     j.ajouterUneColonie();
                     ajouter = true;
                     j.ajouterPoint();
+                    if (p.selctionnerCaseColonie(x, y).estPort()) {
+                        boolean possede = false;
+                        for (String a : j.getMesPorts()) {
+                            if (a.equals(p.selctionnerCaseColonie(x, y).getPort())) {
+                                possede = true;
+                            }
+                        }
+                        if (!possede) {
+                            j.getMesPorts().add(p.selctionnerCaseColonie(x, y).getPort());
+                        }
+                    }
                 }
             }
         }
