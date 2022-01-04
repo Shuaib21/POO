@@ -7,7 +7,6 @@ import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.*;
-import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ColorUIResource;
 
 public class VueCatan extends JFrame {
@@ -23,7 +22,8 @@ public class VueCatan extends JFrame {
     int Y;
     boolean incorrect = false;
     JTextField tourDeQui = new JTextField();
-    JTextArea aide = new JTextArea();
+    JTextArea aide = new JTextArea(10,20);
+    JScrollPane scrollPane = new JScrollPane(aide);
     JLabel d1 = new JLabel();
     JLabel d2 = new JLabel();
     boolean premierTour;
@@ -273,7 +273,7 @@ public class VueCatan extends JFrame {
             JPanel infoJoueur = new JPanel();
             infoJoueur.setLayout(new BorderLayout());
             infoJoueur.add(tourDeQui, BorderLayout.NORTH);
-            infoJoueur.add(aide, BorderLayout.CENTER);
+            infoJoueur.add(scrollPane, BorderLayout.CENTER);
             info.add(infoJoueur);
             JPanel de = new JPanel();
             de.setLayout(new GridLayout(2, 1));
@@ -607,8 +607,7 @@ public class VueCatan extends JFrame {
                     echangerAvecPort.setEnabled(false);
                     terminerTour.setEnabled(false);
 
-                    VueCatan.this.validate();
-                    VueCatan.this.repaint();
+                    
                     info.add(commandeJouerCarteDev);
                     // afficher le nmobre de carte de chaque dans affiahge
                     jouerChevalier.setEnabled(false);
@@ -629,6 +628,8 @@ public class VueCatan extends JFrame {
                             jouerMonopole.setEnabled(true);
                         }
                     }
+                    VueCatan.this.validate();
+                    VueCatan.this.repaint();
                 } else {
                     aide.setText("Vous n'avez pas de carte developpement");
                     incorrect = true;
