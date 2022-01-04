@@ -31,7 +31,6 @@ public class PremierTour extends Tour {
                 }
             }
         }
-        System.out.println("selec colo");
         v.incorrect = true;
         v.aide.setText("Veuillez selectionner \nla case ou vous voulez \nmettre votre colonie");
     }

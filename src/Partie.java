@@ -49,8 +49,7 @@ public class Partie {
     return tabJ;
   }
 
-  public void jouerPartie() {
-    Scanner sc = new Scanner(System.in);
+  public void jouerPartie(Scanner sc) {
     init(sc);
     while (!partiefini()) {
       for (Joueur j : tabJ) {
@@ -146,7 +145,6 @@ public class Partie {
         } while (!choix.equals("G"));
       }
     }
-    sc.close();
   }
 
   public void jouerPartieInter(VueCatan v) {
