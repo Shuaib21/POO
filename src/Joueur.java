@@ -204,4 +204,14 @@ public class Joueur {
     s += "\nPoint(s) : " + point;
     return s;
   }
+
+  public int nbrPointVictoire() {
+    int n = 0;
+    for (CarteDev c : mainDev) {
+      if (c.pouvoir.equals("Point de victoire")) {
+        n++;
+      }
+    }
+    return n;
+  }
 }

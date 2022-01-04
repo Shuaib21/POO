@@ -137,7 +137,7 @@ public class Partie {
             case "G":
               break;
             case "H":
-            System.out.println(j);
+              System.out.println(j);
               break;
             default:
               System.out.println("Choix incorrect");
@@ -146,7 +146,6 @@ public class Partie {
         } while (!choix.equals("G"));
       }
     }
-    // Afficher les cartes Point de victoire
     sc.close();
   }
 
@@ -291,8 +290,17 @@ public class Partie {
 
   private boolean partiefini() {
     for (Joueur a : tabJ) {
-      if (a.getPoint() >= 10) {
+      if (a.getPoint() >= 4) {
         System.out.println(a.getPseudo() + " a remporté la partie.");
+        System.out.println("Nombre de cartes Point de victoire : " + a.nbrPointVictoire()); // Afficher les cartes Point
+                                                                                            // de victoire
+        if (Tour.contientChevalierPuissant != null) {
+          System.out.println(Tour.contientChevalierPuissant.getPseudo() + " contient le Chevalier le plus puissant.");
+        }
+        if (Tour.contientRouteLaPlusLongue != null) {
+          System.out
+              .println(Tour.contientRouteLaPlusLongue.getPseudo() + " contient la Route de commerce la plus longue.");
+        }
         return true;
       }
     }

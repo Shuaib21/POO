@@ -97,9 +97,7 @@ public class TourNormal extends Tour {
     if (sommeDés == 7) {
       for (Joueur x : tabJ) {
         if (x.nbrRessources() > 7) {
-          if (!x.estHumain) {
-            defausser(x);
-          }
+          defausser(x);
         }
       }
       if (!j.estHumain) {
