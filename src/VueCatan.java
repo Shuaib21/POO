@@ -256,6 +256,8 @@ public class VueCatan extends JFrame {
         final ImageIcon cinq = new ImageIcon("./Image/5.png");
         final ImageIcon six = new ImageIcon("./Image/6.png");
 
+        boolean premiereCarteDecouverte ;
+
         Table() {
             this.setSize(100, 100);
             this.setLayout(new BorderLayout());
@@ -696,15 +698,27 @@ public class VueCatan extends JFrame {
                 terminerTour.setEnabled(true);
                 actuRess();
             });
-            jouerCarteDecouverte.addActionListener((ActionEvent e) -> { // A FAIRE
+            jouerCarteDecouverte.addActionListener((ActionEvent e) -> {
+                p.t.j.enleverCarteDev("Progrès Découverte");
+                info.remove(commandeJouerCarteDev);
                 jouerColonie.setEnabled(false);
                 jouerRoute.setEnabled(false);
                 creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(true);
-                jouerCarteDev.setEnabled(true);
-                echangerAvecPort.setEnabled(true);
-                terminerTour.setEnabled(true);
-                actuRess();
+                acheterCarteDev.setEnabled(false);
+                jouerCarteDev.setEnabled(false);
+                echangerAvecPort.setEnabled(false);
+                terminerTour.setEnabled(false);
+                for (int i = 0; i < 9; i++) {
+                    for (int a = 0; a < 9; a++) {
+                        tab[i][a].setEnabled(false);
+                    }
+                }
+                premiereCarteDecouverte = true ;
+                
+                VueCatan.this.validate();
+                VueCatan.this.repaint();
+                validate();
+                repaint();
             });
             jouerMonopole.addActionListener((ActionEvent e) -> { // A FAIRE
                 jouerColonie.setEnabled(false);
