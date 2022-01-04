@@ -69,6 +69,22 @@ public class PremierTour extends Tour {
         }
     }
 
+    public void ajouterColonie() {
+        boolean ajouter = false;
+        while (!ajouter) {
+            Random rand = new Random();
+            this.x = rand.nextInt(p.getTaille());
+            this.y = rand.nextInt(p.getTaille());
+
+            if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
+                p.selctionnerCaseColonie(x, y).mettreColonie(j);
+                mettreColonieInter(x, y);
+                j.ajouterUneColonie();
+                ajouter = true;
+            }
+        }
+    }
+
     public void ajouterRoute(Scanner sc) {
         boolean ajouter = false;
         while (!ajouter) {
@@ -99,6 +115,23 @@ public class PremierTour extends Tour {
         if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getEstVide()) {
             p.selctionnerCaseRoute(x, y).mettreRoute(j);
             mettreRouteInter(x, y);
+        }
+    }
+
+    public void ajouterRoute() {
+        boolean ajouter = false;
+        while (!ajouter) {
+            Random rand = new Random();
+            int x = rand.nextInt(p.getTaille());
+            int y = rand.nextInt(p.getTaille());
+
+            if (correcte(x, y)) {
+                if (p.selctionnerCaseRoute(x, y) != null && p.selctionnerCaseRoute(x, y).getEstVide()) {
+                    p.selctionnerCaseRoute(x, y).mettreRoute(j);
+                    mettreRouteInter(x, y);
+                    ajouter = true;
+                }
+            }
         }
     }
 

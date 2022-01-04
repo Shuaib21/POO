@@ -45,6 +45,10 @@ public class Partie {
     return p;
   }
 
+  public Joueur[] getTabJ() {
+    return tabJ;
+  }
+
   public void jouerPartie() {
     Scanner sc = new Scanner(System.in);
     init(sc);
@@ -93,6 +97,17 @@ public class Partie {
               default:
                 choix = "G";
                 break;
+            }
+            if (j.getNbrVilles() < j.getNbrColonies()) {
+              if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 3) {
+                t.ajouterVille();
+              }
+            }
+            if (j.combienRessource("ARGILE") != 0 &&
+                j.combienRessource("BOIS") != 0 &&
+                j.combienRessource("CHAMPS") != 0 &&
+                j.combienRessource("MOUTON") != 0) {
+              t.ajouterColonie();
             }
           }
 
@@ -149,6 +164,75 @@ public class Partie {
         v.repaint();
         System.out.println("Tour de : " + tabJ[tour % tabJ.length].getPseudo()); // afficher le joueur qui joue
         t = new TourNormal(tabJ[tour % tabJ.length], p, tabJ, v);
+        if (!tabJ[tour % tabJ.length].estHumain) {
+          String choix;
+
+          do {
+            Random rand = new Random();
+            int n = rand.nextInt(7) + 1;
+            Joueur j = tabJ[tour % tabJ.length];
+            if (j.getNbrVilles() < j.getNbrColonies()) {
+              if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 3) {
+                t.ajouterVille();
+              }
+            }
+            if (j.combienRessource("ARGILE") != 0 &&
+                j.combienRessource("BOIS") != 0 &&
+                j.combienRessource("CHAMPS") != 0 &&
+                j.combienRessource("MOUTON") != 0) {
+              t.ajouterColonie();
+            }
+            switch (n) {
+              case 1:
+                choix = "A";
+                break;
+              case 2:
+                choix = "B";
+                break;
+              case 3:
+                choix = "C";
+                break;
+              case 4:
+                choix = "D";
+                break;
+              case 5:
+                choix = "E";
+                break;
+              case 6:
+                choix = "F";
+                break;
+              default:
+                choix = "G";
+                break;
+            }
+
+            switch (choix) {
+              case "A":
+                t.ajouterColonie();
+                break;
+              case "B":
+                t.ajouterRoute(false);
+                break;
+              case "C":
+                t.ajouterVille();
+                break;
+              case "D":
+                t.acheterCartDev(true);
+                break;
+              case "E":
+                t.jouezCarteDev();
+                break;
+              case "F":
+                t.echangerAvecPort();
+                break;
+              default:
+                break;
+            }
+          } while (!choix.equals("G"));
+          v.validate();
+          v.repaint();
+          tourFini();
+        }
       } else {
         System.out.println("partie fini");// afficher la fin
       }
@@ -181,11 +265,21 @@ public class Partie {
       v.validate();
       v.repaint();
       pt = new PremierTour(tabJ[pTour % tabJ.length], p, v);
+      if (!tabJ[pTour % tabJ.length].estHumain) {
+        pt.ajouterColonie();
+        pt.ajouterRoute();
+        pTourFini();
+      }
     } else {
       v.tourDeQui.setText("Tour de " + tabJ[tabJ.length - pTour % tabJ.length - 1].getPseudo());
       v.validate();
       v.repaint();
       pt = new PremierTour(tabJ[tabJ.length - pTour % tabJ.length - 1], p, v);
+      if (!tabJ[tabJ.length - pTour % tabJ.length - 1].estHumain) {
+        pt.ajouterColonie();
+        pt.ajouterRoute();
+        pTourFini();
+      }
     }
     v.validate();
     v.repaint();

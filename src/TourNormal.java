@@ -90,29 +90,33 @@ public class TourNormal extends Tour {
 
     System.out.println("debut du voleur " + sommeDés);
     if (sommeDés == 7) {
-      v.getT().getJouerRoute().setEnabled(false);
-      v.getT().getJouerColonie().setEnabled(false);
-      v.getT().getCreerVille().setEnabled(false);
-      v.getT().getAcheterCarteDev().setEnabled(false);
-      v.getT().getJouerCarteDev().setEnabled(false);
-      v.getT().getEchangerAvecPort().setEnabled(false);
-      v.getT().getTerminerTour().setEnabled(false);
-      for (int i = 0; i < 9; i++) {
-        for (int a = 0; a < 9; a++) {
-          v.getT().getTab(i, a).setEnabled(false);
-        }
-      }
-      for (int i = 1; i < 9; i = i + 2) {
-        for (int a = 1; a < 9; a = a + 2) {
-          if (!p.selctionnerCasePaysage(i, a).getContientVoleur()) {
-            v.getT().getTab(i, a).setEnabled(true);
+      if (!j.estHumain) {
+        deplacerVoleur();
+      } else {
+        v.getT().getJouerRoute().setEnabled(false);
+        v.getT().getJouerColonie().setEnabled(false);
+        v.getT().getCreerVille().setEnabled(false);
+        v.getT().getAcheterCarteDev().setEnabled(false);
+        v.getT().getJouerCarteDev().setEnabled(false);
+        v.getT().getEchangerAvecPort().setEnabled(false);
+        v.getT().getTerminerTour().setEnabled(false);
+        for (int i = 0; i < 9; i++) {
+          for (int a = 0; a < 9; a++) {
+            v.getT().getTab(i, a).setEnabled(false);
           }
         }
+        for (int i = 1; i < 9; i = i + 2) {
+          for (int a = 1; a < 9; a = a + 2) {
+            if (!p.selctionnerCasePaysage(i, a).getContientVoleur()) {
+              v.getT().getTab(i, a).setEnabled(true);
+            }
+          }
+        }
+        v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
+        v.incorrect = true;
+        v.validate();
+        v.repaint();
       }
-      v.aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
-      v.incorrect = true;
-      v.validate();
-      v.repaint();
     }
 
   }
@@ -205,7 +209,7 @@ public class TourNormal extends Tour {
         j.combienRessource("BOIS") == 0 ||
         j.combienRessource("CHAMPS") == 0 ||
         j.combienRessource("MOUTON") == 0) {
-      // afficher l'erreur si il n'a pas
+      // afficher l'erreur si il n'a pas les ressources demandées
       v.aide.setText("Vous n'avez pas les ressources demandées");
       return;
     }
@@ -213,7 +217,7 @@ public class TourNormal extends Tour {
       if (p.selctionnerCaseColonie(x, y).getEstVide()) {
         if (estColleARoute(x, y)) {
           p.selctionnerCaseColonie(x, y).mettreColonie(j);
-          mettreColonieInter(x, y);
+          mettreColonieInter(x, y); // AJOUTER L'IMAGE
           j.ajouterUneColonie();
           j.enleverRessource("ARGILE");
           j.enleverRessource("BOIS");
@@ -232,13 +236,58 @@ public class TourNormal extends Tour {
               j.getMesPorts().add(p.selctionnerCaseColonie(x, y).getPort());
             }
           }
-          // AJOUTER L'IMAGE
           return;
         }
       }
     }
     v.incorrect = true;
     v.aide.setText("Vous ne pouvez pas mettre de colonie ici");
+  }
+
+  public void ajouterColonie() {
+    if (j.combienRessource("ARGILE") == 0 ||
+        j.combienRessource("BOIS") == 0 ||
+        j.combienRessource("CHAMPS") == 0 ||
+        j.combienRessource("MOUTON") == 0) {
+      return;
+    }
+    boolean ajouter = false;
+    while (!ajouter) {
+      int x;
+      int y;
+
+      Random rand = new Random();
+      x = rand.nextInt(p.getTaille());
+      y = rand.nextInt(p.getTaille());
+
+      if (p.selctionnerCaseColonie(x, y) != null) {
+        if (p.selctionnerCaseColonie(x, y).getEstVide()) {
+          if (estColleARoute(x, y)) {
+            p.selctionnerCaseColonie(x, y).mettreColonie(j);
+            j.ajouterUneColonie();
+            mettreColonieInter(x, y);
+            ajouter = true;
+            j.enleverRessource("ARGILE");
+            j.enleverRessource("BOIS");
+            j.enleverRessource("CHAMPS");
+            j.enleverRessource("MOUTON");
+            j.ajouterPoint();
+            actualiserRouteLaPlusLongue();
+            if (p.selctionnerCaseColonie(x, y).estPort()) {
+              boolean possede = false;
+              for (String a : j.getMesPorts()) {
+                if (a.equals(p.selctionnerCaseColonie(x, y).getPort())) {
+                  possede = true;
+                }
+              }
+              if (!possede) {
+                j.getMesPorts().add(p.selctionnerCaseColonie(x, y).getPort());
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   private boolean estColleARoute(int x, int y) {
@@ -290,6 +339,34 @@ public class TourNormal extends Tour {
     v.aide.setText("Vous ne pouvez pas placer de route ici");
     return;
 
+  }
+
+  public void ajouterRoute(boolean utiliseCarteDev) {
+    if (!utiliseCarteDev) {
+      if (j.combienRessource("BOIS") == 0 || j.combienRessource("ARGILE") == 0) {
+        return;
+      }
+    }
+    boolean ajouter = false;
+    while (!ajouter) {
+      Random rand = new Random();
+      int x = rand.nextInt(p.getTaille());
+      int y = rand.nextInt(p.getTaille());
+      if (p.selctionnerCaseRoute(x, y) != null) {
+        if (p.selctionnerCaseRoute(x, y).getEstVide()) {
+          if (estColleAColonie(x, y) || routeColleARoute(x, y)) {
+            p.selctionnerCaseRoute(x, y).mettreRoute(j);
+            if (!utiliseCarteDev) {
+              j.enleverRessource("BOIS");
+              j.enleverRessource("ARGILE");
+            }
+            mettreRouteInter(x, y);
+            ajouter = true;
+            actualiserRouteLaPlusLongue();
+          }
+        }
+      }
+    }
   }
 
   private void ajouterRoute(boolean utiliseCarteDev, Scanner sc) {
@@ -433,27 +510,86 @@ public class TourNormal extends Tour {
       if (choix.equals("G")) {
         return;
       }
-      if (choix.equals("A")) {
+      if (choix.equals("A") && j.contientPort("3:1")) {
         jouerPort3_1(sc);
         return;
-      } else if (choix.equals("B")) {
+      } else if (choix.equals("B") && j.contientPort("2M:1")) {
         jouerport2_1("MOUTON", sc);
         return;
-      } else if (choix.equals("C")) {
+      } else if (choix.equals("C") && j.contientPort("2B:1")) {
         jouerport2_1("BOIS", sc);
         return;
-      } else if (choix.equals("D")) {
+      } else if (choix.equals("D") && j.contientPort("2C:1")) {
         jouerport2_1("CHAMPS", sc);
         return;
-      } else if (choix.equals("E")) {
+      } else if (choix.equals("E") && j.contientPort("2A:1")) {
         jouerport2_1("ARGILE", sc);
         return;
-      } else if (choix.equals("F")) {
+      } else if (choix.equals("F") && j.contientPort("2P:1")) {
         jouerport2_1("PIERRE", sc);
         return;
       } else {
         System.out.println("Nous n'avons pas compris votre choix veuillez reessayer\n");
         echangerAvecPort(sc);
+        return;
+      }
+    }
+  }
+
+  public void echangerAvecPort() {
+    if (j.getMesPorts().size() != 0) {
+      String choix;
+
+      Random rand = new Random();
+      int n = rand.nextInt(7) + 1;
+      switch (n) {
+        case 1:
+          choix = "A";
+          break;
+        case 2:
+          choix = "B";
+          break;
+        case 3:
+          choix = "C";
+          break;
+        case 4:
+          choix = "D";
+          break;
+        case 5:
+          choix = "E";
+          break;
+        case 6:
+          choix = "F";
+          break;
+        default:
+          choix = "G";
+          break;
+      }
+
+      if (choix.equals("G")) {
+        return;
+      }
+
+      if (choix.equals("A") && j.contientPort("3:1")) {
+        jouerPort3_1();
+        return;
+      } else if (choix.equals("B") && j.contientPort("2M:1")) {
+        jouerport2_1("MOUTON");
+        return;
+      } else if (choix.equals("C") && j.contientPort("2B:1")) {
+        jouerport2_1("BOIS");
+        return;
+      } else if (choix.equals("D") && j.contientPort("2C:1")) {
+        jouerport2_1("CHAMPS");
+        return;
+      } else if (choix.equals("E") && j.contientPort("2A:1")) {
+        jouerport2_1("ARGILE");
+        return;
+      } else if (choix.equals("F") && j.contientPort("2P:1")) {
+        jouerport2_1("PIERRE");
+        return;
+      } else {
+        echangerAvecPort();
         return;
       }
     }
@@ -467,6 +603,15 @@ public class TourNormal extends Tour {
     j.enleverRessource(ressource);
     j.enleverRessource(ressource);
     j.ajouterRessource(choixRess(sc, "Vous voulez echanger avec quelles ressources ?"));
+  }
+
+  private void jouerport2_1(String ressource) {
+    if (j.combienRessource(ressource) < 2) {
+      return;
+    }
+    j.enleverRessource(ressource);
+    j.enleverRessource(ressource);
+    j.ajouterRessource(ressGen());
   }
 
   private void jouerPort3_1(Scanner sc) {
@@ -490,6 +635,25 @@ public class TourNormal extends Tour {
     j.enleverRessource(ress);
     j.enleverRessource(ress);
     j.ajouterRessource(choixRess(sc, "Vous voulez echanger avec quelle ressource ?"));
+  }
+
+  private void jouerPort3_1() {
+    if (j.combienRessource("PIERRE") < 3 && j.combienRessource("ARGILE") < 3 && j.combienRessource("BOIS") < 3
+        && j.combienRessource("CHAMPS") < 3 && j.combienRessource("MOUTON") < 3) {
+      return;
+    }
+    String ress = "";
+    boolean PeuxPas = true;
+    while (PeuxPas) {
+      ress = ressGen();
+      if (j.combienRessource(ress) >= 3) {
+        PeuxPas = false;
+      }
+    }
+    j.enleverRessource(ress);
+    j.enleverRessource(ress);
+    j.enleverRessource(ress);
+    j.ajouterRessource(ressGen());
   }
 
   private String choixRess(Scanner sc, String str) {
@@ -553,6 +717,24 @@ public class TourNormal extends Tour {
       }
     }
     return ress;
+  }
+
+  private String ressGen() {
+    Random rand = new Random();
+    int n = rand.nextInt(5) + 1;
+
+    switch (n) {
+      case 1:
+        return "ARGILE";
+      case 2:
+        return "BOIS";
+      case 3:
+        return "CHAMPS";
+      case 4:
+        return "MOUTON";
+      default:
+        return "PIERRE";
+    }
   }
 
   public void ajouterVille(Scanner sc) {
@@ -633,6 +815,37 @@ public class TourNormal extends Tour {
     }
   }
 
+  public void ajouterVille() {
+    if (j.getNbrVilles() < j.getNbrColonies()) {
+      if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 3) {
+        return;
+      }
+      boolean ajouter = false;
+      while (!ajouter) {
+        Random rand = new Random();
+        int x = rand.nextInt(p.getTaille());
+        int y = rand.nextInt(p.getTaille());
+
+        if (p.selctionnerCaseColonie(x, y) != null &&
+            !p.selctionnerCaseColonie(x, y).getEstVide() &&
+            p.selctionnerCaseColonie(x, y).getJ().equals(j)) {
+          if (!p.selctionnerCaseColonie(x, y).getEstVille()) {
+            p.selctionnerCaseColonie(x, y).transformerEnVille();
+            j.enleverRessource("PIERRE");
+            j.enleverRessource("PIERRE");
+            j.enleverRessource("PIERRE");
+            j.enleverRessource("CHAMPS");
+            j.enleverRessource("CHAMPS");
+            j.ajouterUneVille();
+            mettreVilleInter(x, y);
+            ajouter = true;
+            j.ajouterPoint();
+          }
+        }
+      }
+    }
+  }
+
   public void acheterCartDev(boolean estInterface) {
     if (j.combienRessource("CHAMPS") == 0 ||
         j.combienRessource("PIERRE") == 0 ||
@@ -654,8 +867,8 @@ public class TourNormal extends Tour {
       Collections.shuffle(Tour.cartes);
       j.ajouterCarteDev(Tour.cartes.get(0));
       Tour.cartes.remove(0);
-      if(estInterface){
-        v.aide.setText("Vous avez acheté : "+j.getMainDev().get(j.getMainDev().size()-1).getPouvoir());
+      if (estInterface) {
+        v.aide.setText("Vous avez acheté : " + j.getMainDev().get(j.getMainDev().size() - 1).getPouvoir());
       }
 
     } else {
@@ -744,6 +957,64 @@ public class TourNormal extends Tour {
     }
   }
 
+  public void jouezCarteDev() {
+    String choix;
+
+    Random rand = new Random();
+    int n = rand.nextInt(4) + 1;
+    switch (n) {
+      case 1:
+        choix = "A";
+        break;
+      case 2:
+        choix = "B";
+        break;
+      case 3:
+        choix = "C";
+        break;
+      default:
+        choix = "D";
+        break;
+    }
+
+    switch (choix) {
+      case "A":
+        if (j.enleverCarteDev("Chevalier")) {
+          deplacerVoleur();
+          j.augmenteNbChev();
+          if (j.getNbrChevaliers() > Tour.nbrChevalierMax) {
+            if (Tour.contientChevalierPuissant != null) {
+              Tour.contientChevalierPuissant.enleverPoint();
+              Tour.contientChevalierPuissant.enleverPoint();
+            }
+            Tour.contientChevalierPuissant = j;
+            j.ajouterPoint();
+            j.ajouterPoint();
+            Tour.nbrChevalierMax = j.getNbrChevaliers();
+          }
+        } else {
+          System.out.println("Vous ne possédez pas de Carte Chevalier");
+        }
+        break;
+      case "B":
+        if (j.enleverCarteDev("Progrès Construction de routes")) {
+          ajouterRoute(true);
+          ajouterRoute(true);
+        }
+        break;
+      case "C":
+        if (j.enleverCarteDev("Progrès Découverte")) {
+          progresDecouverte();
+        }
+        break;
+      default:
+        if (j.enleverCarteDev("Progrès Monopole")) {
+          progresMonopole();
+        }
+        break;
+    }
+  }
+
   public void deplacerVoleur(Scanner sc) {
     boolean deplacer = false;
     while (!deplacer) {
@@ -772,79 +1043,87 @@ public class TourNormal extends Tour {
         // Voler une carte ressource aléatoire à une personne sur la ressource
         ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
         int count = 0;
-        if (p.selctionnerCaseColonie(x - 1, y - 1) != null && p.selctionnerCaseColonie(x - 1, y - 1).getJ() != j) {
+        if (!p.selctionnerCaseColonie(x - 1, y - 1).getEstVide()
+            && p.selctionnerCaseColonie(x - 1, y - 1).getJ() != j) {
           Joueur jVol = p.selctionnerCaseColonie(x - 1, y - 1).getJ();
           if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
               || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
-            count++;
             joueurs.add(count, p.selctionnerCaseColonie(x - 1, y - 1).getJ());
+            count++;
           }
         }
-        if (p.selctionnerCaseColonie(x - 1, y + 1) != null && p.selctionnerCaseColonie(x - 1, y + 1).getJ() != j
+        if (!p.selctionnerCaseColonie(x - 1, y + 1).getEstVide() && p.selctionnerCaseColonie(x - 1, y + 1).getJ() != j
             && p.selctionnerCaseColonie(x - 1, y + 1).getJ().getMainDev().size() > 0) {
           Joueur jVol = p.selctionnerCaseColonie(x - 1, y + 1).getJ();
           if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
               || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
-            count++;
             joueurs.add(count, p.selctionnerCaseColonie(x - 1, y + 1).getJ());
+            count++;
           }
         }
-        if (p.selctionnerCaseColonie(x + 1, y - 1) != null && p.selctionnerCaseColonie(x + 1, y - 1).getJ() != j
+        if (!p.selctionnerCaseColonie(x + 1, y - 1).getEstVide() && p.selctionnerCaseColonie(x + 1, y - 1).getJ() != j
             && p.selctionnerCaseColonie(x + 1, y - 1).getJ().getMainDev().size() > 0) {
           Joueur jVol = p.selctionnerCaseColonie(x + 1, y - 1).getJ();
           if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
               || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
-            count++;
             joueurs.add(count, p.selctionnerCaseColonie(x + 1, y - 1).getJ());
+            count++;
           }
         }
-        if (p.selctionnerCaseColonie(x + 1, y + 1) != null && p.selctionnerCaseColonie(x + 1, y + 1).getJ() != j
+        if (!p.selctionnerCaseColonie(x + 1, y + 1).getEstVide() && p.selctionnerCaseColonie(x + 1, y + 1).getJ() != j
             && p.selctionnerCaseColonie(x + 1, y + 1).getJ().getMainDev().size() > 0) {
           Joueur jVol = p.selctionnerCaseColonie(x + 1, y + 1).getJ();
           if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
               || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
-            count++;
             joueurs.add(count, p.selctionnerCaseColonie(x + 1, y + 1).getJ());
+            count++;
           }
         }
-        for (Joueur a : joueurs) {
-          System.out.println("1: " + a.getPseudo());
+        if (count > 0) {
+          for (Joueur a : joueurs) {
+            System.out.println("1: " + a.getPseudo());
+          }
+          int numVol;
+          Random rand = new Random();
+          if (j.estHumain) {
+            do {
+              System.out.println("Veuillez choisir le numéro du joueur à qui vous voulez voler une carte");
+              numVol = sc.nextInt();
+              if (numVol <= 0 || numVol > count) {
+                System.out.println("Le numéro que vous avez choisi est incorrect");
+              }
+            } while (numVol <= 0 || numVol > count);
+            numVol--;
+          } else {
+            numVol = rand.nextInt(count);
+          }
+          boolean piquer = false;
+          do {
+            String ress;
+            switch (rand.nextInt(5)) {
+              case 0:
+                ress = "BOIS";
+                break;
+              case 1:
+                ress = "CHAMPS";
+                break;
+              case 2:
+                ress = "PIERRE";
+                break;
+              case 3:
+                ress = "MOUTON";
+                break;
+              default:
+                ress = "ARGILE";
+                break;
+            }
+            if (joueurs.get(numVol).combienRessource(ress) > 0) {
+              joueurs.get(numVol).enleverRessource(ress);
+              j.ajouterRessource(ress);
+              piquer = true;
+            }
+          } while (!piquer);
         }
-        int numVol;
-        do {
-          System.out.println("Veuillez choisir le numéro du joueur à qui vous voulez voler une carte");
-          numVol = sc.nextInt();
-          if (numVol <= 0 || numVol > count) {
-            System.out.println("Le numéro que vous avez choisi est incorrect");
-          }
-        } while (numVol <= 0 || numVol > count);
-        Random rand = new Random();
-        boolean piquer = false;
-        do {
-          String ress;
-          switch (rand.nextInt(5)) {
-            case 0:
-              ress = "BOIS";
-              break;
-            case 1:
-              ress = "CHAMPS";
-              break;
-            case 2:
-              ress = "PIERRE";
-              break;
-            case 3:
-              ress = "MOUTON";
-              break;
-            default:
-              ress = "ARGILE";
-              break;
-          }
-          if (joueurs.get(numVol).combienRessource(ress) > 0) {
-            joueurs.get(numVol).enleverRessource(ress);
-            j.ajouterRessource(ress);
-            piquer = true;
-          }
-        } while (!piquer);
 
       } else if (j.estHumain) {
         System.out.println("Le voleur ne peut pas être déplacé dans cette case");
@@ -889,6 +1168,124 @@ public class TourNormal extends Tour {
     } else if (j.estHumain) {
       v.incorrect = true;
       v.aide.setText("Le voleur ne peut pas être déplacé dans cette case");
+    }
+    v.validate();
+    v.repaint();
+  }
+
+  public void deplacerVoleur() {
+    boolean deplacer = false;
+    while (!deplacer) {
+      Random rand = new Random();
+      int x = rand.nextInt(p.getTaille());
+      int y = rand.nextInt(p.getTaille());
+
+      if (p.selctionnerCasePaysage(x, y) != null && !p.selctionnerCasePaysage(x, y).getContientVoleur()) {
+        for (int i = 0; i < p.getTaille(); i++) {
+          for (int j = 0; j < p.getTaille(); j++) { // Le Plateau est toujours de taille n x n
+            if (p.selctionnerCasePaysage(i, j) != null && p.selctionnerCasePaysage(i, j).getContientVoleur()) {
+              p.selctionnerCasePaysage(i, j).setContientVoleur(false);
+              if (p.selctionnerCaseRess(i, j) == null) {
+                v.getT().getTab(i, j).setDisabledIcon(v.getT().desert);
+              } else {
+                switch (p.selctionnerCaseRess(i, j).ressource) {
+                  case "BOIS":
+                    v.getT().getTab(i, j).setDisabledIcon(v.getT().bois);
+                    break;
+                  case "PIERRE":
+                    v.getT().getTab(i, j).setDisabledIcon(v.getT().montagne);
+                    break;
+                  case "CHAMPS":
+                    v.getT().getTab(i, j).setDisabledIcon(v.getT().champs);
+                    break;
+                  case "ARGILE":
+                    v.getT().getTab(i, j).setDisabledIcon(v.getT().mine);
+                    break;
+                  case "MOUTON":
+                    v.getT().getTab(i, j).setDisabledIcon(v.getT().moutons);
+                    break;
+                }
+              }
+            }
+          }
+        }
+        p.selctionnerCasePaysage(x, y).setContientVoleur(true);
+        v.getT().getTab(x, y).setDisabledIcon(null);
+        deplacer = true;
+
+        // Voler une carte ressource aléatoire à une personne sur la ressource
+        ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+        int count = 0;
+        if (!p.selctionnerCaseColonie(x - 1, y - 1).getEstVide()
+            && p.selctionnerCaseColonie(x - 1, y - 1).getJ() != j) {
+          Joueur jVol = p.selctionnerCaseColonie(x - 1, y - 1).getJ();
+          if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
+              || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
+            joueurs.add(count, p.selctionnerCaseColonie(x - 1, y - 1).getJ());
+            count++;
+          }
+        }
+        if (!p.selctionnerCaseColonie(x - 1, y + 1).getEstVide() && p.selctionnerCaseColonie(x - 1, y + 1).getJ() != j
+            && p.selctionnerCaseColonie(x - 1, y + 1).getJ().getMainDev().size() > 0) {
+          Joueur jVol = p.selctionnerCaseColonie(x - 1, y + 1).getJ();
+          if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
+              || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
+            joueurs.add(count, p.selctionnerCaseColonie(x - 1, y + 1).getJ());
+            count++;
+          }
+        }
+        if (!p.selctionnerCaseColonie(x + 1, y - 1).getEstVide() && p.selctionnerCaseColonie(x + 1, y - 1).getJ() != j
+            && p.selctionnerCaseColonie(x + 1, y - 1).getJ().getMainDev().size() > 0) {
+          Joueur jVol = p.selctionnerCaseColonie(x + 1, y - 1).getJ();
+          if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
+              || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
+            joueurs.add(count, p.selctionnerCaseColonie(x + 1, y - 1).getJ());
+            count++;
+          }
+        }
+        if (!p.selctionnerCaseColonie(x + 1, y + 1).getEstVide() && p.selctionnerCaseColonie(x + 1, y + 1).getJ() != j
+            && p.selctionnerCaseColonie(x + 1, y + 1).getJ().getMainDev().size() > 0) {
+          Joueur jVol = p.selctionnerCaseColonie(x + 1, y + 1).getJ();
+          if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
+              || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
+            joueurs.add(count, p.selctionnerCaseColonie(x + 1, y + 1).getJ());
+            count++;
+          }
+        }
+        if (count > 0) {
+          int numVol;
+          Random r = new Random();
+
+          numVol = r.nextInt(count);
+
+          boolean piquer = false;
+          do {
+            String ress;
+            switch (r.nextInt(5)) {
+              case 0:
+                ress = "BOIS";
+                break;
+              case 1:
+                ress = "CHAMPS";
+                break;
+              case 2:
+                ress = "PIERRE";
+                break;
+              case 3:
+                ress = "MOUTON";
+                break;
+              default:
+                ress = "ARGILE";
+                break;
+            }
+            if (joueurs.get(numVol).combienRessource(ress) > 0) {
+              joueurs.get(numVol).enleverRessource(ress);
+              j.ajouterRessource(ress);
+              piquer = true;
+            }
+          } while (!piquer);
+        }
+      }
     }
     v.validate();
     v.repaint();
@@ -961,8 +1358,70 @@ public class TourNormal extends Tour {
     }
   }
 
+  public void progresDecouverte() {
+    int nbr = 0;
+    while (nbr != 2) {
+      String choix;
+
+      Random rand = new Random();
+      int n = rand.nextInt(5) + 1;
+      switch (n) {
+        case 1:
+          choix = "A";
+          break;
+        case 2:
+          choix = "B";
+          break;
+        case 3:
+          choix = "C";
+          break;
+        case 4:
+          choix = "D";
+          break;
+        default:
+          choix = "E";
+          break;
+      }
+
+      switch (choix) {
+        case "A":
+          j.ajouterRessource("ARGILE");
+          break;
+        case "B":
+          j.ajouterRessource("BOIS");
+          break;
+        case "C":
+          j.ajouterRessource("CHAMPS");
+          break;
+        case "D":
+          j.ajouterRessource("MOUTON");
+          break;
+        default:
+          j.ajouterRessource("PIERRE");
+          break;
+      }
+      nbr++;
+    }
+  }
+
   public void progresMonopole(Scanner sc) {
     String ress = choixRess(sc, "Choix de la matière première designé:");
+    int nbr = 0;
+    for (Joueur joueur : tabJ) {
+      if (joueur != j) {
+        while (joueur.combienRessource(ress) != 0) {
+          joueur.enleverRessource(ress);
+          nbr++;
+        }
+      }
+    }
+    for (int i = 0; i < nbr; i++) {
+      j.ajouterRessource(ress);
+    }
+  }
+
+  public void progresMonopole() {
+    String ress = ressGen();
     int nbr = 0;
     for (Joueur joueur : tabJ) {
       if (joueur != j) {
