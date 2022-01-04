@@ -36,6 +36,8 @@ public class VueCatan extends JFrame {
     boolean premiereFois = true;
     boolean poserRouteFree = false;
 
+    boolean pioche = false;
+
     public Table getT() {
         return t;
     }
@@ -837,23 +839,47 @@ public class VueCatan extends JFrame {
                             }
                             aide.setText("Veuillez selectionner \nla case ou vous voulez \nmettre votre route");
                         } else {
-                            for (int x = 0; x < 9; x++) {
-                                for (int y = 0; y < 9; y++) {
-                                    tab[x][y].setEnabled(false);
+                            if (pioche) {
+
+                                String ressPioche = p.getP().selctionnerCaseColonie(i, j).getJ().tireUneCarteHazard();
+                                p.t.j.ajouterRessource(ressPioche);
+                                for (int b = 0; b < 9; b++) {
+                                    for (int a = 0; a < 9; a++) {
+                                        if (p.getP().selctionnerCasePaysage(b, a) != null) {
+                                            tab[b][a].setEnabled(false);
+                                        } else {
+                                            tab[b][a].setEnabled(true);
+                                        }
+                                    }
                                 }
+
+                                jouerColonie.setEnabled(false);
+                                jouerRoute.setEnabled(false);
+                                creerVille.setEnabled(false);
+                                acheterCarteDev.setEnabled(true);
+                                jouerCarteDev.setEnabled(true);
+                                echangerAvecPort.setEnabled(true);
+                                terminerTour.setEnabled(true);
+                                pioche = false;
+                            } else {
+                                for (int x = 0; x < 9; x++) {
+                                    for (int y = 0; y < 9; y++) {
+                                        tab[x][y].setEnabled(false);
+                                    }
+                                }
+                                jouerRoute.setEnabled(false);
+                                jouerColonie.setEnabled(false);
+                                creerVille.setEnabled(false);
+                                if (p.getP().selctionnerCaseColonie(i, j).getEstVide()) {
+                                    jouerColonie.setEnabled(true);
+                                } else if (!p.getP().selctionnerCaseColonie(i, j).getEstVille()) {
+                                    creerVille.setEnabled(true);
+                                }
+                                acheterCarteDev.setEnabled(false);
+                                jouerCarteDev.setEnabled(false);
+                                echangerAvecPort.setEnabled(false);
+                                terminerTour.setEnabled(false);
                             }
-                            jouerRoute.setEnabled(false);
-                            jouerColonie.setEnabled(false);
-                            creerVille.setEnabled(false);
-                            if (p.getP().selctionnerCaseColonie(i, j).getEstVide()) {
-                                jouerColonie.setEnabled(true);
-                            } else if (!p.getP().selctionnerCaseColonie(i, j).getEstVille()) {
-                                creerVille.setEnabled(true);
-                            }
-                            acheterCarteDev.setEnabled(false);
-                            jouerCarteDev.setEnabled(false);
-                            echangerAvecPort.setEnabled(false);
-                            terminerTour.setEnabled(false);
                         }
                     } else if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) { // route
                         if (premierTour) {
@@ -915,25 +941,63 @@ public class VueCatan extends JFrame {
 
                         }
                     } else if (i % 2 == 1 && j % 2 == 1) { // case ressource
+                        aide.setText("");
                         p.t.deplacerVoleur(i, j);
-                        for (int b = 0; b < 9; b++) {
-                            for (int a = 0; a < 9; a++) {
-                                if (p.getP().selctionnerCasePaysage(b, a) != null) {
-                                    tab[b][a].setEnabled(false);
-                                } else {
-                                    tab[b][a].setEnabled(true);
-                                }
+                        pioche = false;
+
+                        for (int x = 0; x < 9; x++) {
+                            for (int y = 0; y < 9; y++) {
+                                tab[x][y].setEnabled(false);
                             }
                         }
 
-                        jouerColonie.setEnabled(false);
-                        jouerRoute.setEnabled(false);
-                        creerVille.setEnabled(false);
-                        acheterCarteDev.setEnabled(true);
-                        jouerCarteDev.setEnabled(true);
-                        echangerAvecPort.setEnabled(true);
-                        terminerTour.setEnabled(true);
+                        if (!p.getP().selctionnerCaseColonie(i + 1, j + 1).getEstVide()
+                                && p.getP().selctionnerCaseColonie(i + 1, j + 1).getJ() != p.t.j
+                                && p.getP().selctionnerCaseColonie(i + 1, j + 1).getJ().possedeAuMoinsUneCarteRess()) {
+                            tab[i + 1][j + 1].setEnabled(true);
+                            pioche = true;
+                        }
+                        if (!p.getP().selctionnerCaseColonie(i - 1, j + 1).getEstVide()
+                                && p.getP().selctionnerCaseColonie(i - 1, j + 1).getJ() != p.t.j
+                                && p.getP().selctionnerCaseColonie(i - 1, j + 1).getJ().possedeAuMoinsUneCarteRess()) {
+                            tab[i - 1][j + 1].setEnabled(true);
+                            pioche = true;
+                        }
+                        if (!p.getP().selctionnerCaseColonie(i - 1, j - 1).getEstVide()
+                                && p.getP().selctionnerCaseColonie(i - 1, j - 1).getJ() != p.t.j
+                                && p.getP().selctionnerCaseColonie(i - 1, j - 1).getJ().possedeAuMoinsUneCarteRess()) {
+                            tab[i - 1][j - 1].setEnabled(true);
+                            pioche = true;
+                        }
+                        if (!p.getP().selctionnerCaseColonie(i + 1, j - 1).getEstVide()
+                                && p.getP().selctionnerCaseColonie(i + 1, j - 1).getJ() != p.t.j
+                                && p.getP().selctionnerCaseColonie(i + 1, j - 1).getJ().possedeAuMoinsUneCarteRess()) {
+                            tab[i + 1][j - 1].setEnabled(true);
+                            pioche = true;
+                        }
 
+                        if (!pioche) {
+                            for (int b = 0; b < 9; b++) {
+                                for (int a = 0; a < 9; a++) {
+                                    if (p.getP().selctionnerCasePaysage(b, a) != null) {
+                                        tab[b][a].setEnabled(false);
+                                    } else {
+                                        tab[b][a].setEnabled(true);
+                                    }
+                                }
+                            }
+
+                            jouerColonie.setEnabled(false);
+                            jouerRoute.setEnabled(false);
+                            creerVille.setEnabled(false);
+                            acheterCarteDev.setEnabled(true);
+                            jouerCarteDev.setEnabled(true);
+                            echangerAvecPort.setEnabled(true);
+                            terminerTour.setEnabled(true);
+                            pioche = false;
+                        } else {
+                            aide.setText("Selectionnez la colonie de la personne que vous shouaitez voler");
+                        }
                     }
                     X = i;
                     Y = j;
@@ -1056,7 +1120,7 @@ public class VueCatan extends JFrame {
                                 boutonActif = true;
                                 faire = "echange";
                             } else {
-                                faire = "" ;
+                                faire = "";
                                 for (int i = 0; i < 9; i++) {
                                     for (int a = 0; a < 9; a++) {
                                         if (p.getP().selctionnerCasePaysage(i, a) != null) {
@@ -1245,14 +1309,5 @@ public class VueCatan extends JFrame {
             VueCatan.this.validate();
             VueCatan.this.repaint();
         }
-    }
-
-    public static void main(String[] args) {
-        UIManager.getDefaults().put("Button.disabledText", new ColorUIResource(Color.LIGHT_GRAY));
-        EventQueue.invokeLater(() -> {
-            VueCatan view = new VueCatan();
-            view.pack();
-            view.setVisible(true);
-        });
     }
 }

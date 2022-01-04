@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Joueur {
 
@@ -213,5 +214,45 @@ public class Joueur {
       }
     }
     return n;
+  }
+
+  public String tireUneCarteHazard(){
+    Random r = new Random() ;
+    int n = r.nextInt(5) ;
+    boolean carteChoisi = false  ;
+    while(!carteChoisi){
+      if(mainRess[n]>0){
+        mainRess[n] = mainRess[n] - 1 ;
+        if(n==0){
+          return "ARGILE" ;
+        }
+        if(n==1){
+          return "BOIS" ;
+        }
+        if(n==2){
+          return "CHAMPS" ;
+        }
+        if(n==3){
+          return "MOUTON" ;
+        }
+        if(n==4){
+          return "PIERRE" ;
+        }
+        carteChoisi = true ;
+      }else{
+        r = new Random() ;
+        n = r.nextInt(5) ;
+      }
+    }
+    return "A PAS DE CARTE" ;
+  }
+// mainRess = nombre de [ARGILE, BOIS, CHAMPS, MOUTON, PIERRE]
+  public boolean possedeAuMoinsUneCarteRess(){
+    for(int i=0 ; i<mainRess.length ; i++){
+      if(mainRess[i]>0){
+        return true ;
+      }
+    }
+    return false ;
   }
 }
