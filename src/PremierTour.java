@@ -49,6 +49,7 @@ public class PremierTour extends Tour {
             }
             if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
                 p.selctionnerCaseColonie(x, y).mettreColonie(j);
+                j.ajouterUneColonie();
                 ajouter = true;
             } else if (j.estHumain) {
                 System.out.println("Case non-vide");
@@ -62,6 +63,7 @@ public class PremierTour extends Tour {
         if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
             p.selctionnerCaseColonie(x, y).mettreColonie(j);
             mettreColonieInter(x, y);
+            j.ajouterUneColonie();
         } else {
             v.aide.setText("Votre colonie ne peut pas être ajoutée ici.");
         }

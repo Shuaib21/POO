@@ -206,7 +206,6 @@ public class TourNormal extends Tour {
         j.combienRessource("CHAMPS") == 0 ||
         j.combienRessource("MOUTON") == 0) {
       // afficher l'erreur si il n'a pas
-      v.incorrect = true;
       v.aide.setText("Vous n'avez pas les ressources demandées");
       return;
     }
@@ -214,6 +213,7 @@ public class TourNormal extends Tour {
       if (p.selctionnerCaseColonie(x, y).getEstVide()) {
         if (estColleARoute(x, y)) {
           p.selctionnerCaseColonie(x, y).mettreColonie(j);
+          mettreColonieInter(x, y);
           j.ajouterUneColonie();
           j.enleverRessource("ARGILE");
           j.enleverRessource("BOIS");
@@ -271,7 +271,6 @@ public class TourNormal extends Tour {
 
   public void ajouterRoute(int x, int y) {
     if (j.combienRessource("BOIS") == 0 || j.combienRessource("ARGILE") == 0) {
-      v.incorrect = true;
       v.aide.setText("Vous n'avez pas assez de ressource pour construire une route");
       return;
     }
@@ -279,16 +278,15 @@ public class TourNormal extends Tour {
       if (p.selctionnerCaseRoute(x, y).getEstVide()) {
         if (estColleAColonie(x, y) || routeColleARoute(x, y)) {
           p.selctionnerCaseRoute(x, y).mettreRoute(j);
+          mettreRouteInter(x, y);
           j.enleverRessource("BOIS");
           j.enleverRessource("ARGILE");
           actualiserRouteLaPlusLongue();
-          v.incorrect = true;
           v.aide.setText("Route posé");
           return;
         }
       }
     }
-    v.incorrect = true;
     v.aide.setText("Vous ne pouvez pas placer de route ici");
     return;
 
@@ -615,6 +613,7 @@ public class TourNormal extends Tour {
           return;
         } else {
           p.selctionnerCaseColonie(x, y).transformerEnVille();
+          mettreVilleInter(x, y);
           j.enleverRessource("PIERRE");
           j.enleverRessource("PIERRE");
           j.enleverRessource("PIERRE");
@@ -622,7 +621,6 @@ public class TourNormal extends Tour {
           j.enleverRessource("CHAMPS");
           j.ajouterUneVille();
           j.ajouterPoint();
-          // afficher la ville
           return;
         }
       } else {
