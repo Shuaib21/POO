@@ -38,12 +38,12 @@ public class PremierTour extends Tour {
 
     public void ajouterColonie(Scanner sc) {
         boolean ajouter = false;
+        CaseColonie colStrat = obtenirColonieStrategie();
         while (!ajouter) {
             if (j.estHumain) {
                 x = getCoordonnee('x', sc);
                 y = getCoordonnee('y', sc);
             } else {
-                CaseColonie colStrat = obtenirColonieStrategie();
                 if (colStrat != null) {
                     colStrat.mettreColonie(j);
                     j.ajouterUneColonie();
@@ -58,7 +58,8 @@ public class PremierTour extends Tour {
                 }
             }
             if (!ajouter) {
-                if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
+                if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()
+                        && estColleARouteVide(x, y)) {
                     p.selctionnerCaseColonie(x, y).mettreColonie(j);
                     j.ajouterUneColonie();
                     ajouter = true;
@@ -73,7 +74,8 @@ public class PremierTour extends Tour {
     public void ajouterColonie(int X, int Y) {
         int x = X;
         int y = Y;
-        if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
+        if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()
+                && estColleARouteVide(x, y)) {
             p.selctionnerCaseColonie(x, y).mettreColonie(j);
             mettreColonieInter(x, y);
             j.ajouterUneColonie();
@@ -85,8 +87,8 @@ public class PremierTour extends Tour {
 
     public void ajouterColonie() {
         boolean ajouter = false;
+        CaseColonie colStrat = obtenirColonieStrategie();
         while (!ajouter) {
-            CaseColonie colStrat = obtenirColonieStrategie();
             if (colStrat != null) {
                 colStrat.mettreColonie(j);
                 j.ajouterUneColonie();
@@ -101,7 +103,8 @@ public class PremierTour extends Tour {
                 y = rand.nextInt(p.getTaille());
             }
             if (!ajouter) {
-                if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()) {
+                if (p.selctionnerCaseColonie(x, y) != null && p.selctionnerCaseColonie(x, y).getEstVide()
+                        && estColleARouteVide(x, y)) {
                     p.selctionnerCaseColonie(x, y).mettreColonie(j);
                     mettreColonieInter(x, y);
                     j.ajouterUneColonie();
@@ -112,6 +115,26 @@ public class PremierTour extends Tour {
         }
     }
 
+    private boolean estColleARouteVide(int x, int y) {
+        if (x + 1 < p.getTaille() &&
+                p.selctionnerCaseRoute(x + 1, y).getEstVide()) {
+            return true;
+        }
+        if (x - 1 >= 0 &&
+                p.selctionnerCaseRoute(x - 1, y).getEstVide()) {
+            return true;
+        }
+        if (y + 1 < p.getTaille() &&
+                p.selctionnerCaseRoute(x, y + 1).getEstVide()) {
+            return true;
+        }
+        if (y - 1 >= 0 &&
+                p.selctionnerCaseRoute(x, y - 1).getEstVide()) {
+            return true;
+        }
+        return false;
+    }
+
     private CaseColonie obtenirColonieStrategie() {
         for (int a = 1; a < p.getTaille(); a += 2) {
             for (int b = 1; b < p.getTaille(); b += 2) {
@@ -119,13 +142,16 @@ public class PremierTour extends Tour {
                     CaseRessource cr = p.selctionnerCaseRess(a, b);
                     if (cr.num == 5 || cr.num == 6 || cr.num == 8 || cr.num == 9) { // Chiffres sortant fréquemment
                                                                                     // aux dés: 5, 6, 8 ou 9
-                        if (p.selctionnerCaseColonie(a - 1, b - 1).getEstVide()) {
+                        if (p.selctionnerCaseColonie(a - 1, b - 1).getEstVide() && estColleARouteVide(a - 1, b - 1)) {
                             return p.selctionnerCaseColonie(a - 1, b - 1);
-                        } else if (p.selctionnerCaseColonie(a - 1, b + 1).getEstVide()) {
+                        } else if (p.selctionnerCaseColonie(a - 1, b + 1).getEstVide()
+                                && estColleARouteVide(a - 1, b + 1)) {
                             return p.selctionnerCaseColonie(a - 1, b + 1);
-                        } else if (p.selctionnerCaseColonie(a + 1, b - 1).getEstVide()) {
+                        } else if (p.selctionnerCaseColonie(a + 1, b - 1).getEstVide()
+                                && estColleARouteVide(a + 1, b - 1)) {
                             return p.selctionnerCaseColonie(a + 1, b - 1);
-                        } else if (p.selctionnerCaseColonie(a + 1, b + 1).getEstVide()) {
+                        } else if (p.selctionnerCaseColonie(a + 1, b + 1).getEstVide()
+                                && estColleARouteVide(a + 1, b + 1)) {
                             return p.selctionnerCaseColonie(a + 1, b + 1);
                         }
                     }

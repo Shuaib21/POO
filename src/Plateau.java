@@ -153,10 +153,4 @@ public class Plateau {
         return null;
     }
 
-    public static void main(String[] args) {
-        Plateau p = new Plateau(4);
-        p.afficher();
-
-    }
-
 }
