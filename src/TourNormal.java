@@ -759,7 +759,84 @@ public class TourNormal extends Tour {
         }
         p.selctionnerCasePaysage(x, y).setContientVoleur(true);
         deplacer = true;
-        // voler une carte a une personne sur la ressource
+
+        // Voler une carte ressource aléatoire à une personne sur la ressource
+        ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+        int count = 0;
+        if (p.selctionnerCaseColonie(x - 1, y - 1) != null && p.selctionnerCaseColonie(x - 1, y - 1).getJ() != j) {
+          Joueur jVol = p.selctionnerCaseColonie(x - 1, y - 1).getJ();
+          if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
+              || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
+            count++;
+            joueurs.add(count, p.selctionnerCaseColonie(x - 1, y - 1).getJ());
+          }
+        }
+        if (p.selctionnerCaseColonie(x - 1, y + 1) != null && p.selctionnerCaseColonie(x - 1, y + 1).getJ() != j
+            && p.selctionnerCaseColonie(x - 1, y + 1).getJ().getMainDev().size() > 0) {
+          Joueur jVol = p.selctionnerCaseColonie(x - 1, y + 1).getJ();
+          if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
+              || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
+            count++;
+            joueurs.add(count, p.selctionnerCaseColonie(x - 1, y + 1).getJ());
+          }
+        }
+        if (p.selctionnerCaseColonie(x + 1, y - 1) != null && p.selctionnerCaseColonie(x + 1, y - 1).getJ() != j
+            && p.selctionnerCaseColonie(x + 1, y - 1).getJ().getMainDev().size() > 0) {
+          Joueur jVol = p.selctionnerCaseColonie(x + 1, y - 1).getJ();
+          if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
+              || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
+            count++;
+            joueurs.add(count, p.selctionnerCaseColonie(x + 1, y - 1).getJ());
+          }
+        }
+        if (p.selctionnerCaseColonie(x + 1, y + 1) != null && p.selctionnerCaseColonie(x + 1, y + 1).getJ() != j
+            && p.selctionnerCaseColonie(x + 1, y + 1).getJ().getMainDev().size() > 0) {
+          Joueur jVol = p.selctionnerCaseColonie(x + 1, y + 1).getJ();
+          if (jVol.getMainRess()[0] > 0 || jVol.getMainRess()[1] > 0 || jVol.getMainRess()[2] > 0
+              || jVol.getMainRess()[3] > 0 || jVol.getMainRess()[4] > 0) {
+            count++;
+            joueurs.add(count, p.selctionnerCaseColonie(x + 1, y + 1).getJ());
+          }
+        }
+        for (Joueur a : joueurs) {
+          System.out.println("1: " + a.getPseudo());
+        }
+        int numVol;
+        do {
+          System.out.println("Veuillez choisir le numéro du joueur à qui vous voulez voler une carte");
+          numVol = sc.nextInt();
+          if (numVol <= 0 || numVol > count) {
+            System.out.println("Le numéro que vous avez choisi est incorrect");
+          }
+        } while (numVol <= 0 || numVol > count);
+        Random rand = new Random();
+        boolean piquer = false;
+        do {
+          String ress;
+          switch (rand.nextInt(5)) {
+            case 0:
+              ress = "BOIS";
+              break;
+            case 1:
+              ress = "CHAMPS";
+              break;
+            case 2:
+              ress = "PIERRE";
+              break;
+            case 3:
+              ress = "MOUTON";
+              break;
+            default:
+              ress = "ARGILE";
+              break;
+          }
+          if (joueurs.get(numVol).combienRessource(ress) > 0) {
+            joueurs.get(numVol).enleverRessource(ress);
+            j.ajouterRessource(ress);
+            piquer = true;
+          }
+        } while (!piquer);
+
       } else if (j.estHumain) {
         System.out.println("Le voleur ne peut pas être déplacé dans cette case");
       }
