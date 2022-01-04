@@ -1017,8 +1017,8 @@ public class VueCatan extends JFrame {
                                             aide.setText("Vous n'avez pas assez de champs");
                                         } else {
                                             peux = true;
-                                            p.t.j.enleverRessource("MOUTON");
-                                            p.t.j.enleverRessource("MOUTON");
+                                            p.t.j.enleverRessource("CHAMPS");
+                                            p.t.j.enleverRessource("CHAMPS");
                                         }
                                     } else {
                                         aide.setText("Vous ne possedez pas ce port");
