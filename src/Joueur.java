@@ -55,6 +55,15 @@ public class Joueur {
     return mesPorts;
   }
 
+  public boolean contientPort(String nom) {
+    for (String s : mesPorts) {
+      if (s.equals(nom)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public int getNbrColonies() {
     return nbrColonies;
   }
