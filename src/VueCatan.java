@@ -49,7 +49,7 @@ public class VueCatan extends JFrame {
 
         model = new ModeleCatan("./Image/Ocean.jpeg");
         imagePane = new ImagePane();
-        setContentPane(imagePane);
+        //setContentPane(imagePane);
 
         menu = new JPanel();
         menu.setLayout(new GridLayout(5, 1));

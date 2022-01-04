@@ -638,7 +638,6 @@ public class TourNormal extends Tour {
         j.combienRessource("PIERRE") == 0 ||
         j.combienRessource("MOUTON") == 0) {
       if (estInterface) {
-        v.incorrect = true;
         v.aide.setText("Vous n'avez pas les ressources demandées pour acheter une carte développement");
         return;
       } else {
@@ -647,7 +646,7 @@ public class TourNormal extends Tour {
         return;
       }
     }
-    if (!cartes.isEmpty()) {
+    if (!Tour.cartes.isEmpty()) {
       j.enleverRessource("CHAMPS");
       j.enleverRessource("PIERRE");
       j.enleverRessource("MOUTON");
@@ -655,6 +654,16 @@ public class TourNormal extends Tour {
       Collections.shuffle(Tour.cartes);
       j.ajouterCarteDev(Tour.cartes.get(0));
       Tour.cartes.remove(0);
+      if(estInterface){
+        v.aide.setText("Vous avez acheté : "+j.getMainDev().get(j.getMainDev().size()-1).getPouvoir());
+      }
+
+    } else {
+      if (estInterface) {
+        v.aide.setText("Il n'y a plus de carte developement");
+      } else {
+        System.out.println("Il n'y a plus de carte developement");
+      }
     }
   }
 
