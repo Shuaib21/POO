@@ -50,6 +50,7 @@ public class PremierTour extends Tour {
                     x = colStrat.getX();
                     y = colStrat.getY();
                     ajouter = true;
+                    j.ajouterPoint();
                 } else {
                     Random rand = new Random();
                     x = rand.nextInt(p.getTaille());
@@ -61,6 +62,7 @@ public class PremierTour extends Tour {
                     p.selctionnerCaseColonie(x, y).mettreColonie(j);
                     j.ajouterUneColonie();
                     ajouter = true;
+                    j.ajouterPoint();
                 } else if (j.estHumain) {
                     System.out.println("Case non-vide");
                 }
@@ -75,6 +77,7 @@ public class PremierTour extends Tour {
             p.selctionnerCaseColonie(x, y).mettreColonie(j);
             mettreColonieInter(x, y);
             j.ajouterUneColonie();
+            j.ajouterPoint();
         } else {
             v.aide.setText("Votre colonie ne peut pas être ajoutée ici.");
         }
@@ -91,6 +94,7 @@ public class PremierTour extends Tour {
                 y = colStrat.getY();
                 mettreColonieInter(x, y);
                 ajouter = true;
+                j.ajouterPoint();
             } else {
                 Random rand = new Random();
                 x = rand.nextInt(p.getTaille());
@@ -102,6 +106,7 @@ public class PremierTour extends Tour {
                     mettreColonieInter(x, y);
                     j.ajouterUneColonie();
                     ajouter = true;
+                    j.ajouterPoint();
                 }
             }
         }

@@ -192,4 +192,16 @@ public class Joueur {
     }
     return a;
   }
+
+  @Override
+  public String toString() {
+    String s = "Pseudo : " + pseudo + "\nCouleur : " + couleur + "\nCarte ressources :\nArgile : " + mainRess[0]
+        + "\nBois : " + mainRess[1] + "\nChamps : " + mainRess[2] + "\nMouton : " + mainRess[3] + "\nPierre : "
+        + mainRess[4] + "\nCarte développement : ";
+    for (CarteDev c : mainDev) {
+      s += "\n" + c.pouvoir;
+    }
+    s += "\nPoint(s) : " + point;
+    return s;
+  }
 }

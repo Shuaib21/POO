@@ -69,6 +69,7 @@ public class Partie {
           System.out.println("E: Jouer une carte développement");
           System.out.println("F: Echanger avec les ports");
           System.out.println("G: Terminer tour");
+          System.out.println("H: Consulter mes infos");
 
           if (j.estHumain) {
             choix = sc.next();
@@ -134,6 +135,9 @@ public class Partie {
               t.echangerAvecPort(sc);
               break;
             case "G":
+              break;
+            case "H":
+            System.out.println(j);
               break;
             default:
               System.out.println("Choix incorrect");
