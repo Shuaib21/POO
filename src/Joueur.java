@@ -108,6 +108,10 @@ public class Joueur {
     return 0;
   }
 
+  public int nbrRessources() {
+    return mainRess[0] + mainRess[1] + mainRess[2] + mainRess[3] + mainRess[4];
+  }
+
   public void ajouterRessource(String nomRessource) {
     switch (nomRessource) {
       case "ARGILE":

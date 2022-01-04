@@ -15,6 +15,11 @@ public class TourNormal extends Tour {
     this.tabJ = tabJ;
     toucherRessource();
     if (sommeDés == 7) {
+      for (Joueur x : tabJ) {
+        if (x.nbrRessources() > 7) {
+          defausser(x, sc);
+        }
+      }
       deplacerVoleur(sc);
     }
   }
@@ -90,6 +95,13 @@ public class TourNormal extends Tour {
 
     System.out.println("debut du voleur " + sommeDés);
     if (sommeDés == 7) {
+      for (Joueur x : tabJ) {
+        if (x.nbrRessources() > 7) {
+          if (x.estHumain) {
+            defausser(x);
+          }
+        }
+      }
       if (!j.estHumain) {
         deplacerVoleur();
       } else {
@@ -119,6 +131,33 @@ public class TourNormal extends Tour {
       }
     }
 
+  }
+
+  private void defausser(Joueur x, Scanner sc) {
+    int nbr = x.nbrRessources() / 2;
+    while (nbr > 0) {
+      String ress = choixRess(sc, "Matière première à défausser: ");
+      if (x.combienRessource(ress) == 0) {
+        if (x.estHumain) {
+          System.out.println(
+              "Vous ne possedez pas de " + ress + " ! Veuillez choisir une autre matière première à défausser");
+        }
+      } else {
+        x.enleverRessource(ress);
+        nbr--;
+      }
+    }
+  }
+
+  private void defausser(Joueur x) {
+    int nbr = x.nbrRessources() / 2;
+    while (nbr > 0) {
+      String ress = ressGen();
+      if (x.combienRessource(ress) != 0) {
+        x.enleverRessource(ress);
+        nbr--;
+      }
+    }
   }
 
   private void toucherRessource() {
