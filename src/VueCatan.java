@@ -609,13 +609,13 @@ public class VueCatan extends JFrame {
 
                     
                     info.add(commandeJouerCarteDev);
-                    // afficher le nmobre de carte de chaque dans affiahge
+                    // TO DO : afficher le nombre de carte de chaque dans affichage
                     jouerChevalier.setEnabled(false);
                     jouerMonopole.setEnabled(false);
                     jouerCarteDecouverte.setEnabled(false);
                     jouerCarteConstru.setEnabled(false);
                     for (CarteDev c : p.t.j.getMainDev()) {
-                        if (c.getPouvoir().equals("CHEVALIER")) {
+                        if (c.getPouvoir().equals("Chevalier")) {
                             jouerChevalier.setEnabled(true);
                         }
                         if (c.getPouvoir().equals("Progrès Construction de routes")) {
@@ -650,6 +650,7 @@ public class VueCatan extends JFrame {
                 actuRess();
             });
             jouerChevalier.addActionListener((ActionEvent e) -> { // A FAIRE
+                p.t.j.enleverCarteDev("Chevalier");
                 p.t.j.augmenteNbChev();
                 if (p.t.j.getNbrChevaliers() > Tour.nbrChevalierMax) {
                     if (Tour.contientChevalierPuissant != null) {
@@ -680,8 +681,8 @@ public class VueCatan extends JFrame {
                         }
                     }
                 }
+                info.remove(commandeJouerCarteDev);
                 aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
-                incorrect = true;
                 validate();
                 repaint();
             });

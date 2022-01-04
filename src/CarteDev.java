@@ -9,7 +9,7 @@ public class CarteDev {
         return pouvoir;
     }
 
-    //"CHEVALIER"
+    //"Chevalier"
     //"Progrès Construction de routes"
     //"Progrès Découverte"
     //"Progrès Monopole"
