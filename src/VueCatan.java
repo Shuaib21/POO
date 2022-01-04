@@ -419,15 +419,15 @@ public class VueCatan extends JFrame {
 
             for (int i = 0; i < 11; i++) {
                 if (i == 1) {
-                    ButtonPort a = new ButtonPort(portBois);
+                    ButtonPort a = new ButtonPort(portBois, "2B:1");
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 5) {
-                    ButtonPort a = new ButtonPort(port3_1);
+                    ButtonPort a = new ButtonPort(port3_1, "3:1");
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 9) {
-                    ButtonPort a = new ButtonPort(portMouton);
+                    ButtonPort a = new ButtonPort(portMouton, "2M:1");
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -437,7 +437,7 @@ public class VueCatan extends JFrame {
 
             for (int i = 0; i < 9; i++) {
                 if (i == 4) {
-                    ButtonPort a = new ButtonPort(portChamps);
+                    ButtonPort a = new ButtonPort(portChamps, "2C:1");
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -449,7 +449,7 @@ public class VueCatan extends JFrame {
                     tab[i][j] = a;
                 }
                 if (i == 4) {
-                    ButtonPort a = new ButtonPort(port3_1);
+                    ButtonPort a = new ButtonPort(port3_1, "3:1");
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -459,15 +459,15 @@ public class VueCatan extends JFrame {
 
             for (int i = 0; i < 11; i++) {
                 if (i == 1) {
-                    ButtonPort a = new ButtonPort(portArgile);
+                    ButtonPort a = new ButtonPort(portArgile, "2A:1");
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 5) {
-                    ButtonPort a = new ButtonPort(portPierre);
+                    ButtonPort a = new ButtonPort(portPierre, "2P:1");
                     a.setEnabled(true);
                     plateau.add(a);
                 } else if (i == 9) {
-                    ButtonPort a = new ButtonPort(port3_1);
+                    ButtonPort a = new ButtonPort(port3_1, "3:1");
                     a.setEnabled(true);
                     plateau.add(a);
                 } else {
@@ -595,7 +595,7 @@ public class VueCatan extends JFrame {
                 p.t.acheterCartDev(true);
                 actuRess();
             });
-            jouerCarteDev.addActionListener((ActionEvent e) -> { // A FAIRE
+            jouerCarteDev.addActionListener((ActionEvent e) -> {
                 int nombreCartePoint = 0;
                 for (CarteDev c : p.t.j.getMainDev()) {
                     if (c.getPouvoir().equals("Point de victoire")) {
@@ -647,15 +647,28 @@ public class VueCatan extends JFrame {
                 p.tourFini();
                 actuRess();
             });
-            echangerAvecPort.addActionListener((ActionEvent e) -> { // A FAIRE
-                jouerColonie.setEnabled(false);
-                jouerRoute.setEnabled(false);
-                creerVille.setEnabled(false);
-                acheterCarteDev.setEnabled(true);
-                jouerCarteDev.setEnabled(true);
-                echangerAvecPort.setEnabled(true);
-                terminerTour.setEnabled(true);
-                actuRess();
+            echangerAvecPort.addActionListener((ActionEvent e) -> {
+                if (p.t.j.getMesPorts().size() != 0) {
+                    boutonPortActif = true;
+
+                    for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++) {
+                            tab[i][j].setEnabled(false);
+                        }
+                    }
+                    aide.setText("Choisir le port avec lequel vous shouaitez echanger");
+
+                    jouerColonie.setEnabled(false);
+                    jouerRoute.setEnabled(false);
+                    creerVille.setEnabled(false);
+                    acheterCarteDev.setEnabled(false);
+                    jouerCarteDev.setEnabled(false);
+                    echangerAvecPort.setEnabled(false);
+                    terminerTour.setEnabled(false);
+                    actuRess();
+                } else {
+                    aide.setText("Vous ne possedez \npas de colonie sur des ports");
+                }
             });
             jouerChevalier.addActionListener((ActionEvent e) -> { // A FAIRE
                 p.t.j.enleverCarteDev("Chevalier");
@@ -769,7 +782,6 @@ public class VueCatan extends JFrame {
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
             });
-
         }
 
         public JButton getJouerColonie() {
@@ -849,7 +861,7 @@ public class VueCatan extends JFrame {
                         } else {
                             if (poserRouteFree) {
                                 p.getP().selctionnerCaseRoute(i, j).mettreRoute(p.t.j);
-                                p.t.mettreRouteInter(i,j);
+                                p.t.mettreRouteInter(i, j);
                                 VueCatan.this.validate();
                                 VueCatan.this.repaint();
                                 if (premiereFois) {
@@ -935,12 +947,73 @@ public class VueCatan extends JFrame {
             private String ressource;
             private Joueur pj;
 
-            ButtonPort(ImageIcon img) { // PORT
+            ButtonPort(ImageIcon img, String nom) { // PORT
+                this.ressource = nom;
                 setIcon(img);
                 setDisabledIcon(img);
                 addActionListener((ActionEvent e) -> {
                     if (boutonPortActif) {
-                        // POUR ECHANGE AVEC PORT
+                        boolean peux = false;
+                        if (ressource.equals("3:1")) {
+                            aide.setText(
+                                    "Veuillez choisir la ressource\nque vous voulez donner en \ntrois exemplaire ");
+                            boutonActif = true;
+                            faire = "echange3_1";
+                            boutonPortActif = false;
+                        } else {
+                            switch (ressource) {
+                                case "2B:1":
+                                    if (p.t.j.combienRessource("BOIS") < 2) {
+                                        aide.setText("Vous n'avez pas assez de bois");
+                                    } else {
+                                        peux = true;
+                                        p.t.j.enleverRessource("BOIS");
+                                        p.t.j.enleverRessource("BOIS");
+                                    }
+                                    break;
+                                case "2M:1":
+                                    if (p.t.j.combienRessource("MOUTON") < 2) {
+                                        aide.setText("Vous n'avez pas assez de mouton");
+                                    } else {
+                                        peux = true;
+                                        p.t.j.enleverRessource("MOUTON");
+                                        p.t.j.enleverRessource("MOUTON");
+                                    }
+                                    break;
+                                case "2C:1":
+                                    if (p.t.j.combienRessource("CHAMPS") < 2) {
+                                        aide.setText("Vous n'avez pas assez de champs");
+                                    } else {
+                                        peux = true;
+                                        p.t.j.enleverRessource("MOUTON");
+                                        p.t.j.enleverRessource("MOUTON");
+                                    }
+                                    break;
+                                case "2A:1":
+                                    if (p.t.j.combienRessource("ARGILE") < 2) {
+                                        aide.setText("Vous n'avez pas assez d'argile");
+                                    }
+                                    peux = true;
+                                    p.t.j.enleverRessource("ARGILE");
+                                    p.t.j.enleverRessource("ARGILE");
+                                    break;
+                                case "2P:1":
+                                    if (p.t.j.combienRessource("PIERRE") < 2) {
+                                        aide.setText("Vous n'avez pas assez de pierre");
+                                    }
+                                    peux = true;
+                                    p.t.j.enleverRessource("PIERRE");
+                                    p.t.j.enleverRessource("PIERRE");
+                                    break;
+                            }
+                            if (peux) {
+                                aide.setText("Vous pouvez choisir la ressource que vous voulez");
+                                boutonActif = true;
+                                faire = "echange";
+                                boutonPortActif = false;
+                            }
+
+                        }
                     }
                 });
             }
@@ -1024,6 +1097,72 @@ public class VueCatan extends JFrame {
                                 VueCatan.this.validate();
                                 VueCatan.this.repaint();
                                 actuRess();
+                            }
+                            if (faire.equals("echange")) {
+                                faire = "";
+                                boutonActif = false;
+                                aide.setText("");
+
+                                p.t.j.ajouterRessource(ressource);
+
+                                for (int i = 0; i < 9; i++) { // remet tout les cases en cliquable pour que le
+                                    // joueur puisse a nouveau jouer
+                                    for (int a = 0; a < 9; a++) {
+                                        if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                                            tab[i][a].setEnabled(false);
+                                        } else {
+                                            tab[i][a].setEnabled(true);
+                                        }
+                                    }
+                                }
+
+                                jouerColonie.setEnabled(false);
+                                jouerRoute.setEnabled(false);
+                                creerVille.setEnabled(false);
+                                acheterCarteDev.setEnabled(true);
+                                jouerCarteDev.setEnabled(true);
+                                echangerAvecPort.setEnabled(true);
+                                terminerTour.setEnabled(true);
+                                VueCatan.this.validate();
+                                VueCatan.this.repaint();
+                                actuRess();
+                            }
+                            if (faire.equals("echange3_1")) {
+                                if (p.t.j.combienRessource(ressource) < 3) {
+                                    aide.setText("Vous n'avez pas trois " + ressource);
+                                    faire = "";
+                                    boutonActif = false;
+                                    aide.setText("");
+
+                                    p.t.j.ajouterRessource(ressource);
+
+                                    for (int i = 0; i < 9; i++) { // remet tout les cases en cliquable pour que le
+                                        // joueur puisse a nouveau jouer
+                                        for (int a = 0; a < 9; a++) {
+                                            if (p.getP().selctionnerCasePaysage(i, a) != null) {
+                                                tab[i][a].setEnabled(false);
+                                            } else {
+                                                tab[i][a].setEnabled(true);
+                                            }
+                                        }
+                                    }
+
+                                    jouerColonie.setEnabled(false);
+                                    jouerRoute.setEnabled(false);
+                                    creerVille.setEnabled(false);
+                                    acheterCarteDev.setEnabled(true);
+                                    jouerCarteDev.setEnabled(true);
+                                    echangerAvecPort.setEnabled(true);
+                                    terminerTour.setEnabled(true);
+                                    VueCatan.this.validate();
+                                    VueCatan.this.repaint();
+                                    actuRess();
+                                } else {
+                                    p.t.j.enleverRessource(ressource);
+                                    p.t.j.enleverRessource(ressource);
+                                    p.t.j.enleverRessource(ressource);
+                                    faire = "echange";
+                                }
                             }
                         }
                         // implementer les ressources cliquables

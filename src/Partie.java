@@ -290,7 +290,7 @@ public class Partie {
 
   private boolean partiefini() {
     for (Joueur a : tabJ) {
-      if (a.getPoint() >= 4) {
+      if (a.getPoint() >= 10) {
         System.out.println(a.getPseudo() + " a remporté la partie.");
         System.out.println("Nombre de cartes Point de victoire : " + a.nbrPointVictoire()); // Afficher les cartes Point
                                                                                             // de victoire
