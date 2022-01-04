@@ -102,10 +102,6 @@ public class VueCatan extends JFrame {
                     this.repaint();
                 });
 
-        menu.addMouseMotionListener(new Selection());
-
-        start.setEnabled(false);
-
         start.addActionListener((ActionEvent e) -> {
             if (joueurs[3] != null) {
                 tabJ = new Joueur[4];
@@ -127,71 +123,6 @@ public class VueCatan extends JFrame {
 
     }
 
-    public class Selection implements MouseInputListener {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
-                start.setEnabled(false);
-            } else {
-                start.setEnabled(true);
-            }
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
-                start.setEnabled(false);
-            } else {
-                start.setEnabled(true);
-            }
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
-                start.setEnabled(false);
-            } else {
-                start.setEnabled(true);
-            }
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
-                start.setEnabled(false);
-            } else {
-                start.setEnabled(true);
-            }
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
-                start.setEnabled(false);
-            } else {
-                start.setEnabled(true);
-            }
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
-                start.setEnabled(false);
-            } else {
-                start.setEnabled(true);
-            }
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            if (joueurs[0].nom == null || joueurs[1].nom == null || joueurs[2].nom == null) {
-                start.setEnabled(false);
-            } else {
-                start.setEnabled(true);
-            }
-        }
-    }
-
     private class creerJoueur extends JPanel {
         private boolean humain = true;
         private String nom;
@@ -199,11 +130,12 @@ public class VueCatan extends JFrame {
 
         public creerJoueur(int n) {
             couleur = getCouleur(n + 1);
-
+            nom = couleur; // par défaut
             setLayout(new BorderLayout());
-            JTextField pseudo; // declare a field
-            pseudo = new JTextField(10); // create field approx 10 columns wide.
-            add(pseudo, BorderLayout.CENTER); // add it to a JPanel
+            JTextField pseudo; // Déclarer un champ pseudo
+            pseudo = new JTextField(couleur, 10); // Créer un champ approximativement 10 colonnes de largeur et de texte
+                                                  // par défaut la couleur du joueur.
+            add(pseudo, BorderLayout.CENTER); // On l'ajoute au JPanel
 
             JLabel l = new JLabel();
             l.setText("Joueur " + String.valueOf(n + 1) + " : ");
@@ -211,17 +143,14 @@ public class VueCatan extends JFrame {
 
             JButton ordi = new JButton("HUMAIN");
             add(ordi, BorderLayout.EAST);
-            ordi.setEnabled(false);
 
             pseudo.addFocusListener(
                     new FocusListener() {
                         public void focusGained(FocusEvent e) {
-                            ordi.setEnabled(true);
                         }
 
                         public void focusLost(FocusEvent e) {
                             nom = pseudo.getText().toString();
-                            ordi.setEnabled(true);
                         }
                     });
 
