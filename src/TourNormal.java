@@ -1028,8 +1028,6 @@ public class TourNormal extends Tour {
             j.ajouterPoint();
             Tour.nbrChevalierMax = j.getNbrChevaliers();
           }
-        } else {
-          System.out.println("Vous ne possédez pas de Carte Chevalier");
         }
         break;
       case "B":
