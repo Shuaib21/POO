@@ -1503,23 +1503,25 @@ public class TourNormal extends Tour {
   private Joueur RoutePlusLongue() {
     ArrayList<CaseRoute> RouteLaPlusLongue = new ArrayList<CaseRoute>();
     boolean egalite = true;
-    for (int i = 0; i < p.getTaille(); i = i + 2) {
-      for (int j = 1; j < p.getTaille(); j = j + 2) {
-        ArrayList<CaseRoute> debut = new ArrayList<CaseRoute>();
-        debut.add(p.selctionnerCaseRoute(i, j));
-        if (RouteEstColleA2Route(i, j)) {
-          if (RouteLaPlusLongueDebut(debut).size() > RouteLaPlusLongue.size()) {
-            RouteLaPlusLongue = RouteLaPlusLongueDebut(debut);
-            egalite = false;
-          } else if (RouteLaPlusLongueDebut(debut).size() == RouteLaPlusLongue.size()) {
-            if (RouteLaPlusLongueDebut(debut).containsAll(Tour.RouteLaPlusLongue)
-                && Tour.RouteLaPlusLongue.containsAll(RouteLaPlusLongueDebut(debut))) {
+    for (int i = 0; i < p.getTaille(); i++) {
+      for (int j = 1; j < p.getTaille(); j++) {
+        if ((i % 2 == 0 && j % 2 == 1) || (i % 2 == 1 && j % 2 == 0)) { // selectionne toutes les routes
+          ArrayList<CaseRoute> debut = new ArrayList<CaseRoute>();
+          if (!RouteEstColleA2Route(i, j)) { // si c'est un debut de route
+            debut.add(p.selctionnerCaseRoute(i, j));
+            if (RouteLaPlusLongueDebut(debut).size() > Tour.RouteLaPlusLongue.size()) {
               RouteLaPlusLongue = RouteLaPlusLongueDebut(debut);
-            } else if (RouteLaPlusLongue.containsAll(Tour.RouteLaPlusLongue)
-                && Tour.RouteLaPlusLongue.containsAll(RouteLaPlusLongue)) {
-              RouteLaPlusLongue = Tour.RouteLaPlusLongue;
-            } else {
-              egalite = true;
+              egalite = false;
+            } else if (RouteLaPlusLongueDebut(debut).size() == RouteLaPlusLongue.size()) {
+              if (RouteLaPlusLongueDebut(debut).containsAll(Tour.RouteLaPlusLongue)
+                  && Tour.RouteLaPlusLongue.containsAll(RouteLaPlusLongueDebut(debut))) {
+                RouteLaPlusLongue = RouteLaPlusLongueDebut(debut);
+              } else if (RouteLaPlusLongue.containsAll(Tour.RouteLaPlusLongue)
+                  && Tour.RouteLaPlusLongue.containsAll(RouteLaPlusLongue)) {
+                RouteLaPlusLongue = Tour.RouteLaPlusLongue;
+              } else {
+                egalite = true;
+              }
             }
           }
         }
@@ -1597,15 +1599,19 @@ public class TourNormal extends Tour {
   }
 
   public void actualiserRouteLaPlusLongue() {
-    if (Tour.contientRouteLaPlusLongue != null) {
-      Tour.contientRouteLaPlusLongue.enleverPoint();
-      Tour.contientRouteLaPlusLongue.enleverPoint();
+    Joueur e = RoutePlusLongue(); // prend la valeur du joueur qui a la route la plus longue et maj l'array qui
+                                  // contient la route la plus longue dans Tour
+    if (Tour.RouteLaPlusLongue.size() >= 3) {
+      System.out.println(e.getPseudo()+"rpl") ;
+      if (Tour.contientRouteLaPlusLongue != null) {
+        Tour.contientRouteLaPlusLongue.enleverPoint();
+        Tour.contientRouteLaPlusLongue.enleverPoint();
+      }
+      Tour.contientRouteLaPlusLongue = e ;
+      if (RoutePlusLongue() != null) {
+        Tour.contientRouteLaPlusLongue.ajouterPoint();
+        Tour.contientRouteLaPlusLongue.ajouterPoint();
+      }
     }
-    if (RoutePlusLongue() != null) {
-      RoutePlusLongue().ajouterPoint();
-      RoutePlusLongue().ajouterPoint();
-    }
-    Tour.contientRouteLaPlusLongue = RoutePlusLongue();
   }
-
 }
