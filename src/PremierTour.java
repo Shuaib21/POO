@@ -193,8 +193,28 @@ public class PremierTour extends Tour {
             for (int b = 1; b < p.getTaille(); b += 2) {
                 if (p.selctionnerCaseRess(a, b) != null) {
                     CaseRessource cr = p.selctionnerCaseRess(a, b);
-                    if (cr.num == 5 || cr.num == 6 || cr.num == 8 || cr.num == 9) { // Chiffres sortant fréquemment
-                                                                                    // aux dés: 5, 6, 8 ou 9
+                    if (cr.num == 6 || cr.num == 8) { // Chiffres sortant très fréquemment aux dés: 6 ou 8
+                        if (p.selctionnerCaseColonie(a - 1, b - 1).getEstVide() && estColleARouteVide(a - 1, b - 1)) {
+                            return p.selctionnerCaseColonie(a - 1, b - 1);
+                        } else if (p.selctionnerCaseColonie(a - 1, b + 1).getEstVide()
+                                && estColleARouteVide(a - 1, b + 1)) {
+                            return p.selctionnerCaseColonie(a - 1, b + 1);
+                        } else if (p.selctionnerCaseColonie(a + 1, b - 1).getEstVide()
+                                && estColleARouteVide(a + 1, b - 1)) {
+                            return p.selctionnerCaseColonie(a + 1, b - 1);
+                        } else if (p.selctionnerCaseColonie(a + 1, b + 1).getEstVide()
+                                && estColleARouteVide(a + 1, b + 1)) {
+                            return p.selctionnerCaseColonie(a + 1, b + 1);
+                        }
+                    }
+                }
+            }
+        }
+        for (int a = 1; a < p.getTaille(); a += 2) {
+            for (int b = 1; b < p.getTaille(); b += 2) {
+                if (p.selctionnerCaseRess(a, b) != null) {
+                    CaseRessource cr = p.selctionnerCaseRess(a, b);
+                    if (cr.num == 5 || cr.num == 9) { // Chiffres sortant fréquemment aux dés: 5 ou 9
                         if (p.selctionnerCaseColonie(a - 1, b - 1).getEstVide() && estColleARouteVide(a - 1, b - 1)) {
                             return p.selctionnerCaseColonie(a - 1, b - 1);
                         } else if (p.selctionnerCaseColonie(a - 1, b + 1).getEstVide()

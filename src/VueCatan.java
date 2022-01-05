@@ -21,6 +21,7 @@ public class VueCatan extends JFrame {
     int Y;
     boolean incorrect = false;
     JTextField tourDeQui = new JTextField();
+    JTextField point = new JTextField("Point(s) : 0");
     JTextArea aide = new JTextArea(10, 20);
     JScrollPane scrollPane = new JScrollPane(aide);
     JLabel d1 = new JLabel();
@@ -84,6 +85,7 @@ public class VueCatan extends JFrame {
 
         aide.setEditable(false);
         tourDeQui.setEditable(false);
+        point.setEditable(false);
 
         plus.addActionListener(
                 (ActionEvent e) -> {
@@ -282,6 +284,7 @@ public class VueCatan extends JFrame {
             infoJoueur.setLayout(new BorderLayout());
             infoJoueur.add(tourDeQui, BorderLayout.NORTH);
             infoJoueur.add(scrollPane, BorderLayout.CENTER);
+            infoJoueur.add(point, BorderLayout.SOUTH);
             info.add(infoJoueur);
             JPanel de = new JPanel();
             de.setLayout(new GridLayout(1, 2));
@@ -542,6 +545,7 @@ public class VueCatan extends JFrame {
                 jouerCarteDev.setEnabled(true);
                 echangerAvecPort.setEnabled(true);
                 terminerTour.setEnabled(true);
+                point.setText("Point(s) : " + p.t.j.getPoint()); // Mettre à jour les points du joueur courant
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
                 actuRess();
@@ -564,6 +568,7 @@ public class VueCatan extends JFrame {
                 jouerCarteDev.setEnabled(true);
                 echangerAvecPort.setEnabled(true);
                 terminerTour.setEnabled(true);
+                point.setText("Point(s) : " + p.t.j.getPoint()); // Mettre à jour les points du joueur courant
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
                 actuRess();
@@ -589,12 +594,16 @@ public class VueCatan extends JFrame {
                 jouerCarteDev.setEnabled(true);
                 echangerAvecPort.setEnabled(true);
                 terminerTour.setEnabled(true);
+                point.setText("Point(s) : " + p.t.j.getPoint()); // Mettre à jour les points du joueur courant
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
                 actuRess();
             });
             acheterCarteDev.addActionListener((ActionEvent e) -> {
                 p.t.acheterCartDev(true);
+                point.setText("Point(s) : " + p.t.j.getPoint()); // Mettre à jour les points du joueur courant
+                VueCatan.this.validate();
+                VueCatan.this.repaint();
                 actuRess();
             });
             jouerCarteDev.addActionListener((ActionEvent e) -> {
@@ -706,6 +715,7 @@ public class VueCatan extends JFrame {
                 }
                 info.remove(commandeJouerCarteDev);
                 aide.setText("Veuillez selectionner la case ou vous voulez mettre le voleur");
+                point.setText("Point(s) : " + p.t.j.getPoint()); // Mettre à jour les points du joueur courant
                 validate();
                 repaint();
             });
@@ -736,6 +746,7 @@ public class VueCatan extends JFrame {
                     }
                 }
                 premiereFois = true;
+                point.setText("Point(s) : " + p.t.j.getPoint()); // Mettre à jour les points du joueur courant
                 VueCatan.this.validate();
                 VueCatan.this.repaint();
                 aide.setText("Cliquez sur l'endroit ou vous voulez jouer la route");
@@ -839,6 +850,10 @@ public class VueCatan extends JFrame {
                                 }
                             }
                             aide.setText("Veuillez selectionner \nla case ou vous voulez \nmettre votre route");
+                            point.setText("Point(s) : " + (p.pt.j.getPoint())); // Mettre à jour les points du
+                                                                                // joueur courant
+                            VueCatan.this.validate();
+                            VueCatan.this.repaint();
                         } else {
                             if (pioche) {
 
@@ -886,6 +901,10 @@ public class VueCatan extends JFrame {
                         if (premierTour) {
                             p.pt.ajouterRoute(i, j);
                             p.pTourFini();
+                            point.setText("Point(s) : " + (p.pt.j.getPoint())); // Mettre à jour les points du
+                            // joueur courant
+                            VueCatan.this.validate();
+                            VueCatan.this.repaint();
                         } else {
                             if (poserRouteFree) {
                                 p.getP().selctionnerCaseRoute(i, j).mettreRoute(p.t.j);
