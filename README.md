@@ -1,18 +1,36 @@
-## Getting Started
+# Catan
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+## Table des matières
+* [Info general](#info-general)
+* [Technologies](#technologies)
+* [Setup](#setup)
 
-## Folder Structure
+## Info general
+Le projet implémente le jeu Catan qui peut être joué soit en mode graphique, soit en mode texte dépendant du choix de l'utilisateur.
 
-The workspace contains two folders by default, where:
+### Règles implémentées :
+#### Un joueur est capable de :
+— construire des routes, villes, cités ;
+— consulter ses ressources ;
+— gérer le personnage du voleur en cas de 7 aux dés ;
+— acheter, stocker, utiliser les cartes spéciales de développement ;
+— échanger des ressources via les ports.
+Le score se calcule simplement à partir du nombre de ville et de cités construites.(Chaque colonie: 1 point de victoire ; Chaque ville: 2 points de victoire)
+#### Bonus particuliers :
+— le tirage d’une Carte Point de victoire (1 point de victoire); 
+— le fait d’être celui qui a le Chevalier le plus puissant (2 points de victoire);
+— le fait d’être le joueur qui a la route de commerce la plus longue (2 points de victoire)
+	
+## Setup
+Afin d'exécuter le projet, rendez-vous dans POO/src via le terminal et lancer la commande javac qui est un compilateur de code source Java avec "javac *.java" suivie de la commande java qui invoque la JVM (Java Virtual Machine) sur un fichier de classes avec "java Jouer". Les 3 lignes suivantes seront ensuite affichées sur le terminal :
+Mode de jeu:
+A: Mode graphique
+B: Mode texte
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+Dépendant de votre choix (A ou B), vous aurez la possibilité de jouer soit en mode graphique, soit en mode texte
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+```
+$ cd ../POO/src
+$ javac *.java
+$ java Jouer
+```

@@ -50,7 +50,7 @@ public class CaseColonie extends Case {
     }
 
     public void transformerEnVille() {
-        if (estVide && j.estHumain()) {
+        if (estVide && j.estHumain) {
             System.out.println("Il n'y a pas de colonie");
         } else {
             estVille = true;
