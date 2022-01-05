@@ -7,7 +7,6 @@ import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
 import java.awt.event.*;
-import javax.swing.plaf.ColorUIResource;
 
 public class VueCatan extends JFrame {
     protected ModeleCatan model;

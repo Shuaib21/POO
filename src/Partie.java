@@ -145,11 +145,25 @@ public class Partie {
         } while (!choix.equals("G"));
       }
     }
+    for (Joueur a : tabJ) {
+      if (a.getPoint() >= 10) {
+        System.out.println(a.getPseudo() + " a remporté la partie.");
+        System.out.println("Nombre de cartes Point de victoire : " + a.nbrPointVictoire()); // Afficher les cartes Point
+                                                                                            // de victoire
+        if (Tour.contientChevalierPuissant != null) {
+          System.out.println(Tour.contientChevalierPuissant.getPseudo() + " contient le Chevalier le plus puissant.");
+        }
+        if (Tour.contientRouteLaPlusLongue != null) {
+          System.out
+              .println(Tour.contientRouteLaPlusLongue.getPseudo() + " contient la Route de commerce la plus longue.");
+        }
+        return;
+      }
+    }
   }
 
   public void jouerPartieInter(VueCatan v) {
     if (pTour <= tabJ.length * 2 - 1) {
-      System.out.println(pTour);
       v.premierTour = true;
       initInter(v);
     } else {
@@ -163,7 +177,6 @@ public class Partie {
         v.tourDeQui.setText("Tour de " + tabJ[tour % tabJ.length].getPseudo());
         v.validate();
         v.repaint();
-        System.out.println("Tour de : " + tabJ[tour % tabJ.length].getPseudo()); // afficher le joueur qui joue
         t = new TourNormal(tabJ[tour % tabJ.length], p, tabJ, v);
         if (!tabJ[tour % tabJ.length].estHumain) {
           String choix;
@@ -235,7 +248,7 @@ public class Partie {
           tourFini();
         }
       } else {
-        System.out.println("partie fini");// afficher la fin
+        // afficher la fin
       }
     }
   }
@@ -289,16 +302,6 @@ public class Partie {
   private boolean partiefini() {
     for (Joueur a : tabJ) {
       if (a.getPoint() >= 10) {
-        System.out.println(a.getPseudo() + " a remporté la partie.");
-        System.out.println("Nombre de cartes Point de victoire : " + a.nbrPointVictoire()); // Afficher les cartes Point
-                                                                                            // de victoire
-        if (Tour.contientChevalierPuissant != null) {
-          System.out.println(Tour.contientChevalierPuissant.getPseudo() + " contient le Chevalier le plus puissant.");
-        }
-        if (Tour.contientRouteLaPlusLongue != null) {
-          System.out
-              .println(Tour.contientRouteLaPlusLongue.getPseudo() + " contient la Route de commerce la plus longue.");
-        }
         return true;
       }
     }
