@@ -93,7 +93,6 @@ public class TourNormal extends Tour {
     v.getT().getEchangerAvecPort().setEnabled(true);
     v.getT().getTerminerTour().setEnabled(true);
 
-    System.out.println("debut du voleur " + sommeDés);
     if (sommeDés == 7) {
       for (Joueur x : tabJ) {
         if (x.nbrRessources() > 7) {

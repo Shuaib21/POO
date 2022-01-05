@@ -4,13 +4,6 @@ public class CaseColonie extends Case {
     private boolean estVille;
     private String port;
 
-    // 3
-    // 2B
-    // 2A
-    // 2M
-    // 2P
-    // 2C
-
     public String getPort() {
         return port;
     }
@@ -57,7 +50,7 @@ public class CaseColonie extends Case {
     }
 
     public void transformerEnVille() {
-        if (estVide) {
+        if (estVide && j.estHumain()) {
             System.out.println("Il n'y a pas de colonie");
         } else {
             estVille = true;

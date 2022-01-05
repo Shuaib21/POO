@@ -11,7 +11,6 @@ public class PremierTour extends Tour {
 
     public PremierTour(Joueur j, Plateau p, VueCatan v) {
         super(j, p, v);
-        System.out.println("Tour de " + j.getPseudo());
         v.getT().getJouerRoute().setEnabled(false);
         v.getT().getJouerColonie().setEnabled(false);
         v.getT().getCreerVille().setEnabled(false);
