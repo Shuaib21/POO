@@ -402,7 +402,7 @@ public class VueCatan extends JFrame {
                 e.printStackTrace();
             }
 
-            if (tabJ.length == 3) { // On rajoute des champs vides à J[3]
+            if (tabJ.length == 3) { // On rajoute des champs vides à J[3] pour un meilleur affichage
                 J[3].add(new JLabel());
                 J[3].add(new JLabel());
                 J[3].add(new JLabel());
