@@ -23,6 +23,10 @@ public class Partie {
     pTour = 0;
   }
 
+  public int getPTour() {
+    return pTour;
+  }
+
   public void tourFini() {
     tour++;
     jouerPartieInter(v);
