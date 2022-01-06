@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.awt.event.*;
 
 public class VueCatan extends JFrame {
-    protected ModeleCatan model;
-    private ImagePane imagePane;
+    /*
+     * protected ModeleCatan model;
+     * private ImagePane imagePane;
+     */
     private JPanel menu;
     private JButton start;
     private Joueur[] tabJ;
@@ -55,9 +57,11 @@ public class VueCatan extends JFrame {
         setTitle("Catan");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        model = new ModeleCatan("./Image/Ocean.jpeg");
-        imagePane = new ImagePane();
-        // setContentPane(imagePane);
+        /*
+         * model = new ModeleCatan("./Image/Ocean.jpeg"); // Image de fond de l'océan
+         * imagePane = new ImagePane();
+         * setContentPane(imagePane);
+         */
 
         menu = new JPanel();
         menu.setLayout(new GridLayout(5, 1));
@@ -192,37 +196,39 @@ public class VueCatan extends JFrame {
         }
     }
 
-    private class ModeleCatan {
-        private BufferedImage image;
-
-        public ModeleCatan(String chemin) {
-            try {
-                image = ImageIO.read(new File(chemin));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public BufferedImage getImage() {
-            return image;
-        }
-
-    }
-
-    private class ImagePane extends JPanel {
-
-        public ImagePane() {
-            setPreferredSize(
-                    new Dimension(model.getImage().getWidth(), model.getImage().getHeight()));
-        }
-
-        @Override
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(model.getImage(), 0, 0, this);
-        }
-
-    }
+    /*
+     * private class ModeleCatan {
+     * private BufferedImage image;
+     * 
+     * public ModeleCatan(String chemin) {
+     * try {
+     * image = ImageIO.read(new File(chemin));
+     * } catch (IOException e) {
+     * e.printStackTrace();
+     * }
+     * }
+     * 
+     * public BufferedImage getImage() {
+     * return image;
+     * }
+     * 
+     * }
+     * 
+     * private class ImagePane extends JPanel {
+     * 
+     * public ImagePane() {
+     * setPreferredSize(
+     * new Dimension(model.getImage().getWidth(), model.getImage().getHeight()));
+     * }
+     * 
+     * @Override
+     * public void paintComponent(Graphics g) {
+     * super.paintComponent(g);
+     * g.drawImage(model.getImage(), 0, 0, this);
+     * }
+     * 
+     * }
+     */
 
     class Table extends JPanel { // **************************************************************************************
         private JPanel plateau;
@@ -1016,7 +1022,7 @@ public class VueCatan extends JFrame {
                             terminerTour.setEnabled(true);
                             pioche = false;
                         } else {
-                            aide.setText("Selectionnez la colonie de la personne que vous shouaitez voler");
+                            aide.setText("Selectionnez la colonie de la personne que vous souhaitez voler");
                         }
                     }
                     X = i;
