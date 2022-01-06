@@ -104,14 +104,14 @@ public class Partie {
             }
             if (j.getNbrVilles() < j.getNbrColonies()) {
               if (j.combienRessource("CHAMPS") < 2 || j.combienRessource("PIERRE") < 3) {
-                t.ajouterVille();
+                t.ajouterVille(sc);
               }
             }
             if (j.combienRessource("ARGILE") != 0 &&
                 j.combienRessource("BOIS") != 0 &&
                 j.combienRessource("CHAMPS") != 0 &&
                 j.combienRessource("MOUTON") != 0) {
-              t.ajouterColonie();
+              t.ajouterColonie(sc);
             }
           }
 

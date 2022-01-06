@@ -199,13 +199,15 @@ public class TourNormal extends Tour {
       return;
     }
     boolean ajouter = false;
-    while (!ajouter) {
+    int nbrEssaiesBot = 0;
+    while (!ajouter && nbrEssaiesBot < 1000000) {
       int x;
       int y;
       if (j.estHumain) {
         x = getCoordonnee('x', sc);
         y = getCoordonnee('y', sc);
       } else {
+        nbrEssaiesBot++;
         Random rand = new Random();
         x = rand.nextInt(p.getTaille());
         y = rand.nextInt(p.getTaille());
@@ -288,9 +290,9 @@ public class TourNormal extends Tour {
       return;
     }
     boolean ajouter = false;
-    int essy =0;
-    while (!ajouter && essy<10000) {
-      essy++ ;
+    int nbrEssaiesBot = 0;
+    while (!ajouter && nbrEssaiesBot < 1000000) {
+      nbrEssaiesBot++;
       Random rand = new Random();
       int x = rand.nextInt(p.getTaille());
       int y = rand.nextInt(p.getTaille());
@@ -383,9 +385,9 @@ public class TourNormal extends Tour {
       }
     }
     boolean ajouter = false;
-    int essy = 0 ;
-    while (!ajouter && essy<40) { // essy ne test pas plus de 40 endroit ou la mettre 
-      essy ++ ;
+    int nbrEssaiesBot = 0;
+    while (!ajouter && nbrEssaiesBot < 1000000) { 
+     nbrEssaiesBot++;
       Random rand = new Random();
       int x = rand.nextInt(p.getTaille());
       int y = rand.nextInt(p.getTaille());
@@ -415,13 +417,15 @@ public class TourNormal extends Tour {
       }
     }
     boolean ajouter = false;
-    while (!ajouter) {
+    int nbrEssaiesBot = 0;
+    while (!ajouter && nbrEssaiesBot<1000000) {
       int x;
       int y;
       if (j.estHumain) {
         x = getCoordonnee('x', sc);
         y = getCoordonnee('y', sc);
       } else {
+        nbrEssaiesBot++;
         Random rand = new Random();
         x = rand.nextInt(p.getTaille());
         y = rand.nextInt(p.getTaille());
@@ -1512,12 +1516,12 @@ public class TourNormal extends Tour {
             debut.add(p.selctionnerCaseRoute(i, j));
             if (RouteLaPlusLongueDebut(debut).size() > RouteLaPlusLongueActu.size()) {
               RouteLaPlusLongueActu = RouteLaPlusLongueDebut(debut);
-              egalite = false ;
+              egalite = false;
             } else if (RouteLaPlusLongueDebut(debut).size() == RouteLaPlusLongueActu.size()) {
-              if(RouteLaPlusLongueDebut(debut).get(0).getJ()==Tour.contientRouteLaPlusLongue){
-                RouteLaPlusLongueActu =  RouteLaPlusLongueDebut(debut) ;
-              }else{
-                egalite = true ;
+              if (RouteLaPlusLongueDebut(debut).get(0).getJ() == Tour.contientRouteLaPlusLongue) {
+                RouteLaPlusLongueActu = RouteLaPlusLongueDebut(debut);
+              } else {
+                egalite = true;
               }
             }
           }
@@ -1526,7 +1530,7 @@ public class TourNormal extends Tour {
     }
     Tour.RouteLaPlusLongue = RouteLaPlusLongueActu;
     if (egalite) {
-      System.out.println("bzr") ;
+      System.out.println("bzr");
       return null;
     } else {
       return Tour.RouteLaPlusLongue.get(0).getJ();
@@ -1597,18 +1601,18 @@ public class TourNormal extends Tour {
   }
 
   public void actualiserRouteLaPlusLongue() {
-    if(Tour.RouteLaPlusLongue==null){
+    if (Tour.RouteLaPlusLongue == null) {
       Tour.RouteLaPlusLongue = new ArrayList<CaseRoute>();
     }
     Joueur e = RoutePlusLongue(); // prend la valeur du joueur qui a la route la plus longue et maj l'array qui
                                   // contient la route la plus longue dans Tour
     if (Tour.RouteLaPlusLongue.size() >= 4) {
-      System.out.println(e.getPseudo()+"rpl") ;
+      System.out.println(e.getPseudo() + "rpl");
       if (Tour.contientRouteLaPlusLongue != null) {
         Tour.contientRouteLaPlusLongue.enleverPoint();
         Tour.contientRouteLaPlusLongue.enleverPoint();
       }
-      Tour.contientRouteLaPlusLongue = e ;
+      Tour.contientRouteLaPlusLongue = e;
       if (RoutePlusLongue() != null) {
         Tour.contientRouteLaPlusLongue.ajouterPoint();
         Tour.contientRouteLaPlusLongue.ajouterPoint();
