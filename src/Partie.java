@@ -227,27 +227,21 @@ public class Partie {
 
             switch (choix) {
               case "A":
-                System.out.println("col");
                 t.ajouterColonie();
                 break;
               case "B":
-                System.out.println("route");
                 t.ajouterRoute(false);
                 break;
               case "C":
-                System.out.println("ville");
                 t.ajouterVille();
                 break;
               case "D":
-                System.out.println("acheter");
                 t.acheterCartDev(true);
                 break;
               case "E":
-                System.out.println("jouer");
                 t.jouezCarteDev();
                 break;
               case "F":
-                System.out.println("port");
                 t.echangerAvecPort();
                 break;
               default:
