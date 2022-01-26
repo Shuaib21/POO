@@ -253,8 +253,36 @@ public class Partie {
           tourFini();
         }
       } else {
-        // afficher la fin
-        System.out.println("fin");
+        for (Joueur a : tabJ) {
+          if (a.getPoint() >= 10) {
+            String s = a.getPseudo() + " a remporté la partie.";
+            s += "Nombre de cartes Point de victoire : " + a.nbrPointVictoire();
+            if (Tour.contientChevalierPuissant != null) {
+              s += Tour.contientChevalierPuissant.getPseudo() + " contient le Chevalier le plus puissant.";
+            }
+            if (Tour.contientRouteLaPlusLongue != null) {
+              s += Tour.contientRouteLaPlusLongue.getPseudo() + " contient la Route de commerce la plus longue.";
+            }
+            v.aide.setText(s);
+
+            // Désactiver tous les boutons
+            for (int i = 0; i < 9; i++) {
+              for (int b = 0; b < 9; b++) {
+                  v.getT().getTab(i, b).setEnabled(false);
+              }
+            }
+            v.getT().getJouerRoute().setEnabled(false);
+            v.getT().getJouerColonie().setEnabled(false);
+            v.getT().getCreerVille().setEnabled(false);
+            v.getT().getAcheterCarteDev().setEnabled(false);
+            v.getT().getJouerCarteDev().setEnabled(false);
+            v.getT().getEchangerAvecPort().setEnabled(false);
+            v.getT().getTerminerTour().setEnabled(false);
+        
+            v.validate();
+            v.repaint();
+          }
+        }
       }
     }
   }

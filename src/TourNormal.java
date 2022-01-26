@@ -1606,7 +1606,7 @@ public class TourNormal extends Tour {
     }
     Joueur e = RoutePlusLongue(); // prend la valeur du joueur qui a la route la plus longue et maj l'array qui
                                   // contient la route la plus longue dans Tour
-    if (Tour.RouteLaPlusLongue.size() >= 4) {
+    if (Tour.RouteLaPlusLongue.size() >= 5) {
       System.out.println(e.getPseudo() + "rpl");
       if (Tour.contientRouteLaPlusLongue != null) {
         Tour.contientRouteLaPlusLongue.enleverPoint();

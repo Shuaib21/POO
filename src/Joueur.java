@@ -21,6 +21,11 @@ public class Joueur {
   Joueur(String couleur, String pseudo, boolean estHumain) {
     mainDev = new ArrayList<CarteDev>();
     mainRess = new int[5];
+    mainRess[0] = 10 ;
+    mainRess[1] = 10 ;
+    mainRess[2] = 10 ;
+    mainRess[3] = 10 ;
+    mainRess[4] = 10 ;
     mesPorts = new ArrayList<String>();
     this.couleur = couleur;
     this.pseudo = pseudo;
